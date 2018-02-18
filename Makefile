@@ -1,5 +1,5 @@
-GTEST=/usr/src/gtest
-GMOCK=/usr/src/gmock
+GTEST=/usr/src/googletest/googletest
+GMOCK=/usr/src/googletest/googlemock
 CXX = g++
 RM_F = rm -f
 
