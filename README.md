@@ -130,7 +130,7 @@ Thanks to Ian Patient for pointing out the Bernstein polynomials for achieving s
 * [Sainsmart DIY 6-axis palletizing robot arm][2] (also see [Sainsmart Wiki][11])
 * [Sunfounder Standard Gripper Kit Rollpaw for Robotic Arm][15] ([gripper installation instructions][16])
 * [Redboard][5] ([Arduino][1] compatible board)
-* [DFRobot IO expansion shield for Arduino][4]
+* [DFRobot IO expansion shield for Arduino][4] ([manual][18])
 * [6V DC/3A power supply][6]
 * [2.1 x 5.5mm DC Socket][10]
 * [Sparkfun USB Mini-B cable][7]
@@ -156,4 +156,5 @@ Thanks to Ian Patient for pointing out the Bernstein polynomials for achieving s
 [15]: https://www.sunfounder.com/rollpaw.html
 [16]: https://www.sunfounder.com/learn/category/Standard-Gripper-Kit-Rollpaw.html
 [17]: https://www.amazon.co.uk/d/B00P1716VO
+[18]: http://image.dfrobot.com/image/data/Common/Arduino%20Shield%20Manual.pdf
 [vid]: https://www.youtube.com/watch?v=Vz9hG3jYO3k
