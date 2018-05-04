@@ -1,14 +1,23 @@
+.SUFFIXES: .rb .ui
+
 GTEST=/usr/src/googletest/googletest
 GMOCK=/usr/src/googletest/googlemock
 CXX = g++
+RSPEC = rspec
+RBUIC = rbuic4
 RM_F = rm -f
 
-all: all-recursive
+all: all-recursive gui
 
-check: check-controller
+check: check-controller check-gui
 
 check-controller: test-suite
 	./test-suite
+
+check-gui: gui
+	$(RSPEC)
+
+gui: ui_sainsmartwidget.rb
 
 upload:
 	cd arduino && $(MAKE) upload && cd ..
@@ -38,3 +47,6 @@ all-recursive:
 
 clean-recursive:
 	cd arduino && $(MAKE) clean && cd ..
+
+ui_%.rb: %.ui
+	$(RBUIC) -o $@ $<
