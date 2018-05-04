@@ -25,7 +25,7 @@ public:
     float retval;
     if (time > 0)
       if (time < m_duration)
-        retval = m_distance * (2 * time / m_duration - sin(2 * time * M_PI / m_duration) / (2 * M_PI) - time / m_duration);
+        retval = m_distance * (M_PI * time / m_duration - 0.5 * sin(2 * M_PI * time / m_duration)) / M_PI;
       else
         retval = m_distance;
     else
@@ -33,7 +33,7 @@ public:
     return retval;
   }
   static float timeRequired(float distance, float maxJerk) {
-    return sqrt(2 * M_PI * distance / maxJerk);
+    return cbrtf(4 * M_PI * M_PI * distance / maxJerk);
   }
 protected:
   float m_distance;

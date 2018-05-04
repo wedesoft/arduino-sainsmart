@@ -35,14 +35,14 @@ TEST(ProfileTest, PassesMiddle)
   EXPECT_NEAR(0.5, Profile(1, 10).value(5), 0.001);
 }
 
-TEST(ProfileTest, DistanceQuadraticWithDuration)
+TEST(ProfileTest, DistanceCubicWithDuration)
 {
-  EXPECT_NEAR(2 * Profile::timeRequired(1, 0.01), Profile::timeRequired(4, 0.01), 0.001);
+  EXPECT_NEAR(2 * Profile::timeRequired(1, 0.01), Profile::timeRequired(8, 0.01), 0.001);
 }
 
-TEST(ProfileTest, DistanceInverseQuadraticWithMaxJerk)
+TEST(ProfileTest, DistanceCubicWithMaxJerk)
 {
-  EXPECT_NEAR(2 * Profile::timeRequired(1, 0.04), Profile::timeRequired(1, 0.01), 0.001);
+  EXPECT_NEAR(2 * Profile::timeRequired(1, 0.08), Profile::timeRequired(1, 0.01), 0.001);
 }
 
 TEST(ProfileTest, TestTimeRequiredPoint)
@@ -490,7 +490,7 @@ TEST_F(ControllerTest, StopDrives) {
 TEST_F(ControllerTest, AdaptDuration) {
   m_controller.targetAngle(BASE, -35);
   m_controller.targetAngle(SHOULDER, 0);
-  EXPECT_NEAR(m_controller.curve(BASE).timeRemaining(), 2.8284 * m_controller.curve(SHOULDER).timeRemaining(), 0.001);
+  EXPECT_NEAR(m_controller.curve(BASE).timeRemaining(), 2 * m_controller.curve(SHOULDER).timeRemaining(), 0.001);
 }
 
 TEST_F(ControllerTest, ApproachTeachPoint) {
