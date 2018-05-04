@@ -15,7 +15,7 @@ TEST(ProfileTest, DefaultProfile)
 
 TEST(ProfileTest, StartWithZero)
 {
-  EXPECT_EQ(0, Profile(1, 10).value(0));
+  EXPECT_NEAR(0, Profile(1, 10).value(0.001), 0.01);
 }
 
 TEST(ProfileTest, EmptyOrNot)
@@ -26,8 +26,8 @@ TEST(ProfileTest, EmptyOrNot)
 
 TEST(ProfileTest, EndWithDistance)
 {
-  EXPECT_NEAR(1, Profile(1, 10).value(10), 0.001);
-  EXPECT_NEAR(2, Profile(2, 10).value(10), 0.001);
+  EXPECT_NEAR(1, Profile(1, 10).value(9.999), 0.001);
+  EXPECT_NEAR(2, Profile(2, 10).value(9.999), 0.001);
 }
 
 TEST(ProfileTest, PassesMiddle)
@@ -35,19 +35,19 @@ TEST(ProfileTest, PassesMiddle)
   EXPECT_NEAR(0.5, Profile(1, 10).value(5), 0.001);
 }
 
-TEST(ProfileTest, DistanceCubicWithDuration)
+TEST(ProfileTest, DistanceQuadraticWithDuration)
 {
-  EXPECT_NEAR(2 * Profile::timeRequired(1, 0.01), Profile::timeRequired(8, 0.01), 0.001);
+  EXPECT_NEAR(2 * Profile::timeRequired(1, 0.01), Profile::timeRequired(4, 0.01), 0.001);
 }
 
-TEST(ProfileTest, DistanceInverseCubicWithMaxJerk)
+TEST(ProfileTest, DistanceInverseQuadraticWithMaxJerk)
 {
-  EXPECT_NEAR(2 * Profile::timeRequired(1, 0.08), Profile::timeRequired(1, 0.01), 0.001);
+  EXPECT_NEAR(2 * Profile::timeRequired(1, 0.04), Profile::timeRequired(1, 0.01), 0.001);
 }
 
 TEST(ProfileTest, TestTimeRequiredPoint)
 {
-  EXPECT_NEAR(2, Profile::timeRequired(180, 1350), 0.001);
+  EXPECT_NEAR(2, Profile::timeRequired(200, 314), 2.001);
 }
 
 TEST(ProfileTest, Accelerates)
@@ -490,7 +490,7 @@ TEST_F(ControllerTest, StopDrives) {
 TEST_F(ControllerTest, AdaptDuration) {
   m_controller.targetAngle(BASE, -35);
   m_controller.targetAngle(SHOULDER, 0);
-  EXPECT_NEAR(m_controller.curve(BASE).timeRemaining(), 2 * m_controller.curve(SHOULDER).timeRemaining(), 0.001);
+  EXPECT_NEAR(m_controller.curve(BASE).timeRemaining(), 2.8284 * m_controller.curve(SHOULDER).timeRemaining(), 0.001);
 }
 
 TEST_F(ControllerTest, ApproachTeachPoint) {
