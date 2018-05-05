@@ -13,6 +13,8 @@ class SainsmartWidget < Qt::Widget
   slots 'updateRollSpin(int)'
   slots 'updatePitchSlider(double)'
   slots 'updatePitchSpin(int)'
+  slots 'updateWristSlider(double)'
+  slots 'updateWristSpin(int)'
   slots 'updateGripperGroup(double)'
   slots 'updateGripperOpen(bool)'
   slots 'saveTeachPoint()'
@@ -42,6 +44,8 @@ class SainsmartWidget < Qt::Widget
     connect @ui.rollSlider, SIGNAL('valueChanged(int)'), self, SLOT('updateRollSpin(int)')
     connect @ui.pitchSpin, SIGNAL('valueChanged(double)'), self, SLOT('updatePitchSlider(double)')
     connect @ui.pitchSlider, SIGNAL('valueChanged(int)'), self, SLOT('updatePitchSpin(int)')
+    connect @ui.wristSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateWristSlider(double)')
+    connect @ui.wristSlider, SIGNAL('valueChanged(int)'), self, SLOT('updateWristSpin(int)')
     connect @ui.gripperSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateGripperGroup(double)')
     connect @ui.gripperOpen, SIGNAL('toggled(bool)'), self, SLOT('updateGripperOpen(bool)')
     connect @ui.stopButton, SIGNAL('clicked()'), self, SLOT('stop()')
@@ -141,6 +145,14 @@ class SainsmartWidget < Qt::Widget
 
   def updatePitchSpin value
     sync @ui.pitchSpin, @ui.pitchSlider
+  end
+
+  def updateWristSlider value
+    sync @ui.wristSlider, @ui.wristSpin
+  end
+
+  def updateWristSpin value
+    sync @ui.wristSpin, @ui.wristSlider
   end
 
   def updateGripperGroup value
