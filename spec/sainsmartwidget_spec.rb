@@ -11,8 +11,8 @@ describe SainsmartWidget do
 
   let :widget do
     expect(client).to receive(:pos).at_least(:once).and_return([1, 2, 3, 4, 5, 6, 7])
-    expect(client).to receive(:lower).and_return([-10, -20, -30, -45, -50, -60, -70])
-    expect(client).to receive(:upper).and_return([+10, +20, +30, +45, +50, +60, +70])
+    expect(client).to receive(:lower).and_return([-10, -20, -30, -40, -50, -60, -70])
+    expect(client).to receive(:upper).and_return([+10, +20, +30, +40, +50, +60, +70])
     SainsmartWidget.new client
   end
 
@@ -162,13 +162,13 @@ describe SainsmartWidget do
     end
 
     it 'should update the roll slider if the roll spin box is changed' do
-      widget.ui.rollSpin.setValue 45
+      widget.ui.rollSpin.setValue 40
       expect(widget.ui.rollSlider.value).to eq 10000
     end
 
     it 'should update the roll spin box if the roll slider is changed' do
       widget.ui.rollSlider.setValue 10000
-      expect(widget.ui.rollSpin.value).to eq 45
+      expect(widget.ui.rollSpin.value).to eq 40
     end
 
     it 'should update the pitch slider if the pitch spin box is changed' do
@@ -224,12 +224,12 @@ describe SainsmartWidget do
   end
 
   it 'should target teach point \'a\'' do
-    expect(client).to receive(:load_teach_point).with(0).and_return [2, 3, 5, 7]
+    expect(client).to receive(:load_teach_point).with(0).and_return [2, 3, 5, 7, 11, 13, 17]
     emit widget.ui.loadButton.clicked
   end
 
   it 'should target teach point \'c\'' do
-    expect(client).to receive(:load_teach_point).with(2).and_return [2, 3, 5, 7]
+    expect(client).to receive(:load_teach_point).with(2).and_return [2, 3, 5, 7, 11, 13, 17]
     widget.ui.teachPointCombo.setCurrentIndex 2
     emit widget.ui.loadButton.clicked
   end
@@ -240,6 +240,9 @@ describe SainsmartWidget do
     expect(widget.ui.baseSpin.value    ).to eq +2
     expect(widget.ui.shoulderSpin.value).to eq +3
     expect(widget.ui.elbowSpin.value   ).to eq +5
+    expect(widget.ui.rollSpin.value    ).to eq +7
+    expect(widget.ui.pitchSpin.value   ).to eq +11
+    expect(widget.ui.wristSpin.value   ).to eq +13
     expect(widget.ui.gripperSpin.value ).to eq +17
   end
 
