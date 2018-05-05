@@ -171,6 +171,16 @@ describe SainsmartWidget do
       expect(widget.ui.rollSpin.value).to eq 45
     end
 
+    it 'should update the pitch slider if the pitch spin box is changed' do
+      widget.ui.pitchSpin.setValue 50
+      expect(widget.ui.pitchSlider.value).to eq 10000
+    end
+
+    it 'should update the pitch spin box if the pitch slider is changed' do
+      widget.ui.pitchSlider.setValue 10000
+      expect(widget.ui.pitchSpin.value).to eq 50
+    end
+
     it 'should update the spin box associated with open gripper state' do
       widget.ui.gripperSpin.setValue 10
       expect(widget.ui.gripperOpenSpin.value).to eq 10

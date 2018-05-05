@@ -11,6 +11,8 @@ class SainsmartWidget < Qt::Widget
   slots 'updateElbowSpin(int)'
   slots 'updateRollSlider(double)'
   slots 'updateRollSpin(int)'
+  slots 'updatePitchSlider(double)'
+  slots 'updatePitchSpin(int)'
   slots 'updateGripperGroup(double)'
   slots 'updateGripperOpen(bool)'
   slots 'saveTeachPoint()'
@@ -38,6 +40,8 @@ class SainsmartWidget < Qt::Widget
     connect @ui.elbowSlider, SIGNAL('valueChanged(int)'), self, SLOT('updateElbowSpin(int)')
     connect @ui.rollSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateRollSlider(double)')
     connect @ui.rollSlider, SIGNAL('valueChanged(int)'), self, SLOT('updateRollSpin(int)')
+    connect @ui.pitchSpin, SIGNAL('valueChanged(double)'), self, SLOT('updatePitchSlider(double)')
+    connect @ui.pitchSlider, SIGNAL('valueChanged(int)'), self, SLOT('updatePitchSpin(int)')
     connect @ui.gripperSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateGripperGroup(double)')
     connect @ui.gripperOpen, SIGNAL('toggled(bool)'), self, SLOT('updateGripperOpen(bool)')
     connect @ui.stopButton, SIGNAL('clicked()'), self, SLOT('stop()')
@@ -129,6 +133,14 @@ class SainsmartWidget < Qt::Widget
 
   def updateRollSpin value
     sync @ui.rollSpin, @ui.rollSlider
+  end
+
+  def updatePitchSlider value
+    sync @ui.pitchSlider, @ui.pitchSpin
+  end
+
+  def updatePitchSpin value
+    sync @ui.pitchSpin, @ui.pitchSlider
   end
 
   def updateGripperGroup value
