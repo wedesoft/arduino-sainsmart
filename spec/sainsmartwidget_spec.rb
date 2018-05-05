@@ -10,9 +10,9 @@ describe SainsmartWidget do
   end
 
   let :widget do
-    expect(client).to receive(:pos).at_least(:once).and_return([1, 2, 3, 4, 5, 6])
-    expect(client).to receive(:lower).and_return([-10, -20, -30, -45, -50, -60])
-    expect(client).to receive(:upper).and_return([+10, +20, +30, +45, +50, +60])
+    expect(client).to receive(:pos).at_least(:once).and_return([1, 2, 3, 4, 5, 6, 7])
+    expect(client).to receive(:lower).and_return([-10, -20, -30, -45, -50, -60, -70])
+    expect(client).to receive(:upper).and_return([+10, +20, +30, +45, +50, +60, +70])
     SainsmartWidget.new client
   end
 
@@ -23,7 +23,7 @@ describe SainsmartWidget do
       end
 
       it 'should move the base' do
-        expect(client).to receive(:target).with(10, 2, 3, 4)
+        expect(client).to receive(:target).with(10, 2, 3, 4, 5, 6, 7)
         widget.ui.baseSpin.setValue 10
       end
 
@@ -95,19 +95,19 @@ describe SainsmartWidget do
 
   it 'should use values from the shoulder spin box' do
     expect(client).to receive(:ready?).and_return true
-    expect(client).to receive(:target).with(1, 10, 3, 4)
+    expect(client).to receive(:target).with(1, 10, 3, 4, 5, 6, 7)
     widget.ui.shoulderSpin.setValue 10
   end
 
   it 'should use values from the elbow spin box' do
     expect(client).to receive(:ready?).and_return true
-    expect(client).to receive(:target).with(1, 2, 10, 4)
+    expect(client).to receive(:target).with(1, 2, 10, 4, 5, 6, 7)
     widget.ui.elbowSpin.setValue 10
   end
 
   it 'should use values from the gripper spin box' do
     expect(client).to receive(:ready?).and_return true
-    expect(client).to receive(:target).with(1, 2, 3, 10)
+    expect(client).to receive(:target).with(1, 2, 3, 4, 5, 6, 10)
     widget.ui.gripperSpin.setValue 10
   end
 
@@ -115,14 +115,14 @@ describe SainsmartWidget do
     expect(widget.ui.baseSpin.minimum    ).to eq -10
     expect(widget.ui.shoulderSpin.minimum).to eq -20
     expect(widget.ui.elbowSpin.minimum   ).to eq -30
-    expect(widget.ui.gripperSpin.minimum ).to eq -45
+    expect(widget.ui.gripperSpin.minimum ).to eq -70
   end
 
   it 'should set the upper limits for the spin boxes' do
     expect(widget.ui.baseSpin.maximum    ).to eq +10
     expect(widget.ui.shoulderSpin.maximum).to eq +20
     expect(widget.ui.elbowSpin.maximum   ).to eq +30
-    expect(widget.ui.gripperSpin.maximum ).to eq +45
+    expect(widget.ui.gripperSpin.maximum ).to eq +70
   end
 
   context 'synchronising GUI elements' do
@@ -205,12 +205,12 @@ describe SainsmartWidget do
   end
 
   it 'should update the controls when targeting a teach point' do
-    expect(client).to receive(:load_teach_point).with(0).and_return [2, 3, 5, 7]
+    expect(client).to receive(:load_teach_point).with(0).and_return [2, 3, 5, 7, 11, 13, 17]
     emit widget.ui.loadButton.clicked
     expect(widget.ui.baseSpin.value    ).to eq +2
     expect(widget.ui.shoulderSpin.value).to eq +3
     expect(widget.ui.elbowSpin.value   ).to eq +5
-    expect(widget.ui.gripperSpin.value ).to eq +7
+    expect(widget.ui.gripperSpin.value ).to eq +17
   end
 
   it 'should select the second teach point when \'b\' is pressed' do

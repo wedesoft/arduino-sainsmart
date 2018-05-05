@@ -27,7 +27,7 @@ class SainsmartWidget < Qt::Widget
     @client = client
     @ui = Ui::SainsmartWidget.new
     @ui.setupUi self
-    @spin_boxes = [@ui.baseSpin, @ui.shoulderSpin, @ui.elbowSpin, @ui.gripperSpin]
+    @spin_boxes = [@ui.baseSpin, @ui.shoulderSpin, @ui.elbowSpin, @ui.rollSpin, @ui.pitchSpin, @ui.wristSpin, @ui.gripperSpin]
     connect @ui.baseSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateBaseSlider(double)')
     connect @ui.baseSlider, SIGNAL('valueChanged(int)'), self, SLOT('updateBaseSpin(int)')
     connect @ui.shoulderSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateShoulderSlider(double)')
