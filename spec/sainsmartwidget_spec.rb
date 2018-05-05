@@ -161,6 +161,16 @@ describe SainsmartWidget do
       expect(widget.ui.elbowSpin.value).to eq 30
     end
 
+    it 'should update the roll slider if the roll spin box is changed' do
+      widget.ui.rollSpin.setValue 45
+      expect(widget.ui.rollSlider.value).to eq 10000
+    end
+
+    it 'should update the roll spin box if the roll slider is changed' do
+      widget.ui.rollSlider.setValue 10000
+      expect(widget.ui.rollSpin.value).to eq 45
+    end
+
     it 'should update the spin box associated with open gripper state' do
       widget.ui.gripperSpin.setValue 10
       expect(widget.ui.gripperOpenSpin.value).to eq 10
