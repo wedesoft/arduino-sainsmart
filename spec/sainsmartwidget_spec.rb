@@ -10,9 +10,9 @@ describe SainsmartWidget do
   end
 
   let :widget do
-    expect(client).to receive(:pos).at_least(:once).and_return([1, 2, 3, 4])
-    expect(client).to receive(:lower).and_return([-10, -20, -30, -45])
-    expect(client).to receive(:upper).and_return([+10, +20, +30, +45])
+    expect(client).to receive(:pos).at_least(:once).and_return([1, 2, 3, 4, 5, 6])
+    expect(client).to receive(:lower).and_return([-10, -20, -30, -45, -50, -60])
+    expect(client).to receive(:upper).and_return([+10, +20, +30, +45, +50, +60])
     SainsmartWidget.new client
   end
 
