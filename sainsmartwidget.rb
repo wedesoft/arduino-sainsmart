@@ -95,7 +95,7 @@ class SainsmartWidget < Qt::Widget
     @timer = startTimer 0 unless @timer
   end
 
-  def ready?
+  def ready? *values
     @client.ready?
   end
 
@@ -103,7 +103,7 @@ class SainsmartWidget < Qt::Widget
     # Also check remaining duration of path and duration to reach new target:
     # * client is ready
     # * half of time required to reach new target is greater or equal remaining time required of current path
-    if ready?
+    if ready? *values
       @client.target *values
     else
       defer

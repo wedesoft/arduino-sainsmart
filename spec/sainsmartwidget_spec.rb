@@ -39,7 +39,7 @@ describe SainsmartWidget do
   context 'when moving the base spin box' do
     context 'if robot is ready' do
       before :each do
-        expect(widget).to receive(:ready?).and_return true
+        expect(widget).to receive(:ready?).with(10, 2, 3, 4, 5, 6, 7).and_return true
       end
 
       it 'should move the base' do
@@ -75,7 +75,7 @@ describe SainsmartWidget do
 
     context 'if robot is busy' do
       before :each do
-        expect(widget).to receive(:ready?).and_return false
+        expect(widget).to receive(:ready?).with(10, 2, 3, 4, 5, 6, 7).and_return false
       end
 
       it 'should start polling' do
@@ -100,33 +100,33 @@ describe SainsmartWidget do
     end
 
     it 'should process them when ready' do
-      expect(widget).to receive(:ready?).and_return true
+      expect(widget).to receive(:ready?).with(1, 2, 3, 4, 5, 6, 7).and_return true
       expect(client).to receive(:target)
       widget.pending
     end
 
     it 'should defer them if robot is not ready' do
       widget.defer
-      expect(widget).to receive(:ready?).and_return false
+      expect(widget).to receive(:ready?).with(1, 2, 3, 4, 5, 6, 7).and_return false
       expect(widget).to receive(:defer)
       widget.pending
     end
   end
 
   it 'should use values from the shoulder spin box' do
-    expect(widget).to receive(:ready?).and_return true
+    expect(widget).to receive(:ready?).with(1, 10, 3, 4, 5, 6, 7).and_return true
     expect(client).to receive(:target).with(1, 10, 3, 4, 5, 6, 7)
     widget.ui.shoulderSpin.setValue 10
   end
 
   it 'should use values from the elbow spin box' do
-    expect(widget).to receive(:ready?).and_return true
+    expect(widget).to receive(:ready?).with(1, 2, 10, 4, 5, 6, 7).and_return true
     expect(client).to receive(:target).with(1, 2, 10, 4, 5, 6, 7)
     widget.ui.elbowSpin.setValue 10
   end
 
   it 'should use values from the gripper spin box' do
-    expect(widget).to receive(:ready?).and_return true
+    expect(widget).to receive(:ready?).with(1, 2, 3, 4, 5, 6, 10).and_return true
     expect(client).to receive(:target).with(1, 2, 3, 4, 5, 6, 10)
     widget.ui.gripperSpin.setValue 10
   end
