@@ -11,6 +11,11 @@ class Client
     read_serial.to_f
   end
 
+  def time
+    write_serial 't'
+    read_serial.to_i * 0.001
+  end
+
   def target *values
     write_serial "#{values.join " "}c"
   end

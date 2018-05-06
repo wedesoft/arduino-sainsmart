@@ -17,6 +17,12 @@ describe Client do
     expect(client.time_required(30)).to eq 1.5
   end
 
+  it 'should report the current time' do
+    expect(client).to receive(:write_serial).with('t')
+    expect(client).to receive(:read_serial).and_return "3500\r\n"
+    expect(client.time).to eq 3.5
+  end
+
   it 'should set drive targets' do
     expect(client).to receive(:write_serial).with('1 2 3 4 5 6 7c')
     client.target 1, 2, 3, 4, 5, 6, 7
