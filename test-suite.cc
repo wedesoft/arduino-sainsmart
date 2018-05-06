@@ -202,6 +202,7 @@ public:
   MOCK_METHOD1(reportReady, void(bool));
   MOCK_METHOD0(reportTime, void());
   MOCK_METHOD1(reportRequired, void(float));
+  MOCK_METHOD1(reportRemaining, void(float));
   MOCK_METHOD1(reportAngle, void(float));
   MOCK_METHOD1(reportPWM, void(int));
   MOCK_METHOD2(writePWM, void(int,int));
@@ -667,6 +668,22 @@ TEST_F(ControllerTest, ReportingTimeRequiredClearsNumber) {
   EXPECT_CALL(m_controller, reportRequired(0));
   send("45 -10 20 30 15 -20 70t0c");
   EXPECT_EQ(0, m_controller.curve(BASE).target());
+}
+
+TEST_F(ControllerTest, ReportTimeRemainingWhenIdle) {
+  EXPECT_CALL(m_controller, reportRemaining(0));
+  send("T");
+}
+
+TEST_F(ControllerTest, ResetParserAfterReportingTime) {
+  EXPECT_CALL(m_controller, reportRemaining(0));
+  send("5T0c");
+  EXPECT_EQ(0, m_controller.curve(BASE).target());
+}
+
+TEST_F(ControllerTest, ReportTimeRemainingWhenMoving) {
+  EXPECT_CALL(m_controller, reportRemaining(Gt(0)));
+  send("50bT");
 }
 
 TEST_F(ControllerTest, DrivesReady) {

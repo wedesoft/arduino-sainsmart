@@ -74,7 +74,7 @@ describe Client do
   end
 
   it 'should approach teach points' do
-    expect(client).to receive(:write_serial).with('\'epe')
+    expect(client).to receive(:write_serial).with('\'ede')
     expect(client).to receive(:read_serial).and_return "2 3 5 7 11 13 17\r\n"
     expect(client.load_teach_point(4)).to eq [2, 3, 5, 7, 11, 13, 17]
   end

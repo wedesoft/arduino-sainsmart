@@ -176,6 +176,10 @@ public:
           reportTime();
         resetParser();
         break;
+      case 'T':
+        reportRemaining(m_curve[BASE].timeRemaining());
+        resetParser();
+        break;
       case '.':
         if (m_fraction > 0)
           resetParser();
@@ -281,6 +285,7 @@ public:
   virtual void reportReady(bool ready) = 0;
   virtual void reportTime(void) = 0;
   virtual void reportRequired(float time) = 0;
+  virtual void reportRemaining(float time) = 0;
   virtual void reportAngle(float) = 0;
   virtual void reportPWM(int) = 0;
   virtual void reportConfiguration(float, float, float, float, float, float, float) = 0;

@@ -52,7 +52,7 @@ class Client
 
   def load_teach_point index
     c = teach_point_name index
-    configuration "'#{c}p#{c}"
+    configuration "'#{c}d#{c}"
   end
 
   def stop

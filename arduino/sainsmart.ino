@@ -35,6 +35,9 @@ public:
   void reportRequired(float time) {
     reportFloat(time);
   }
+  void reportRemaining(float time) {
+    reportFloat(time);
+  }
   void reportAngle(float angle) {
     reportFloat(angle);
   }

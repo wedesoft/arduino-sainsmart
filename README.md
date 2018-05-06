@@ -112,6 +112,7 @@ Examples of servo commands are:
 * **2000G**: set gripper servo pulse width to 2000
 * **1 2 3 4 5 6c**: set configuration (base, shoulder, elbow, roll, pitch, and wrist) to 1, 2, 3, 4, 5, and 6 degrees
 * **1 2 3 4 5 6t**: time required to reach the specified configuration
+* **T**: report time required to finish current motion
 * **ma**: save teach point *a* (there are 12 teach points from *a* to *l*)
 * **'a**: go to teach point *a*
 * **da**: display configuration of teach point *a*
