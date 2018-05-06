@@ -29,13 +29,13 @@ describe Client do
   end
 
   it 'should inform about robot being ready' do
-    expect(client).to receive(:write_serial).with('r')
+    expect(client).to receive(:write_serial).with('o')
     expect(client).to receive(:read_serial).and_return "1\r\n"
     expect(client.ready?).to be true
   end
 
   it 'should inform about robot being busy' do
-    expect(client).to receive(:write_serial).with('r')
+    expect(client).to receive(:write_serial).with('o')
     expect(client).to receive(:read_serial).and_return "0\r\n"
     expect(client.ready?).to be false
   end

@@ -96,15 +96,16 @@ class SainsmartWidget < Qt::Widget
   end
 
   def ready? *values
+    # Also check remaining duration of path and duration to reach new target:
+    # * client is ready
+    # * half of time required to reach new target is greater or equal remaining time required of current path
     @client.ready?
   end
 
   def target
-    # Also check remaining duration of path and duration to reach new target:
-    # * client is ready
-    # * half of time required to reach new target is greater or equal remaining time required of current path
-    if ready? *values
-      @client.target *values
+    vals = values
+    if ready? *vals
+      @client.target *vals
     else
       defer
     end

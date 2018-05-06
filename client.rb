@@ -38,7 +38,7 @@ class Client
   end
 
   def ready?
-    write_serial 'r'
+    write_serial 'o'
     read_serial.to_i != 0
   end
 
@@ -65,7 +65,8 @@ class Client
   end
 
   def read_serial
-    @serial.readline
+    result = @serial.readline
+    result
   end
 end
 
