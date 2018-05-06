@@ -16,6 +16,11 @@ describe SainsmartWidget do
     SainsmartWidget.new client
   end
 
+  it 'should have gripper spin boxes disabled' do
+    expect(widget.ui.gripperOpenSpin.enabled).to be false
+    expect(widget.ui.gripperCloseSpin.enabled).to be false
+  end
+
   context 'if robot is ready' do
     before :each do
       expect(client).to receive(:ready?).and_return true
