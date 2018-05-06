@@ -16,10 +16,30 @@ describe SainsmartWidget do
     SainsmartWidget.new client
   end
 
+  context 'if robot is ready' do
+    before :each do
+      expect(client).to receive(:ready?).and_return true
+    end
+
+    it 'should indicate so' do
+      expect(widget.ready?).to be true
+    end
+  end
+
+  context 'if robot is not ready' do
+    before :each do
+      expect(client).to receive(:ready?).and_return false
+    end
+
+    it 'should indicate so' do
+      expect(widget.ready?).to be false
+    end
+  end
+
   context 'when moving the base spin box' do
     context 'if robot is ready' do
       before :each do
-        expect(client).to receive(:ready?).and_return true
+        expect(widget).to receive(:ready?).and_return true
       end
 
       it 'should move the base' do
@@ -55,7 +75,7 @@ describe SainsmartWidget do
 
     context 'if robot is busy' do
       before :each do
-        expect(client).to receive(:ready?).and_return false
+        expect(widget).to receive(:ready?).and_return false
       end
 
       it 'should start polling' do
@@ -80,33 +100,33 @@ describe SainsmartWidget do
     end
 
     it 'should process them when ready' do
-      expect(client).to receive(:ready?).and_return true
+      expect(widget).to receive(:ready?).and_return true
       expect(client).to receive(:target)
       widget.pending
     end
 
     it 'should defer them if robot is not ready' do
       widget.defer
-      expect(client).to receive(:ready?).and_return false
+      expect(widget).to receive(:ready?).and_return false
       expect(widget).to receive(:defer)
       widget.pending
     end
   end
 
   it 'should use values from the shoulder spin box' do
-    expect(client).to receive(:ready?).and_return true
+    expect(widget).to receive(:ready?).and_return true
     expect(client).to receive(:target).with(1, 10, 3, 4, 5, 6, 7)
     widget.ui.shoulderSpin.setValue 10
   end
 
   it 'should use values from the elbow spin box' do
-    expect(client).to receive(:ready?).and_return true
+    expect(widget).to receive(:ready?).and_return true
     expect(client).to receive(:target).with(1, 2, 10, 4, 5, 6, 7)
     widget.ui.elbowSpin.setValue 10
   end
 
   it 'should use values from the gripper spin box' do
-    expect(client).to receive(:ready?).and_return true
+    expect(widget).to receive(:ready?).and_return true
     expect(client).to receive(:target).with(1, 2, 3, 4, 5, 6, 10)
     widget.ui.gripperSpin.setValue 10
   end
@@ -127,7 +147,7 @@ describe SainsmartWidget do
 
   context 'synchronising GUI elements' do
     before :each do
-      expect(client).to receive(:ready?).at_least(:once).and_return true
+      expect(widget).to receive(:ready?).at_least(:once).and_return true
       expect(client).to receive(:target).at_least(:once)
     end
 
