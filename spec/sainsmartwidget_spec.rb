@@ -26,8 +26,26 @@ describe SainsmartWidget do
       expect(client).to receive(:ready?).and_return true
     end
 
-    it 'should indicate so' do
-      expect(widget.ready?).to be true
+    context 'if the remaining robot motion is less than half the desired one' do
+      before :each do
+        expect(client).to receive(:time_remaining).and_return 3.0
+        expect(client).to receive(:time_required).with(10, 2, 3, 4, 5, 6, 7).and_return 7.0
+      end
+
+      it 'should indicate that the robot is ready' do
+        expect(widget.ready?(10, 2, 3, 4, 5, 6, 7)).to be true
+      end
+    end
+
+    context 'if the remaining robot motion is more than half the desired one' do
+      before :each do
+        expect(client).to receive(:time_remaining).and_return 4.0
+        expect(client).to receive(:time_required).with(10, 2, 3, 4, 5, 6, 7).and_return 7.0
+      end
+
+      it 'should indicate that the robot is not ready' do
+        expect(widget.ready?(10, 2, 3, 4, 5, 6, 7)).to be false
+      end
     end
   end
 
@@ -37,7 +55,7 @@ describe SainsmartWidget do
     end
 
     it 'should indicate so' do
-      expect(widget.ready?).to be false
+      expect(widget.ready?(10, 2, 3, 4, 5, 6, 7)).to be false
     end
   end
 

@@ -12,9 +12,9 @@ describe Client do
   end
 
   it 'should inform about time required' do
-    expect(client).to receive(:write_serial).with('30t')
+    expect(client).to receive(:write_serial).with('30 50t')
     expect(client).to receive(:read_serial).and_return "1.5\r\n"
-    expect(client.time_required(30)).to eq 1.5
+    expect(client.time_required(30, 50)).to eq 1.5
   end
 
   it 'should report the current time' do

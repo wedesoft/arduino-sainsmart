@@ -6,8 +6,8 @@ class Client
     @serial.read_timeout = 2000
   end
 
-  def time_required value
-    write_serial "#{value}t"
+  def time_required *values
+    write_serial "#{values.join ' '}t"
     read_serial.to_f
   end
 
@@ -22,7 +22,7 @@ class Client
   end
 
   def target *values
-    write_serial "#{values.join " "}c"
+    write_serial "#{values.join ' '}c"
   end
 
   def configuration str
