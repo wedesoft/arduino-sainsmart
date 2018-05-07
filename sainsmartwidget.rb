@@ -34,17 +34,11 @@ class SainsmartWidget < Qt::Widget
     @ui = Ui::SainsmartWidget.new
     @ui.setupUi self
     @spin_boxes = [@ui.baseSpin, @ui.shoulderSpin, @ui.elbowSpin, @ui.rollSpin, @ui.pitchSpin, @ui.wristSpin, @ui.gripperSpin]
-    connect @ui.baseSpin      , SIGNAL('valueChanged(double)'), self, SLOT('updateBaseSlider(double)'    )
     connect @ui.baseSlider    , SIGNAL('valueChanged(int)'   ), self, SLOT('updateBaseSpin(int)'         )
-    connect @ui.shoulderSpin  , SIGNAL('valueChanged(double)'), self, SLOT('updateShoulderSlider(double)')
     connect @ui.shoulderSlider, SIGNAL('valueChanged(int)'   ), self, SLOT('updateShoulderSpin(int)'     )
-    connect @ui.elbowSpin     , SIGNAL('valueChanged(double)'), self, SLOT('updateElbowSlider(double)'   )
     connect @ui.elbowSlider   , SIGNAL('valueChanged(int)'   ), self, SLOT('updateElbowSpin(int)'        )
-    connect @ui.rollSpin      , SIGNAL('valueChanged(double)'), self, SLOT('updateRollSlider(double)'    )
     connect @ui.rollSlider    , SIGNAL('valueChanged(int)'   ), self, SLOT('updateRollSpin(int)'         )
-    connect @ui.pitchSpin     , SIGNAL('valueChanged(double)'), self, SLOT('updatePitchSlider(double)'   )
     connect @ui.pitchSlider   , SIGNAL('valueChanged(int)'   ), self, SLOT('updatePitchSpin(int)'        )
-    connect @ui.wristSpin     , SIGNAL('valueChanged(double)'), self, SLOT('updateWristSlider(double)'   )
     connect @ui.wristSlider   , SIGNAL('valueChanged(int)'   ), self, SLOT('updateWristSpin(int)'        )
 
     connect @ui.gripperSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateGripperGroup(double)')
@@ -122,48 +116,24 @@ class SainsmartWidget < Qt::Widget
     dest.value = (dest.maximum - dest.minimum) * (source.value - source.minimum) / (source.maximum - source.minimum) + dest.minimum
   end
 
-  def updateBaseSlider value
-    sync @ui.baseSlider, @ui.baseSpin
-  end
-
   def updateBaseSpin value
     sync @ui.baseSpin, @ui.baseSlider
-  end
-
-  def updateShoulderSlider value
-    sync @ui.shoulderSlider, @ui.shoulderSpin
   end
 
   def updateShoulderSpin value
     sync @ui.shoulderSpin, @ui.shoulderSlider
   end
 
-  def updateElbowSlider value
-    sync @ui.elbowSlider, @ui.elbowSpin
-  end
-
   def updateElbowSpin value
     sync @ui.elbowSpin, @ui.elbowSlider
-  end
-
-  def updateRollSlider value
-    sync @ui.rollSlider, @ui.rollSpin
   end
 
   def updateRollSpin value
     sync @ui.rollSpin, @ui.rollSlider
   end
 
-  def updatePitchSlider value
-    sync @ui.pitchSlider, @ui.pitchSpin
-  end
-
   def updatePitchSpin value
     sync @ui.pitchSpin, @ui.pitchSlider
-  end
-
-  def updateWristSlider value
-    sync @ui.wristSlider, @ui.wristSpin
   end
 
   def updateWristSpin value

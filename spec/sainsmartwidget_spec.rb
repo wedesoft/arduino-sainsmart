@@ -174,19 +174,9 @@ describe SainsmartWidget do
       expect(client).to receive(:target).at_least(:once)
     end
 
-    it 'should update the base slider if the base spin box is changed' do
-      widget.ui.baseSpin.setValue 10
-      expect(widget.ui.baseSlider.value).to eq 10000
-    end
-
     it 'should update the base spin box if the base slider is changed' do
       widget.ui.baseSlider.setValue 10000
       expect(widget.ui.baseSpin.value).to eq 10
-    end
-
-    it 'should update the shoulder slider if the shoulder spin box is changed' do
-      widget.ui.shoulderSpin.setValue 0
-      expect(widget.ui.shoulderSlider.value).to eq 5000
     end
 
     it 'should update the shoulder spin box if the shoulder slider is changed' do
@@ -194,19 +184,9 @@ describe SainsmartWidget do
       expect(widget.ui.shoulderSpin.value).to eq 0
     end
 
-    it 'should update the elbow slider if the elbow spin box is changed' do
-      widget.ui.elbowSpin.setValue 30
-      expect(widget.ui.elbowSlider.value).to eq 10000
-    end
-
     it 'should update the elbow spin box if the elbow slider is changed' do
       widget.ui.elbowSlider.setValue 10000
       expect(widget.ui.elbowSpin.value).to eq 30
-    end
-
-    it 'should update the roll slider if the roll spin box is changed' do
-      widget.ui.rollSpin.setValue 40
-      expect(widget.ui.rollSlider.value).to eq 10000
     end
 
     it 'should update the roll spin box if the roll slider is changed' do
@@ -214,19 +194,9 @@ describe SainsmartWidget do
       expect(widget.ui.rollSpin.value).to eq 40
     end
 
-    it 'should update the pitch slider if the pitch spin box is changed' do
-      widget.ui.pitchSpin.setValue 50
-      expect(widget.ui.pitchSlider.value).to eq 10000
-    end
-
     it 'should update the pitch spin box if the pitch slider is changed' do
       widget.ui.pitchSlider.setValue 10000
       expect(widget.ui.pitchSpin.value).to eq 50
-    end
-
-    it 'should update the wrist slider if the wrist spin box is changed' do
-      widget.ui.wristSpin.setValue 60
-      expect(widget.ui.wristSlider.value).to eq 10000
     end
 
     it 'should update the wrist spin box if the wrist slider is changed' do
