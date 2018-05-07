@@ -63,6 +63,9 @@ class SainsmartWidget < Qt::Widget
     sync @ui.baseSlider, @ui.baseSpin
     sync @ui.shoulderSlider, @ui.shoulderSpin
     sync @ui.elbowSlider, @ui.elbowSpin
+    sync @ui.rollSlider, @ui.rollSpin
+    sync @ui.pitchSlider, @ui.pitchSpin
+    sync @ui.wristSlider, @ui.wristSpin
     @ui.gripperOpenSpin.value = @ui.gripperSpin.value
     @timer = nil
   end
