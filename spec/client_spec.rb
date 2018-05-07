@@ -23,6 +23,12 @@ describe Client do
     expect(client.time).to eq 3.5
   end
 
+  it 'should report the remaining time of the current motion' do
+    expect(client).to receive(:write_serial).with('T')
+    expect(client).to receive(:read_serial).and_return "4.5\r\n"
+    expect(client.time_remaining).to eq 4.5
+  end
+
   it 'should set drive targets' do
     expect(client).to receive(:write_serial).with('1 2 3 4 5 6 7c')
     client.target 1, 2, 3, 4, 5, 6, 7
