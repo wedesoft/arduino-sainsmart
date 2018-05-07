@@ -133,6 +133,9 @@
             <property name="text">
              <string>wrist</string>
             </property>
+            <property name="buddy">
+             <cstring>wristSpin</cstring>
+            </property>
            </widget>
           </item>
           <item row="1" column="1">
@@ -152,6 +155,9 @@
            <widget class="QLabel" name="pitchLabel">
             <property name="text">
              <string>pitch</string>
+            </property>
+            <property name="buddy">
+             <cstring>pitchSpin</cstring>
             </property>
            </widget>
           </item>
@@ -212,6 +218,9 @@
            <widget class="QLabel" name="rollLabel">
             <property name="text">
              <string>roll</string>
+            </property>
+            <property name="buddy">
+             <cstring>rollSpin</cstring>
             </property>
            </widget>
           </item>
@@ -440,17 +449,26 @@
  </widget>
  <tabstops>
   <tabstop>gripperOpen</tabstop>
-  <tabstop>gripperClose</tabstop>
   <tabstop>gripperOpenSpin</tabstop>
+  <tabstop>gripperClose</tabstop>
   <tabstop>gripperCloseSpin</tabstop>
   <tabstop>baseSpin</tabstop>
   <tabstop>shoulderSpin</tabstop>
   <tabstop>elbowSpin</tabstop>
+  <tabstop>rollSpin</tabstop>
+  <tabstop>pitchSpin</tabstop>
+  <tabstop>wristSpin</tabstop>
   <tabstop>gripperSpin</tabstop>
-  <tabstop>shoulderSlider</tabstop>
-  <tabstop>baseSlider</tabstop>
   <tabstop>elbowSlider</tabstop>
+  <tabstop>pitchSlider</tabstop>
+  <tabstop>baseSlider</tabstop>
+  <tabstop>rollSlider</tabstop>
+  <tabstop>wristSlider</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>teachPointCombo</tabstop>
+  <tabstop>loadButton</tabstop>
   <tabstop>stopButton</tabstop>
+  <tabstop>shoulderSlider</tabstop>
  </tabstops>
  <resources/>
  <connections/>

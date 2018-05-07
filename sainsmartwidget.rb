@@ -99,12 +99,10 @@ class SainsmartWidget < Qt::Widget
   end
 
   def ready? *values
-    # Also check remaining duration of path and duration to reach new target:
-    # * client is ready
-    # * half of time required to reach new target is greater or equal remaining time required of current path
     unless @client.ready?
       false
     else
+      # Check that half of time required to reach new target is greater or equal remaining time required of current path.
       2 * @client.time_remaining <= @client.time_required(*values)
     end
   end
