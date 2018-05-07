@@ -34,20 +34,22 @@ class SainsmartWidget < Qt::Widget
     @ui = Ui::SainsmartWidget.new
     @ui.setupUi self
     @spin_boxes = [@ui.baseSpin, @ui.shoulderSpin, @ui.elbowSpin, @ui.rollSpin, @ui.pitchSpin, @ui.wristSpin, @ui.gripperSpin]
-    connect @ui.baseSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateBaseSlider(double)')
-    connect @ui.baseSlider, SIGNAL('valueChanged(int)'), self, SLOT('updateBaseSpin(int)')
-    connect @ui.shoulderSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateShoulderSlider(double)')
-    connect @ui.shoulderSlider, SIGNAL('valueChanged(int)'), self, SLOT('updateShoulderSpin(int)')
-    connect @ui.elbowSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateElbowSlider(double)')
-    connect @ui.elbowSlider, SIGNAL('valueChanged(int)'), self, SLOT('updateElbowSpin(int)')
-    connect @ui.rollSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateRollSlider(double)')
-    connect @ui.rollSlider, SIGNAL('valueChanged(int)'), self, SLOT('updateRollSpin(int)')
-    connect @ui.pitchSpin, SIGNAL('valueChanged(double)'), self, SLOT('updatePitchSlider(double)')
-    connect @ui.pitchSlider, SIGNAL('valueChanged(int)'), self, SLOT('updatePitchSpin(int)')
-    connect @ui.wristSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateWristSlider(double)')
-    connect @ui.wristSlider, SIGNAL('valueChanged(int)'), self, SLOT('updateWristSpin(int)')
+    connect @ui.baseSpin      , SIGNAL('valueChanged(double)'), self, SLOT('updateBaseSlider(double)'    )
+    connect @ui.baseSlider    , SIGNAL('valueChanged(int)'   ), self, SLOT('updateBaseSpin(int)'         )
+    connect @ui.shoulderSpin  , SIGNAL('valueChanged(double)'), self, SLOT('updateShoulderSlider(double)')
+    connect @ui.shoulderSlider, SIGNAL('valueChanged(int)'   ), self, SLOT('updateShoulderSpin(int)'     )
+    connect @ui.elbowSpin     , SIGNAL('valueChanged(double)'), self, SLOT('updateElbowSlider(double)'   )
+    connect @ui.elbowSlider   , SIGNAL('valueChanged(int)'   ), self, SLOT('updateElbowSpin(int)'        )
+    connect @ui.rollSpin      , SIGNAL('valueChanged(double)'), self, SLOT('updateRollSlider(double)'    )
+    connect @ui.rollSlider    , SIGNAL('valueChanged(int)'   ), self, SLOT('updateRollSpin(int)'         )
+    connect @ui.pitchSpin     , SIGNAL('valueChanged(double)'), self, SLOT('updatePitchSlider(double)'   )
+    connect @ui.pitchSlider   , SIGNAL('valueChanged(int)'   ), self, SLOT('updatePitchSpin(int)'        )
+    connect @ui.wristSpin     , SIGNAL('valueChanged(double)'), self, SLOT('updateWristSlider(double)'   )
+    connect @ui.wristSlider   , SIGNAL('valueChanged(int)'   ), self, SLOT('updateWristSpin(int)'        )
+
     connect @ui.gripperSpin, SIGNAL('valueChanged(double)'), self, SLOT('updateGripperGroup(double)')
     connect @ui.gripperOpen, SIGNAL('toggled(bool)'), self, SLOT('updateGripperOpen(bool)')
+
     connect @ui.stopButton, SIGNAL('clicked()'), self, SLOT('stop()')
     connect @ui.saveButton, SIGNAL('clicked()'), self, SLOT('saveTeachPoint()')
     connect @ui.loadButton, SIGNAL('clicked()'), self, SLOT('loadTeachPoint()')
@@ -95,7 +97,7 @@ class SainsmartWidget < Qt::Widget
   end
 
   def defer
-    @timer = startTimer 0 unless @timer
+    @timer = startTimer 100 unless @timer
   end
 
   def ready? *values
