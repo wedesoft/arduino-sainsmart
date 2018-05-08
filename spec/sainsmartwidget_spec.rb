@@ -108,7 +108,7 @@ describe SainsmartWidget do
 
       it 'should stop polling if the stop button is pressed' do
         expect(widget).to receive(:defer)
-        expect(widget).to receive(:kill_timer)
+        expect(widget).to receive(:kill_pending_timer)
         expect(client).to receive(:stop)
         widget.ui.baseSpin.setValue 10
         widget.ui.stopButton.clicked
@@ -175,32 +175,32 @@ describe SainsmartWidget do
     end
 
     it 'should update the base spin box if the base slider is changed' do
-      widget.ui.baseSlider.setValue 10000
+      widget.ui.baseSlider.setValue 1000000
       expect(widget.ui.baseSpin.value).to eq 10
     end
 
     it 'should update the shoulder spin box if the shoulder slider is changed' do
-      widget.ui.shoulderSlider.setValue 5000
+      widget.ui.shoulderSlider.setValue 500000
       expect(widget.ui.shoulderSpin.value).to eq 0
     end
 
     it 'should update the elbow spin box if the elbow slider is changed' do
-      widget.ui.elbowSlider.setValue 10000
+      widget.ui.elbowSlider.setValue 1000000
       expect(widget.ui.elbowSpin.value).to eq 30
     end
 
     it 'should update the roll spin box if the roll slider is changed' do
-      widget.ui.rollSlider.setValue 10000
+      widget.ui.rollSlider.setValue 1000000
       expect(widget.ui.rollSpin.value).to eq 40
     end
 
     it 'should update the pitch spin box if the pitch slider is changed' do
-      widget.ui.pitchSlider.setValue 10000
+      widget.ui.pitchSlider.setValue 1000000
       expect(widget.ui.pitchSpin.value).to eq 50
     end
 
     it 'should update the wrist spin box if the wrist slider is changed' do
-      widget.ui.wristSlider.setValue 10000
+      widget.ui.wristSlider.setValue 1000000
       expect(widget.ui.wristSpin.value).to eq 60
     end
 
@@ -271,5 +271,43 @@ describe SainsmartWidget do
     allow(e).to receive(:key).and_return Qt.Key_L
     widget.keyPressEvent e
     expect(widget.ui.teachPointCombo.currentIndex).to be 11
+  end
+
+  describe :update_joystick do
+    before :each do
+      allow(client).to receive(:ready?).and_return false
+      allow(widget.joystick).to receive(:update)
+    end
+
+    it 'should update the joystick' do
+      expect(widget.joystick).to receive(:update)
+      widget.update_joystick 0
+    end
+
+    it 'should query the joystick' do
+      expect(widget.joystick).to receive(:axis).and_return(Hash.new(0))
+      widget.update_joystick 0
+    end
+
+    it 'should update the slider' do
+      value = widget.ui.baseSlider.value
+      allow(widget.joystick).to receive(:axis).and_return({0 => 32768})
+      widget.update_joystick 1.0
+      expect(widget.ui.baseSlider.value).to be value + widget.ui.baseSlider.maximum / SainsmartWidget::TIME
+    end
+
+    it 'should not move if the time step is zero' do
+      value = widget.ui.baseSlider.value
+      allow(widget.joystick).to receive(:axis).and_return({0 => 32768})
+      widget.update_joystick 0.0
+      expect(widget.ui.baseSlider.value).to be value
+    end
+
+    it 'should not move in the direction indicated by the joystick' do
+      value = widget.ui.baseSlider.value
+      allow(widget.joystick).to receive(:axis).and_return({0 => -32768})
+      widget.update_joystick 1.0
+      expect(widget.ui.baseSlider.value).to be value - widget.ui.baseSlider.maximum / SainsmartWidget::TIME
+    end
   end
 end

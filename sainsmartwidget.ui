@@ -19,13 +19,13 @@
      <item>
       <widget class="QSlider" name="shoulderSlider">
        <property name="maximum">
-        <number>10000</number>
+        <number>1000000</number>
        </property>
        <property name="singleStep">
-        <number>100</number>
+        <number>10000</number>
        </property>
        <property name="pageStep">
-        <number>1000</number>
+        <number>100000</number>
        </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -276,13 +276,13 @@
      <item>
       <widget class="QSlider" name="elbowSlider">
        <property name="maximum">
-        <number>10000</number>
+        <number>1000000</number>
        </property>
        <property name="singleStep">
-        <number>100</number>
+        <number>10000</number>
        </property>
        <property name="pageStep">
-        <number>1000</number>
+        <number>100000</number>
        </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -295,13 +295,13 @@
      <item>
       <widget class="QSlider" name="pitchSlider">
        <property name="maximum">
-        <number>10000</number>
+        <number>1000000</number>
        </property>
        <property name="singleStep">
-        <number>100</number>
+        <number>10000</number>
        </property>
        <property name="pageStep">
-        <number>1000</number>
+        <number>100000</number>
        </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -313,13 +313,13 @@
    <item>
     <widget class="QSlider" name="baseSlider">
      <property name="maximum">
-      <number>10000</number>
+      <number>1000000</number>
      </property>
      <property name="singleStep">
-      <number>100</number>
+      <number>10000</number>
      </property>
      <property name="pageStep">
-      <number>1000</number>
+      <number>100000</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -332,13 +332,13 @@
    <item>
     <widget class="QSlider" name="rollSlider">
      <property name="maximum">
-      <number>10000</number>
+      <number>1000000</number>
      </property>
      <property name="singleStep">
-      <number>100</number>
+      <number>10000</number>
      </property>
      <property name="pageStep">
-      <number>1000</number>
+      <number>100000</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -348,13 +348,13 @@
    <item>
     <widget class="QSlider" name="wristSlider">
      <property name="maximum">
-      <number>10000</number>
+      <number>1000000</number>
      </property>
      <property name="singleStep">
-      <number>100</number>
+      <number>10000</number>
      </property>
      <property name="pageStep">
-      <number>1000</number>
+      <number>100000</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

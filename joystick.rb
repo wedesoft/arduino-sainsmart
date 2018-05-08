@@ -23,7 +23,6 @@ class JoyStick
       when SDL2::Event::JoyButtonUp
         @button[event.button] = false
       end
-      p [@axis, @button]
     end
   end
 end

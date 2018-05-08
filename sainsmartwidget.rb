@@ -1,7 +1,10 @@
 require 'Qt4'
+require_relative 'joystick'
 require_relative 'ui_sainsmartwidget'
 
 class SainsmartWidget < Qt::Widget
+  TIME = 10
+
   slots 'target()'
   slots 'updateBaseSpin(int)'
   slots 'updateShoulderSpin(int)'
@@ -16,6 +19,7 @@ class SainsmartWidget < Qt::Widget
   slots 'stop()'
 
   attr_reader :ui
+  attr_reader :joystick
 
   # Fix "/usr/lib/ruby/vendor_ruby/2.3.0/Qt/qtruby4.rb:187:in `find_pclassid'" when running rspec.
   def self.name
@@ -57,7 +61,10 @@ class SainsmartWidget < Qt::Widget
     sync @ui.pitchSlider, @ui.pitchSpin
     sync @ui.wristSlider, @ui.wristSpin
     @ui.gripperOpenSpin.value = @ui.gripperSpin.value
-    @timer = nil
+    @joystick = JoyStick.new
+    @pending_timer = nil
+    @joystick_timer = startTimer 0
+    @time = Time.new.to_f
   end
 
   def update_controls configuration
@@ -69,7 +76,15 @@ class SainsmartWidget < Qt::Widget
   end
 
   def timerEvent e
-    pending if e.timerId == @timer
+    time = Time.new.to_f
+    case e.timerId
+    when @pending_timer
+      pending
+    when @joystick_timer
+      time = Time.new.to_f
+      update_joystick @time - time
+      @time = time
+    end
   end
 
   def keyPressEvent e
@@ -85,7 +100,7 @@ class SainsmartWidget < Qt::Widget
   end
 
   def defer
-    @timer = startTimer 100 unless @timer
+    @pending_timer = startTimer 100 unless @pending_timer
   end
 
   def ready? *values
@@ -154,21 +169,27 @@ class SainsmartWidget < Qt::Widget
     update_controls @client.load_teach_point(teach_point_index)
   end
 
-  def kill_timer
-    if @timer
-      killTimer @timer
-      @timer = nil
+  def kill_pending_timer
+    if @pending_timer
+      killTimer @pending_timer
+      @pending_timer = nil
     end
   end
 
   def stop
     @client.stop
-    kill_timer
+    kill_pending_timer
     update_controls @client.pos
   end
 
   def pending
-    kill_timer
+    kill_pending_timer
     target
+  end
+
+  def update_joystick elapsed
+    @joystick.update
+    axis = @joystick.axis
+    @ui.baseSlider.value = @ui.baseSlider.value + elapsed * @ui.baseSlider.maximum * axis[0] / (32768 * TIME)
   end
 end
