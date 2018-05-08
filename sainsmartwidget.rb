@@ -196,5 +196,7 @@ class SainsmartWidget < Qt::Widget
     axis = @joystick.axis
     move_slider @ui.baseSlider    , axis[0], elapsed
     move_slider @ui.shoulderSlider, axis[1], elapsed
+    move_slider @ui.elbowSlider   , axis[4], elapsed
+    move_slider @ui.rollSlider    , axis[3], elapsed
   end
 end
