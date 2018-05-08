@@ -643,6 +643,19 @@ TEST_F(ControllerTest, ConfigurationBoundValues) {
   EXPECT_LT(-80, m_controller.curve(BASE).target());
 }
 
+TEST_F(ControllerTest, ConfigurationLimitRelativeElbowAngle) {
+  send("45 -10 90c");
+  EXPECT_EQ(70, m_controller.curve(ELBOW).target());
+}
+
+TEST_F(ControllerTest, ConfigurationDoNotLimitRelativeShoulderAngle) {
+  m_controller.curve(SHOULDER).stop( 60);
+  m_controller.curve(ELBOW   ).stop(  0);
+  send("0 0 45c");
+  EXPECT_EQ( 0, m_controller.curve(SHOULDER).target());
+  EXPECT_EQ(45, m_controller.curve(ELBOW).target());
+}
+
 TEST_F(ControllerTest, ClearConfiguration) {
   send("2 3c4c");
   EXPECT_EQ(4, m_controller.curve(BASE    ).target());

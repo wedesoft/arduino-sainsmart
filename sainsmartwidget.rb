@@ -100,7 +100,6 @@ class SainsmartWidget < Qt::Widget
   def target
     vals = values
     if ready? *vals
-      p vals
       @client.target *vals
     else
       defer

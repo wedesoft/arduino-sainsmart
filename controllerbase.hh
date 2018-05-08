@@ -141,7 +141,7 @@ public:
   {
     float time = timeRequired(point);
     for (int i=0; i<DRIVES; i++)
-      targetAngleUnsafe(i, point[i], time);
+      targetAngleUnsafe(i, i == ELBOW ? limitArmAngle(ELBOW, point[i]) : point[i], time);
   }
 
   void update(float dt) {
