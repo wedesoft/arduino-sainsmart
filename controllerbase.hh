@@ -22,8 +22,11 @@ public:
     memset(m_teach, 0, sizeof(m_teach));
     memset(m_configuration, 0, sizeof(m_configuration));
   }
+
   virtual ~ControllerBase() {}
+
   Path &curve(int drive) { return m_curve[drive]; }
+
   int drive(char c) {
     switch (tolower(c)) {
     case 's':
@@ -42,27 +45,35 @@ public:
       return BASE;
     };
   }
+
   float target(int drive) {
     return m_curve[drive].target();
   }
+
   float limit(float value, float lower, float upper) {
     return value < lower ? lower : value > upper ? upper : value;
   }
+
   float angleToPWM(int drive, float angle) {
     return offset(drive) + angle * resolution(drive);
   }
+
   float pwmToAngle(int drive, float pwm) {
     return (pwm - offset(drive)) / resolution(drive);
   }
+
   float clipPWM(int drive, float value) {
     return limit(value, lower(drive), upper(drive));
   }
+
   float clipAngle(int drive, float value) {
     return pwmToAngle(drive, clipPWM(drive, angleToPWM(drive, value)));
   }
+
   float limitJoint(float value, float other) {
     return limit(value, -ELBOW_RANGE - other, ELBOW_RANGE - other);
   }
+
   float limitArmAngle(int drive, float value)
   {
     switch (drive) {
@@ -74,18 +85,22 @@ public:
       return value;
     };
   }
+
   void saveTeachPoint(int index) {
     for (int i=0; i<DRIVES; i++)
       m_teach[index][i] = target(i);
   }
+
   void loadTeachPoint(int index) {
     targetPoint(m_teach[index]);
   }
+
   void displayTeachPoint(int index) {
     reportTeachPoint(m_teach[index][0], m_teach[index][1], m_teach[index][2],
                      m_teach[index][3], m_teach[index][4], m_teach[index][5],
                      m_teach[index][6]);
   }
+
   void takeConfigurationValue(void) {
     if (m_index < DRIVES) {
       float angle = clipAngle(m_index, number());
@@ -94,9 +109,11 @@ public:
     };
     resetNumber();
   }
+
   float timeRequired(int drive, float angle) {
     return Profile::timeRequired(fabs(angle - target(drive)), MAXJERK);
   }
+
   float timeRequired(float point[]) {
     float retval = 0;
     for (int i=0; i<DRIVES; i++) {
@@ -105,55 +122,67 @@ public:
     };
     return retval;
   }
+
   void targetAngleUnsafe(int drive, float angle, float time) {
     m_curve[drive].retarget(angle, time);
   }
+
   void targetPWM(int drive, float pwm) {
     float angle = limitArmAngle(drive, pwmToAngle(drive, clipPWM(drive, pwm)));
     targetAngleUnsafe(drive, angle, timeRequired(drive, angle));
   }
+
   void targetAngle(int drive, float value) {
     float angle = limitArmAngle(drive, clipAngle(drive, value));
     targetAngleUnsafe(drive, angle, timeRequired(drive, angle));
   }
+
   void targetPoint(float point[])
   {
     float time = timeRequired(point);
     for (int i=0; i<DRIVES; i++)
       targetAngleUnsafe(i, point[i], time);
   }
+
   void update(float dt) {
     for (int drive=0; drive<DRIVES; drive++)
       writePWM(drive, round(angleToPWM(drive, m_curve[drive].update(dt))));
   }
+
   void stopDrives(void) {
     resetParser();
     for (int drive=0; drive<DRIVES; drive++)
       m_curve[drive].stop(m_curve[drive].pos());
   }
+
   bool hasNumber(void) {
     return m_sign != 0;
   }
+
   float number(void) {
     float fraction = (m_fraction == 0) ? 1 : m_fraction;
     return m_number * fraction * m_sign;
   }
+
   void resetNumber(void) {
     m_number = 0;
     m_fraction = 0;
     m_sign = 0;
   }
+
   void resetParser(void) {
     resetNumber();
     memset(m_configuration, 0, sizeof(m_configuration));
     m_index = 0;
   }
+
   bool drivesReady(void) {
     bool retval = true;
     for (int i=0; i<DRIVES; i++)
       retval = retval && m_curve[i].ready();
     return retval;
   }
+
   void parseChar(char c) {
     if (m_teachFun) {
       if (c >= 'a' && c <= 'l')
@@ -278,6 +307,7 @@ public:
       };
     };
   }
+
   virtual int offset(int drive) = 0;
   virtual float resolution(int drive) = 0;
   virtual int lower(int drive) = 0;
@@ -293,6 +323,7 @@ public:
   virtual void reportUpper(float, float, float, float, float, float, float) = 0;
   virtual void reportTeachPoint(float, float, float, float, float, float, float) = 0;
   virtual void writePWM(int, int) = 0;
+
 protected:
   float m_number;
   float m_fraction;

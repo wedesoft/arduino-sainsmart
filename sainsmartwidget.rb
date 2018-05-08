@@ -3,17 +3,11 @@ require_relative 'ui_sainsmartwidget'
 
 class SainsmartWidget < Qt::Widget
   slots 'target()'
-  slots 'updateBaseSlider(double)'
   slots 'updateBaseSpin(int)'
-  slots 'updateShoulderSlider(double)'
   slots 'updateShoulderSpin(int)'
-  slots 'updateElbowSlider(double)'
   slots 'updateElbowSpin(int)'
-  slots 'updateRollSlider(double)'
   slots 'updateRollSpin(int)'
-  slots 'updatePitchSlider(double)'
   slots 'updatePitchSpin(int)'
-  slots 'updateWristSlider(double)'
   slots 'updateWristSpin(int)'
   slots 'updateGripperGroup(double)'
   slots 'updateGripperOpen(bool)'
@@ -106,6 +100,7 @@ class SainsmartWidget < Qt::Widget
   def target
     vals = values
     if ready? *vals
+      p vals
       @client.target *vals
     else
       defer
