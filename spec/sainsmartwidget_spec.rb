@@ -285,29 +285,36 @@ describe SainsmartWidget do
     end
 
     it 'should query the joystick' do
-      expect(widget.joystick).to receive(:axis).and_return(Hash.new(0))
+      expect(widget.joystick).to receive(:axis).and_return({})
       widget.update_joystick 0
     end
 
-    it 'should update the slider' do
+    it 'should update the base slider' do
       value = widget.ui.baseSlider.value
       allow(widget.joystick).to receive(:axis).and_return({0 => 32768})
       widget.update_joystick 1.0
       expect(widget.ui.baseSlider.value).to be value + widget.ui.baseSlider.maximum / SainsmartWidget::TIME
     end
 
-    it 'should not move if the time step is zero' do
+    it 'should not move the base slider if the time step is zero' do
       value = widget.ui.baseSlider.value
       allow(widget.joystick).to receive(:axis).and_return({0 => 32768})
       widget.update_joystick 0.0
       expect(widget.ui.baseSlider.value).to be value
     end
 
-    it 'should not move in the direction indicated by the joystick' do
+    it 'should move the base slider in the direction indicated by the joystick' do
       value = widget.ui.baseSlider.value
       allow(widget.joystick).to receive(:axis).and_return({0 => -32768})
       widget.update_joystick 1.0
       expect(widget.ui.baseSlider.value).to be value - widget.ui.baseSlider.maximum / SainsmartWidget::TIME
+    end
+
+    it 'should move the shoulder slider' do
+      value = widget.ui.shoulderSlider.value
+      allow(widget.joystick).to receive(:axis).and_return({1 => 32768})
+      widget.update_joystick 1.0
+      expect(widget.ui.shoulderSlider.value).to be value + widget.ui.shoulderSlider.maximum / SainsmartWidget::TIME
     end
   end
 end

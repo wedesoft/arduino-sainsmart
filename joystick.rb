@@ -7,8 +7,8 @@ class JoyStick
 
   def initialize
     SDL2.init SDL2::INIT_JOYSTICK
-    @axis = Hash.new 0
-    @button = Hash.new false
+    @axis = {}
+    @button = {}
   end
 
   def update

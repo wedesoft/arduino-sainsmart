@@ -187,9 +187,14 @@ class SainsmartWidget < Qt::Widget
     target
   end
 
+  def move_slider slider, amount, elapsed
+    slider.value += elapsed * slider.maximum * (amount or 0) / (32768 * TIME)
+  end
+
   def update_joystick elapsed
     @joystick.update
     axis = @joystick.axis
-    @ui.baseSlider.value = @ui.baseSlider.value + elapsed * @ui.baseSlider.maximum * axis[0] / (32768 * TIME)
+    move_slider @ui.baseSlider    , axis[0], elapsed
+    move_slider @ui.shoulderSlider, axis[1], elapsed
   end
 end
