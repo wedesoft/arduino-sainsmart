@@ -294,56 +294,56 @@ describe SainsmartWidget do
       value = widget.ui.baseSlider.value
       allow(widget.joystick).to receive(:axis).and_return({0 => 32768})
       widget.update_joystick 1.0
-      expect(widget.ui.baseSlider.value).to be value + widget.ui.baseSlider.maximum / SainsmartWidget::TIME
+      expect(widget.ui.baseSlider.value).to be_within(1).of value + widget.ui.baseSlider.maximum / SainsmartWidget::TIME
     end
 
     it 'should not move the base slider if the time step is zero' do
       value = widget.ui.baseSlider.value
       allow(widget.joystick).to receive(:axis).and_return({0 => 32768})
       widget.update_joystick 0.0
-      expect(widget.ui.baseSlider.value).to be value
+      expect(widget.ui.baseSlider.value).to be_within(1).of value
     end
 
     it 'should move the base slider in the direction indicated by the joystick' do
       value = widget.ui.baseSlider.value
       allow(widget.joystick).to receive(:axis).and_return({0 => -32768})
       widget.update_joystick 1.0
-      expect(widget.ui.baseSlider.value).to be value - widget.ui.baseSlider.maximum / SainsmartWidget::TIME
+      expect(widget.ui.baseSlider.value).to be_within(1).of value - widget.ui.baseSlider.maximum / SainsmartWidget::TIME
     end
 
     it 'should move the shoulder slider' do
       value = widget.ui.shoulderSlider.value
       allow(widget.joystick).to receive(:axis).and_return({1 => 32768})
       widget.update_joystick 1.0
-      expect(widget.ui.shoulderSlider.value).to be value - widget.ui.shoulderSlider.maximum / SainsmartWidget::TIME
+      expect(widget.ui.shoulderSlider.value).to be_within(1).of value - widget.ui.shoulderSlider.maximum / SainsmartWidget::TIME
     end
 
     it 'should move the elbow slider' do
       value = widget.ui.elbowSlider.value
       allow(widget.joystick).to receive(:axis).and_return({4 => 32768})
       widget.update_joystick 1.0
-      expect(widget.ui.elbowSlider.value).to be value + widget.ui.elbowSlider.maximum / SainsmartWidget::TIME
+      expect(widget.ui.elbowSlider.value).to be_within(1).of value + widget.ui.elbowSlider.maximum / SainsmartWidget::TIME
     end
 
     it 'should move the roll slider' do
       value = widget.ui.rollSlider.value
       allow(widget.joystick).to receive(:axis).and_return({3 => 32768})
       widget.update_joystick 1.0
-      expect(widget.ui.rollSlider.value).to be value - widget.ui.rollSlider.maximum / SainsmartWidget::TIME
+      expect(widget.ui.rollSlider.value).to be_within(1).of value - widget.ui.rollSlider.maximum / SainsmartWidget::TIME
     end
 
     it 'should not move the base slider if the joystick is in the positive part of the dead zone' do
       value = widget.ui.baseSlider.value
       allow(widget.joystick).to receive(:axis).and_return({0 => SainsmartWidget::DEADZONE})
       widget.update_joystick 1.0
-      expect(widget.ui.baseSlider.value).to be value
+      expect(widget.ui.baseSlider.value).to be_within(1).of value
     end
 
     it 'should not move the base slider if the joystick is in the negative part of the dead zone' do
       value = widget.ui.baseSlider.value
       allow(widget.joystick).to receive(:axis).and_return({0 => -SainsmartWidget::DEADZONE})
       widget.update_joystick 1.0
-      expect(widget.ui.baseSlider.value).to be value
+      expect(widget.ui.baseSlider.value).to be_within(1).of value
     end
 
     it 'should scale linearly from the positive boundary of the deadzone on' do
@@ -360,6 +360,20 @@ describe SainsmartWidget do
       expect(widget.ui.baseSlider.value).to be >= value - 2 * widget.ui.baseSlider.maximum / SainsmartWidget::TIME / 32768
     end
 
+    it 'should close the gripper' do
+      value = widget.ui.gripperSpin.value
+      allow(widget.joystick).to receive(:axis).and_return({5 => 32768})
+      widget.update_joystick 1.0
+      expect(widget.ui.gripperSpin.value).to be_within(0.5).of value + widget.ui.gripperSpin.maximum / SainsmartWidget::TIME
+    end
+
+    it 'should open the gripper' do
+      value = widget.ui.gripperSpin.value
+      allow(widget.joystick).to receive(:axis).and_return({2 => 32768})
+      widget.update_joystick 1.0
+      expect(widget.ui.gripperSpin.value).to be_within(0.5).of value - widget.ui.gripperSpin.maximum / SainsmartWidget::TIME
+    end
+
     context 'if the A button is pressed' do
       before :each do
         allow(widget.joystick).to receive(:button).and_return({0 => true})
@@ -369,14 +383,14 @@ describe SainsmartWidget do
         value = widget.ui.pitchSlider.value
         allow(widget.joystick).to receive(:axis).and_return({1 => 32768})
         widget.update_joystick 1.0
-        expect(widget.ui.pitchSlider.value).to be value - widget.ui.pitchSlider.maximum / SainsmartWidget::TIME
+        expect(widget.ui.pitchSlider.value).to be_within(1).of value - widget.ui.pitchSlider.maximum / SainsmartWidget::TIME
       end
 
       it 'should move the wrist slider' do
         value = widget.ui.wristSlider.value
         allow(widget.joystick).to receive(:axis).and_return({0 => 32768})
         widget.update_joystick 1.0
-        expect(widget.ui.wristSlider.value).to be value - widget.ui.wristSlider.maximum / SainsmartWidget::TIME
+        expect(widget.ui.wristSlider.value).to be_within(1).of value - widget.ui.wristSlider.maximum / SainsmartWidget::TIME
       end
     end
   end

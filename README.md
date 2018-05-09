@@ -67,6 +67,8 @@ make upload
 
 **Warning: once servos are plugged into the board, always connect the servo power to the DFRobot I/O expansion shield before connecting the USB cable to the Arduino to prevent the board power from stalling which causes erratic motion!**
 
+**Warning: self-collisions or collisions with the surface and other objects can damage the servos!**
+
 ## control robot
 
 You can control the robot using the *screen* serial terminal (make sure *ttyUSB0* is the correct port):

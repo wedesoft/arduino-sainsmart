@@ -197,7 +197,7 @@ class SainsmartWidget < Qt::Widget
       else
         change = 0
       end
-      slider.value += (elapsed * slider.maximum * change * sign / ((32768 - DEADZONE) * TIME)).to_i
+      slider.value += elapsed * slider.maximum * change * sign / ((32768 - DEADZONE) * TIME)
     end
   end
 
@@ -214,5 +214,6 @@ class SainsmartWidget < Qt::Widget
     end
     move_slider @ui.elbowSlider, +1, axis[4], elapsed
     move_slider @ui.rollSlider , -1, axis[3], elapsed
+    move_slider @ui.gripperSpin, +1, ((axis[5] or 0) - (axis[2] or 0)), elapsed
   end
 end
