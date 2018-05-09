@@ -277,6 +277,7 @@ describe SainsmartWidget do
     before :each do
       allow(client).to receive(:ready?).and_return false
       allow(widget.joystick).to receive(:update)
+      allow(widget.joystick).to receive(:button).and_return({})
     end
 
     it 'should update the joystick' do
@@ -357,6 +358,26 @@ describe SainsmartWidget do
       allow(widget.joystick).to receive(:axis).and_return({0 => -SainsmartWidget::DEADZONE - 1})
       widget.update_joystick 1.0
       expect(widget.ui.baseSlider.value).to be >= value - 2 * widget.ui.baseSlider.maximum / SainsmartWidget::TIME / 32768
+    end
+
+    context 'if the A button is pressed' do
+      before :each do
+        allow(widget.joystick).to receive(:button).and_return({0 => true})
+      end
+
+      it 'should move the pitch slider' do
+        value = widget.ui.pitchSlider.value
+        allow(widget.joystick).to receive(:axis).and_return({1 => 32768})
+        widget.update_joystick 1.0
+        expect(widget.ui.pitchSlider.value).to be value - widget.ui.pitchSlider.maximum / SainsmartWidget::TIME
+      end
+
+      it 'should move the wrist slider' do
+        value = widget.ui.wristSlider.value
+        allow(widget.joystick).to receive(:axis).and_return({0 => 32768})
+        widget.update_joystick 1.0
+        expect(widget.ui.wristSlider.value).to be value - widget.ui.wristSlider.maximum / SainsmartWidget::TIME
+      end
     end
   end
 end
