@@ -3,6 +3,7 @@ require_relative 'joystick'
 require_relative 'ui_sainsmartwidget'
 
 class SainsmartWidget < Qt::Widget
+  DEADZONE = 2000
   TIME = 10
 
   slots 'target()'
@@ -188,7 +189,16 @@ class SainsmartWidget < Qt::Widget
   end
 
   def move_slider slider, amount, elapsed
-    slider.value += elapsed * slider.maximum * (amount or 0) / (32768 * TIME)
+    if amount
+      if amount > DEADZONE
+        change = amount - DEADZONE
+      elsif amount < -DEADZONE
+        change = amount + DEADZONE
+      else
+        change = 0
+      end
+      slider.value += elapsed * slider.maximum * change / ((32768 - DEADZONE) * TIME)
+    end
   end
 
   def update_joystick elapsed

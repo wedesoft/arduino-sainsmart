@@ -330,5 +330,33 @@ describe SainsmartWidget do
       widget.update_joystick 1.0
       expect(widget.ui.rollSlider.value).to be value + widget.ui.rollSlider.maximum / SainsmartWidget::TIME
     end
+
+    it 'should not move the base slider if the joystick is in the positive part of the dead zone' do
+      value = widget.ui.baseSlider.value
+      allow(widget.joystick).to receive(:axis).and_return({0 => SainsmartWidget::DEADZONE})
+      widget.update_joystick 1.0
+      expect(widget.ui.baseSlider.value).to be value
+    end
+
+    it 'should not move the base slider if the joystick is in the negative part of the dead zone' do
+      value = widget.ui.baseSlider.value
+      allow(widget.joystick).to receive(:axis).and_return({0 => -SainsmartWidget::DEADZONE})
+      widget.update_joystick 1.0
+      expect(widget.ui.baseSlider.value).to be value
+    end
+
+    it 'should scale linearly from the positive boundary of the deadzone on' do
+      value = widget.ui.baseSlider.value
+      allow(widget.joystick).to receive(:axis).and_return({0 => SainsmartWidget::DEADZONE + 1})
+      widget.update_joystick 1.0
+      expect(widget.ui.baseSlider.value).to be <= value + 5
+    end
+
+    it 'should scale linearly from the negative boundary of the deadzone on' do
+      value = widget.ui.baseSlider.value
+      allow(widget.joystick).to receive(:axis).and_return({0 => -SainsmartWidget::DEADZONE - 1})
+      widget.update_joystick 1.0
+      expect(widget.ui.baseSlider.value).to be >= value - 5
+    end
   end
 end
