@@ -3,7 +3,7 @@ require_relative 'joystick'
 require_relative 'ui_sainsmartwidget'
 
 class SainsmartWidget < Qt::Widget
-  DEADZONE = 2000
+  DEADZONE = 4000
   TIME = 3
 
   slots 'target()'
@@ -188,7 +188,7 @@ class SainsmartWidget < Qt::Widget
     target
   end
 
-  def move_slider slider, amount, elapsed
+  def move_slider slider, sign, amount, elapsed
     if amount
       if amount > DEADZONE
         change = amount - DEADZONE
@@ -197,16 +197,16 @@ class SainsmartWidget < Qt::Widget
       else
         change = 0
       end
-      slider.value += (elapsed * slider.maximum * change / ((32768 - DEADZONE) * TIME)).to_i
+      slider.value += (elapsed * slider.maximum * change * sign / ((32768 - DEADZONE) * TIME)).to_i
     end
   end
 
   def update_joystick elapsed
     @joystick.update
     axis = @joystick.axis
-    move_slider @ui.baseSlider    , axis[0], elapsed
-    move_slider @ui.shoulderSlider, axis[1], elapsed
-    move_slider @ui.elbowSlider   , axis[4], elapsed
-    move_slider @ui.rollSlider    , axis[3], elapsed
+    move_slider @ui.baseSlider    , +1, axis[0], elapsed
+    move_slider @ui.shoulderSlider, -1, axis[1], elapsed
+    move_slider @ui.elbowSlider   , +1, axis[4], elapsed
+    move_slider @ui.rollSlider    , -1, axis[3], elapsed
   end
 end

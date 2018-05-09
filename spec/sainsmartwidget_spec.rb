@@ -314,7 +314,7 @@ describe SainsmartWidget do
       value = widget.ui.shoulderSlider.value
       allow(widget.joystick).to receive(:axis).and_return({1 => 32768})
       widget.update_joystick 1.0
-      expect(widget.ui.shoulderSlider.value).to be value + widget.ui.shoulderSlider.maximum / SainsmartWidget::TIME
+      expect(widget.ui.shoulderSlider.value).to be value - widget.ui.shoulderSlider.maximum / SainsmartWidget::TIME
     end
 
     it 'should move the elbow slider' do
@@ -328,7 +328,7 @@ describe SainsmartWidget do
       value = widget.ui.rollSlider.value
       allow(widget.joystick).to receive(:axis).and_return({3 => 32768})
       widget.update_joystick 1.0
-      expect(widget.ui.rollSlider.value).to be value + widget.ui.rollSlider.maximum / SainsmartWidget::TIME
+      expect(widget.ui.rollSlider.value).to be value - widget.ui.rollSlider.maximum / SainsmartWidget::TIME
     end
 
     it 'should not move the base slider if the joystick is in the positive part of the dead zone' do
