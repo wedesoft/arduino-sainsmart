@@ -13,6 +13,6 @@ const int MIN[] = {544, 938, 638, 544, 544, 544, 1299};// must not be below 544
 const int MAX[] = {2400, 2400, 2400, 2400, 2253, 2400, 2222};// must not be above 2400
 
 const float RESOLUTION[] = {8.777777777, 8.777777777, 8.777777777, 8.777777777, 11.12222, 11.12222, 11.12222};
-const float MAXJERK = 250;
+const float MAXJERK = 1000;
 
 #endif
