@@ -349,14 +349,14 @@ describe SainsmartWidget do
       value = widget.ui.baseSlider.value
       allow(widget.joystick).to receive(:axis).and_return({0 => SainsmartWidget::DEADZONE + 1})
       widget.update_joystick 1.0
-      expect(widget.ui.baseSlider.value).to be <= value + 5
+      expect(widget.ui.baseSlider.value).to be <= value + 2 * widget.ui.baseSlider.maximum / SainsmartWidget::TIME / 32768
     end
 
     it 'should scale linearly from the negative boundary of the deadzone on' do
       value = widget.ui.baseSlider.value
       allow(widget.joystick).to receive(:axis).and_return({0 => -SainsmartWidget::DEADZONE - 1})
       widget.update_joystick 1.0
-      expect(widget.ui.baseSlider.value).to be >= value - 5
+      expect(widget.ui.baseSlider.value).to be >= value - 2 * widget.ui.baseSlider.maximum / SainsmartWidget::TIME / 32768
     end
   end
 end

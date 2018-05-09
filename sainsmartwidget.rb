@@ -4,7 +4,7 @@ require_relative 'ui_sainsmartwidget'
 
 class SainsmartWidget < Qt::Widget
   DEADZONE = 2000
-  TIME = 10
+  TIME = 3
 
   slots 'target()'
   slots 'updateBaseSpin(int)'
@@ -197,7 +197,7 @@ class SainsmartWidget < Qt::Widget
       else
         change = 0
       end
-      slider.value += elapsed * slider.maximum * change / ((32768 - DEADZONE) * TIME)
+      slider.value += (elapsed * slider.maximum * change / ((32768 - DEADZONE) * TIME)).to_i
     end
   end
 
