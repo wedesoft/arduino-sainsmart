@@ -3,8 +3,8 @@ require_relative 'joystick'
 require_relative 'ui_sainsmartwidget'
 
 class SainsmartWidget < Qt::Widget
-  DEADZONE = 4000
-  TIME = 3
+  DEADZONE = 6000
+  TIME = 6
 
   slots 'target()'
   slots 'updateBaseSpin(int)'
