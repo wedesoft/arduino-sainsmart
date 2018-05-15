@@ -6,6 +6,7 @@ compiler:
 before_install:
   - sudo apt-get update
   - sudo apt-get install arduino-mk
+  - sudo apt-get install ruby ruby-rspec ruby-qt4
   - wget -c https://github.com/google/googletest/archive/release-1.7.0.tar.gz -O googletest-release-1.7.0.tar.gz
   - tar xzf googletest-release-1.7.0.tar.gz
   - wget -c https://github.com/google/googlemock/archive/release-1.7.0.tar.gz -O googlemock-release-1.7.0.tar.gz
@@ -14,4 +15,4 @@ install:
   - cp calibration.hh.default calibration.hh
   - env PATH=/usr/share/arduino:$PATH make all-recursive
 script:
-  - make GTEST=googletest-release-1.7.0 GMOCK=googlemock-release-1.7.0 check-controller
+  - make GTEST=googletest-release-1.7.0 GMOCK=googlemock-release-1.7.0 check
