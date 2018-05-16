@@ -1,7 +1,11 @@
 # arduino-sainsmart [![Build Status](https://travis-ci.org/wedesoft/arduino-sainsmart.svg?branch=master)](https://travis-ci.org/wedesoft/arduino-sainsmart)
 
 
-[Arduino][1] software to steer the SainSmart [DIY 6-axis palletizing robot arm][2] and [Sunfounder Rollpaw gripper][15] using smooth sin² speed profiles.
+[Arduino][1] software to steer the SainSmart [DIY 6-axis palletizing robot arm][2] and [Sunfounder Rollpaw gripper][15].
+
+![Smooth motion profiles](profile.png)
+
+The software uses smooth sin² speed profiles to drive the robot joints.
 
 [![SainSmart 6-axis servo steering](https://i1.ytimg.com/vi/Vz9hG3jYO3k/hqdefault.jpg)][vid]
 
@@ -31,13 +35,11 @@ Install the dependencies as follows:
 sudo aptitude install arduino-mk screen google-mock
 ```
 
-Create the initial calibration file:
+Create the initial calibration file with the limits and offsets of each servo:
 
 ```
 cp calibration.hh.default calibration.hh
 ```
-
-Note: Carefully adjust the limits and offsets for your robot to avoid self-collision.
 
 Then build the Arduino program using *make*:
 
@@ -69,6 +71,8 @@ make upload
 **Warning: once servos are plugged into the board, always connect the servo power to the DFRobot I/O expansion shield before connecting the USB cable to the Arduino to prevent the board power from stalling which causes erratic motion!**
 
 **Warning: self-collisions or collisions with the surface and other objects can damage the servos!**
+
+You can then adjust the limits and offsets for your robot and then compile and upload the modified software.
 
 ## control robot
 
@@ -124,6 +128,21 @@ Examples of servo commands are:
 You can exit the *screen* terminal using Ctrl-A \\.
 
 **Warning: self-collisions of the robot can damage the servos!**
+
+## Run graphical user interface
+
+You can run the graphical user interface as follows.
+
+```
+ruby main.rb
+```
+
+![XBox Controller](xbox.png)
+
+The GUI also recognises a calibrated X-Box controller.
+You can control the first four axes using the left and right stick.
+By holding the 'A' button, the first stick can be used to control the remaining two axes.
+The left and right trigger can be used to close and open the gripper.
 
 # External links
 
