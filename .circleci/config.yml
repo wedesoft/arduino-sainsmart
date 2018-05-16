@@ -1,6 +1,6 @@
 version: 2.0
 jobs:
-  build-and-test:
+  build:
     docker:
       - image: circleci/ruby:2.4.1
     steps:
@@ -8,9 +8,23 @@ jobs:
       - run:
         - name: install dependencies
         - command: sudo apt-get install arduino-mk
+  test:
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - checkout
+      - run:
+        - name: run tests
+        - command: make check
 
 workflows:
   version: 2.0
-  build-test:
+  build_and_test:
     jobs:
-      - build-and-test
+      - build
+      - test:
+        - requires:
+          - build
+        - filters:
+          branches:
+            only: master
