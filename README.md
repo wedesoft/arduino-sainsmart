@@ -8,7 +8,7 @@
 The software uses smooth sin² speed profiles to drive the robot joints.
 The plot shows jerk (blue), acceleration (red), speed (green), and position (magenta).
 
-[![SainSmart 6-axis servo steering](https://i1.ytimg.com/vi/Vz9hG3jYO3k/hqdefault.jpg)][vid]
+[![SainSmart 6-axis servo steering](https://i.ytimg.com/vi/Fv_c3pXyLH4/hqdefault.jpg)][vid]
 
 ## equipment
 
@@ -177,4 +177,4 @@ The left and right trigger can be used to close and open the gripper.
 [16]: https://www.sunfounder.com/learn/category/Standard-Gripper-Kit-Rollpaw.html
 [17]: https://www.amazon.co.uk/d/B00P1716VO
 [18]: http://image.dfrobot.com/image/data/Common/Arduino%20Shield%20Manual.pdf
-[vid]: https://www.youtube.com/watch?v=Vz9hG3jYO3k
+[vid]: https://www.youtube.com/watch?v=Fv_c3pXyLH4
