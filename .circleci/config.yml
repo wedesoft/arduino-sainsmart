@@ -1,0 +1,23 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - checkout
+      - run:
+        - name: install dependencies
+        - command: |
+          sudo apt-get install arduino-mk
+          sudo apt-get install ruby ruby-rspec ruby-qt4 ruby-dev libsdl2-dev
+          sudo gem install ruby-sdl2
+          wget -c https://github.com/google/googletest/archive/release-1.7.0.tar.gz -O googletest-release-1.7.0.tar.gz
+          tar xzf googletest-release-1.7.0.tar.gz
+          wget -c https://github.com/google/googlemock/archive/release-1.7.0.tar.gz -O googlemock-release-1.7.0.tar.gz
+          tar xzf googlemock-release-1.7.0.tar.gz
+      - run:
+        - name: run tests
+        - command: |
+          cp calibration.hh.default calibration.hh
+          env PATH=/usr/share/arduino:$PATH make all-recursive
+          make GTEST=googletest-release-1.7.0 GMOCK=googlemock-release-1.7.0 check
