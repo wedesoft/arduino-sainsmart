@@ -28,6 +28,8 @@ The plot shows jerk (blue), acceleration (red), speed (green), and position (mag
 
 [![Sunfounder Rollpaw gripper](rollpaw.jpg)][15]
 
+Altogether the equipment cost is about 200£ (excluding the PC required to communicate with the Arduino board).
+
 ## software build
 
 Install the dependencies as follows:
@@ -160,7 +162,7 @@ The left and right trigger can be used to close and open the gripper.
 * [Arduino multitasking part 1][12], [part 2][13], [part 3][14]
 
 [1]: https://www.arduino.cc/
-[2]: http://www.sainsmart.com/diy-6-axis-servos-control-palletizing-robot-arm-model-for-arduino-uno-mega2560.html
+[2]: https://www.sainsmart.com/products/6-axis-desktop-robotic-arm-assembled
 [3]: http://7bot.cc/
 [4]: https://robosavvy.com/store/dfrobot-io-expansion-shield-for-arduino-v6.html
 [5]: https://learn.sparkfun.com/tutorials/redboard-vs-uno
