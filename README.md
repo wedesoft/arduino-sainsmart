@@ -1,7 +1,7 @@
 # arduino-sainsmart [![Build Status](https://travis-ci.org/wedesoft/arduino-sainsmart.svg?branch=master)](https://travis-ci.org/wedesoft/arduino-sainsmart)
 
 
-[Arduino][1] software to steer the SainSmart [DIY 6-axis palletizing robot arm][2] and [Sunfounder Rollpaw gripper][15] using smooth Bernstein polynomials.
+[Arduino][1] software to steer the SainSmart [DIY 6-axis palletizing robot arm][2] and [Sunfounder Rollpaw gripper][15] using smooth sin² speed profiles.
 
 [![SainSmart 6-axis servo steering](https://i1.ytimg.com/vi/Vz9hG3jYO3k/hqdefault.jpg)][vid]
 
@@ -124,10 +124,6 @@ Examples of servo commands are:
 You can exit the *screen* terminal using Ctrl-A \\.
 
 **Warning: self-collisions of the robot can damage the servos!**
-
-# Credits
-
-Thanks to Ian Patient for pointing out the Bernstein polynomials for achieving smooth robot motion.
 
 # External links
 
