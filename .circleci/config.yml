@@ -1,6 +1,6 @@
 version: 2.0
 jobs:
-  build:
+  build-and-test:
     docker:
       - image: circleci/ruby:2.4.1
     steps:
