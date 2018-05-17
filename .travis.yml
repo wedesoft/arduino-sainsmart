@@ -4,6 +4,7 @@ language: c
 compiler:
   - gcc
 before_install:
+  - sudo apt-get install xvfb
   - sudo apt-get install arduino-mk
   - sudo apt-get install ruby ruby-qt4 ruby-dev ruby-serialport
   - sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-net-dev libsdl2-ttf-dev
@@ -17,4 +18,4 @@ install:
   - cp calibration.hh.default calibration.hh
   - env PATH=/usr/share/arduino:$PATH make all-recursive
 script:
-  - make GTEST=googletest-release-1.7.0 GMOCK=googlemock-release-1.7.0 check
+  - xvfb-run make GTEST=googletest-release-1.7.0 GMOCK=googlemock-release-1.7.0 check
