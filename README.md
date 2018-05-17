@@ -5,7 +5,9 @@
 
 ![Smooth motion profiles](profile.png)
 
-The software uses smooth sin² speed profiles to drive the robot joints.
+The software uses smooth *sin²(t)* (where t is the time) speed profiles to drive the robot joints.
+At any time the sum of up to two speed profiles is output to the drives.
+Using *sin²(t)+cos²(t)=1* one can achieve constant motion.
 The plot shows jerk (blue), acceleration (red), speed (green), and position (magenta).
 
 [![SainSmart 6-axis servo steering](https://i.ytimg.com/vi/Fv_c3pXyLH4/hqdefault.jpg)][vid]
