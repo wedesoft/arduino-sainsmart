@@ -160,6 +160,7 @@ The left and right trigger can be used to close and open the gripper.
 * [Towerpro SG90 9g servo][9] (note: Servo shaft not compatible with Sunfounder Rollpaw servos!)
 * [22 AWG RC JR Servo Straight Extension Wire 150mm][17]
 * [Arduino multitasking part 1][12], [part 2][13], [part 3][14]
+* [How to run test headlessly with Xvfb][19]
 
 [1]: https://www.arduino.cc/
 [2]: https://www.sainsmart.com/products/6-axis-desktop-robotic-arm-assembled
@@ -179,4 +180,5 @@ The left and right trigger can be used to close and open the gripper.
 [16]: https://www.sunfounder.com/learn/category/Standard-Gripper-Kit-Rollpaw.html
 [17]: https://www.amazon.co.uk/d/B00P1716VO
 [18]: http://image.dfrobot.com/image/data/Common/Arduino%20Shield%20Manual.pdf
+[19]: http://elementalselenium.com/tips/38-headless
 [vid]: https://www.youtube.com/watch?v=Fv_c3pXyLH4
