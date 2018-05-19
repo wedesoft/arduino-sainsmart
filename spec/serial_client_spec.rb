@@ -1,6 +1,6 @@
-require_relative '../client'
+require_relative '../serial_client'
 
-describe Client do
+describe SerialClient do
   before :each do
     port = double 'SerialPort'
     expect(port).to receive(:read_timeout=).with(2000)
@@ -8,7 +8,7 @@ describe Client do
   end
 
   let :client do
-    Client.new 'device', 1234
+    SerialClient.new 'device', 1234
   end
 
   it 'should inform about time required' do

@@ -6,7 +6,7 @@ describe SainsmartWidget do
   end
 
   let :client do
-    double 'Client'
+    double 'client'
   end
 
   let :widget do

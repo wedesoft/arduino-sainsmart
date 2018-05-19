@@ -1,6 +1,6 @@
 # TODO
 
-* add rspec to CI
+* forward kinematics with tests
 * Client -> SerialClient
 * synchronous point-to-point for samples of cartesian path (fly-by-point)
 * speed: sin^2 profile (sin^2+cos^2=1) with x in [0, pi] for interpolation (Klaus Wüst),
