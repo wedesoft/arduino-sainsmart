@@ -1,6 +1,7 @@
 require 'matrix'
 
 
+# https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters
 class Denavit
   class << self
     def rotate angle, i, j
@@ -34,6 +35,10 @@ class Denavit
 
     def translate_z distance
       translate distance, 2
+    end
+
+    def hartenberg d, theta, r, alpha
+      translate_z(d) * rotate_z(theta) * translate_x(r) * rotate_x(alpha)
     end
   end
 end
