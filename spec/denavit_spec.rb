@@ -99,8 +99,8 @@ describe Denavit do
       expect(Denavit.base(0) * z).to be_within(1e-6).of -y
     end
 
-    it 'should point the shoulder upwards' do
-      expect(Denavit.base(0) * y).to be_within(1e-6).of z
+    it 'should have the correct x-axis' do
+      expect(Denavit.base(0) * x).to be_within(1e-6).of x
     end
 
     it 'should support rotation of the base' do
@@ -131,8 +131,8 @@ describe Denavit do
       expect(Denavit.elbow(0, 0, 0) * z).to be_within(1e-6).of x
     end
 
-    it 'should orient the y-axis' do
-      expect(Denavit.elbow(0, 0, 0) * y).to be_within(1e-6).of y
+    it 'should orient the x-axis' do
+      expect(Denavit.elbow(0, 0, 0) * x).to be_within(1e-6).of -z
     end
 
     it 'should have the correct center' do
@@ -141,6 +141,24 @@ describe Denavit do
 
     it 'should support rotation' do
       expect(Denavit.elbow(0, 0, pi2) * origin).to be_within(1e-6).of Vector[FOOT + KNEE, 0, BASE + SHOULDER, 1]
+    end
+  end
+
+  describe :roll do
+    it 'should orient the z-axis' do
+      expect(Denavit.roll(0, 0, 0, 0) * z).to be_within(1e-6).of -y
+    end
+
+    it 'should orient the x-axis' do
+      expect(Denavit.roll(0, 0, 0, 0) * x).to be_within(1e-6).of -z
+    end
+
+    it 'should have the correct center' do
+      expect(Denavit.roll(0, 0, 0, 0) * origin).to be_within(1e-6).of Vector[FOOT + ELBOW, 0, BASE + SHOULDER + KNEE, 1]
+    end
+
+    it 'should support rotation' do
+      expect(Denavit.roll(0, 0, 0, pi2) * x).to be_within(1e-6).of y
     end
   end
 end
