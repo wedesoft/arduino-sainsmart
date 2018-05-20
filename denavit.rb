@@ -53,19 +53,28 @@ class Denavit
     end
 
     def shoulder base_angle, shoulder_angle
-      base(base_angle) * hartenberg(0, shoulder_angle + 0.5 * Math::PI, SHOULDER, Math::PI)
+      base(base_angle) *
+        hartenberg(0, shoulder_angle + 0.5 * Math::PI, SHOULDER, Math::PI)
     end
 
     def elbow base_angle, shoulder_angle, elbow_angle
-      shoulder(base_angle, shoulder_angle) * hartenberg(0, elbow_angle + Math::PI, -KNEE, 0.5 * Math::PI)
+      shoulder(base_angle, shoulder_angle) *
+        hartenberg(0, elbow_angle + Math::PI, -KNEE, 0.5 * Math::PI)
     end
 
     def roll base_angle, shoulder_angle, elbow_angle, roll_angle
-      elbow(base_angle, shoulder_angle, elbow_angle) * hartenberg(ELBOW, roll_angle, 0, 0.5 * Math::PI)
+      elbow(base_angle, shoulder_angle, elbow_angle) *
+        hartenberg(ELBOW, roll_angle, 0, 0.5 * Math::PI)
     end
 
     def pitch base_angle, shoulder_angle, elbow_angle, roll_angle, pitch_angle
-      roll(base_angle, shoulder_angle, elbow_angle, roll_angle) * hartenberg(0, Math::PI + pitch_angle, 0, 0.5 * Math::PI)
+      roll(base_angle, shoulder_angle, elbow_angle, roll_angle) *
+        hartenberg(0, Math::PI + pitch_angle, 0, 0.5 * Math::PI)
+    end
+
+    def wrist base_angle, shoulder_angle, elbow_angle, roll_angle, pitch_angle, wrist_angle
+      pitch(base_angle, shoulder_angle, elbow_angle, roll_angle, pitch_angle) *
+        hartenberg(GRIPPER, 0.5 * Math::PI + wrist_angle, 0, 0)
     end
   end
 end
