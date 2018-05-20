@@ -161,4 +161,22 @@ describe Denavit do
       expect(Denavit.roll(0, 0, 0, pi2) * x).to be_within(1e-6).of y
     end
   end
+
+  describe :pitch do
+    it 'should orient the z-axis' do
+      expect(Denavit.pitch(0, 0, 0, 0, 0) * z).to be_within(1e-6).of x
+    end
+
+    it 'should orient the x-axis' do
+      expect(Denavit.pitch(0, 0, 0, 0, 0) * x).to be_within(1e-6).of z
+    end
+
+    it 'should have the correct center' do
+      expect(Denavit.pitch(0, 0, 0, 0, 0) * origin).to be_within(1e-6).of Vector[FOOT + ELBOW, 0, BASE + SHOULDER + KNEE, 1]
+    end
+
+    it 'should support rotation' do
+      expect(Denavit.pitch(0, 0, 0, 0, pi2) * z).to be_within(1e-6).of z
+    end
+  end
 end

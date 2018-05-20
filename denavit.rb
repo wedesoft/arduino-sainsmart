@@ -63,5 +63,9 @@ class Denavit
     def roll base_angle, shoulder_angle, elbow_angle, roll_angle
       elbow(base_angle, shoulder_angle, elbow_angle) * hartenberg(ELBOW, roll_angle, 0, 0.5 * Math::PI)
     end
+
+    def pitch base_angle, shoulder_angle, elbow_angle, roll_angle, pitch_angle
+      roll(base_angle, shoulder_angle, elbow_angle, roll_angle) * hartenberg(0, Math::PI + pitch_angle, 0, 0.5 * Math::PI)
+    end
   end
 end
