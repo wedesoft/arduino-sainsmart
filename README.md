@@ -30,7 +30,8 @@ The plot shows jerk (blue), acceleration (red), speed (green), and position (mag
 
 [![Sunfounder Rollpaw gripper](rollpaw.jpg)][15]
 
-Altogether the equipment cost is about 200£ (excluding the PC required to communicate with the Arduino board).
+Altogether the equipment cost is about 200£.
+Furthermore you need a PC with a USB port.
 
 ## software build
 
