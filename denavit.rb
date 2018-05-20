@@ -3,6 +3,13 @@ require 'matrix'
 
 # https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters
 class Denavit
+  BASE     = 110
+  FOOT     = 40
+  SHOULDER = 127
+  KNEE     = 26
+  ELBOW    = 133
+  GRIPPER  = 121
+
   class << self
     def rotate angle, i, j
       cos_angle, sin_angle = Math.cos(angle), Math.sin(angle)
@@ -39,6 +46,10 @@ class Denavit
 
     def hartenberg d, theta, r, alpha
       translate_z(d) * rotate_z(theta) * translate_x(r) * rotate_x(alpha)
+    end
+
+    def base angle
+      hartenberg BASE, angle, FOOT, 0.5 * Math::PI
     end
   end
 end
