@@ -48,8 +48,12 @@ class Denavit
       translate_z(d) * rotate_z(theta) * translate_x(r) * rotate_x(alpha)
     end
 
-    def base angle
-      hartenberg BASE, angle, FOOT, 0.5 * Math::PI
+    def base base_angle
+      hartenberg BASE, base_angle, FOOT, 0.5 * Math::PI
+    end
+
+    def shoulder base_angle, shoulder_angle
+      base(base_angle) * hartenberg(0, shoulder_angle + 0.5 * Math::PI, SHOULDER, 0.5 * Math::PI)
     end
   end
 end

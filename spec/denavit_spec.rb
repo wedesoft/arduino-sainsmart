@@ -77,20 +77,21 @@ describe Denavit do
     end
   end
 
-  describe :forward do
-    BASE     = Denavit::BASE
-    FOOT     = Denavit::FOOT
-    SHOULDER = Denavit::SHOULDER
-    KNEE     = Denavit::KNEE
-    ELBOW    = Denavit::ELBOW
-    GRIPPER  = Denavit::GRIPPER
-    let(:pi2)    { Math::PI / 2 }
-    let(:origin) { Vector[0, 0, 0, 1] }
-    let(:x) { Vector[1, 0, 0, 0] }
-    let(:y) { Vector[0, 1, 0, 0] }
-    let(:z) { Vector[0, 0, 1, 0] }
+  BASE     = Denavit::BASE
+  FOOT     = Denavit::FOOT
+  SHOULDER = Denavit::SHOULDER
+  KNEE     = Denavit::KNEE
+  ELBOW    = Denavit::ELBOW
+  GRIPPER  = Denavit::GRIPPER
 
-    it 'should have the correct base position' do
+  let(:pi2)    { Math::PI / 2 }
+  let(:origin) { Vector[0, 0, 0, 1] }
+  let(:x) { Vector[1, 0, 0, 0] }
+  let(:y) { Vector[0, 1, 0, 0] }
+  let(:z) { Vector[0, 0, 1, 0] }
+
+  describe :base do
+    it 'should have the correct center' do
       expect(Denavit.base(0) * origin).to eq Vector[FOOT, 0, BASE, 1]
     end
 
@@ -98,8 +99,26 @@ describe Denavit do
       expect(Denavit.base(0) * z).to be_within(1e-6).of -y
     end
 
+    it 'should point the shoulder upwards' do
+      expect(Denavit.base(0) * y).to be_within(1e-6).of z
+    end
+
     it 'should support rotation of the base' do
       expect(Denavit.base(pi2) * origin).to be_within(1e-6).of Vector[0, FOOT, BASE, 1]
+    end
+  end
+
+  describe :shoulder do
+    it 'should orient the z-axis' do
+      expect(Denavit.shoulder(0, -pi2) * z).to be_within(1e-6).of -z
+    end
+
+    it 'should have the correct x-axis' do
+      expect(Denavit.shoulder(0, -pi2) * x).to be_within(1e-6).of x
+    end
+
+    it 'should have the correct center' do
+      expect(Denavit.shoulder(0, 0) * origin).to be_within(1e-6).of Vector[FOOT, 0, BASE + SHOULDER, 1]
     end
   end
 end
