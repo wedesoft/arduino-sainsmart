@@ -53,7 +53,11 @@ class Denavit
     end
 
     def shoulder base_angle, shoulder_angle
-      base(base_angle) * hartenberg(0, shoulder_angle + 0.5 * Math::PI, SHOULDER, 0.5 * Math::PI)
+      base(base_angle) * hartenberg(0, shoulder_angle + 0.5 * Math::PI, SHOULDER, Math::PI)
+    end
+
+    def elbow base_angle, shoulder_angle, elbow_angle
+      shoulder(base_angle, shoulder_angle) * hartenberg(0, elbow_angle + Math::PI, -KNEE, 0.5 * Math::PI)
     end
   end
 end

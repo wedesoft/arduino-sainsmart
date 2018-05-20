@@ -3,7 +3,7 @@ require_relative '../denavit'
 
 class Vector
   def abs
-    Math.sqrt inject { |s, x| s + x ** 2 }
+    Math.sqrt inject(0) { |s, x| s + x ** 2 }
   end
 end
 
@@ -110,7 +110,7 @@ describe Denavit do
 
   describe :shoulder do
     it 'should orient the z-axis' do
-      expect(Denavit.shoulder(0, -pi2) * z).to be_within(1e-6).of -z
+      expect(Denavit.shoulder(0, -pi2) * z).to be_within(1e-6).of y
     end
 
     it 'should have the correct x-axis' do
@@ -119,6 +119,28 @@ describe Denavit do
 
     it 'should have the correct center' do
       expect(Denavit.shoulder(0, 0) * origin).to be_within(1e-6).of Vector[FOOT, 0, BASE + SHOULDER, 1]
+    end
+
+    it 'should support rotation' do
+      expect(Denavit.shoulder(0, -pi2) * origin).to be_within(1e-6).of Vector[FOOT + SHOULDER, 0, BASE, 1]
+    end
+  end
+
+  describe :elbow do
+    it 'should orient the z-axis' do
+      expect(Denavit.elbow(0, 0, 0) * z).to be_within(1e-6).of x
+    end
+
+    it 'should orient the y-axis' do
+      expect(Denavit.elbow(0, 0, 0) * y).to be_within(1e-6).of y
+    end
+
+    it 'should have the correct center' do
+      expect(Denavit.elbow(0, 0, 0) * origin).to be_within(1e-6).of Vector[FOOT, 0, BASE + SHOULDER + KNEE, 1]
+    end
+
+    it 'should support rotation' do
+      expect(Denavit.elbow(0, 0, pi2) * origin).to be_within(1e-6).of Vector[FOOT + KNEE, 0, BASE + SHOULDER, 1]
     end
   end
 end
