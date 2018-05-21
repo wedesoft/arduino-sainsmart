@@ -209,8 +209,8 @@ describe Kinematics do
 
   describe :forward do
     it 'should invoke the complete kinematic chain' do
-      expect(Kinematics).to receive(:wrist).with 1, 2, 3, 4, 5, 6
-      Kinematics.forward Vector[1, 2, 3, 4, 5, 6]
+      expect(Kinematics).to receive(:wrist).with 2, 3, 8, 7, 11, 13
+      Kinematics.forward Vector[2, 3, 5, 7, 11, 13]
     end
   end
 
@@ -236,7 +236,7 @@ describe Kinematics do
     end
 
     it 'should determine the shoulder angle' do
-      expect(round_trip(Vector[0, -pi2, 0, 0, 0, 0])).to be_within(1e-6).of Vector[0, -pi2, 0, 0, 0, 0]
+      expect(round_trip(Vector[0, -pi2, pi2, 0, 0, 0])).to be_within(1e-6).of Vector[0, -pi2, pi2, 0, 0, 0]
     end
   end
 end

@@ -1,6 +1,6 @@
 # TODO
 
-* inverse kinematic, elbow angle is relative to base
+* inverse kinematic
 * synchronous point-to-point for samples of cartesian path (fly-by-point)
 * off-board path planning
 * speech control

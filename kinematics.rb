@@ -77,8 +77,8 @@ class Kinematics
         hartenberg(GRIPPER, 0.5 * Math::PI + wrist_angle, 0, 0)
     end
 
-    def forward angles
-      wrist *angles
+    def forward servo_angle
+      wrist servo_angle[0], servo_angle[1], servo_angle[1] + servo_angle[2], *servo_angle[3...6]
     end
 
     def inverse matrix
@@ -88,10 +88,10 @@ class Kinematics
       base_angle = Math.atan2 wrist_position[1], wrist_position[0]
       arm_vector = wrist_position - Vector[Math.cos(base_angle) * FOOT, Math.sin(base_angle) * FOOT, BASE, 1]
       arm_elevation = Math.atan2 arm_vector[2], Math.hypot(arm_vector[0], arm_vector[1])
-      elbow_length = Math.hypot ELBOW, KNEE
-      elbow_elevation = Math.acos((arm_vector.norm ** 2 + SHOULDER ** 2 - elbow_length ** 2) / (2 * arm_vector.norm * SHOULDER))
+      elbow_knee_length = Math.hypot ELBOW, KNEE
+      elbow_elevation = Math.acos((arm_vector.norm ** 2 + SHOULDER ** 2 - elbow_knee_length ** 2) / (2 * arm_vector.norm * SHOULDER))
       shoulder_angle = arm_elevation + elbow_elevation - 0.5 * Math::PI
-      Vector[base_angle, shoulder_angle, 0, 0, 0, 0]
+      Vector[base_angle, shoulder_angle, -shoulder_angle, 0, 0, 0]
     end
   end
 end
