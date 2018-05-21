@@ -238,5 +238,9 @@ describe Kinematics do
     it 'should determine the shoulder angle' do
       expect(round_trip(Vector[0, -pi2, pi2, 0, 0, 0])).to be_within(1e-6).of Vector[0, -pi2, pi2, 0, 0, 0]
     end
+
+    it 'should determine the elbow angle' do
+      expect(round_trip(Vector[0, 0, pi4, 0, 0, 0])).to be_within(1e-6).of Vector[0, 0, pi4, 0, 0, 0]
+    end
   end
 end

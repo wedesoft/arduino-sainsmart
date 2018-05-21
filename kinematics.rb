@@ -3,12 +3,12 @@ require 'matrix'
 
 # https://en.wikipedia.org/wiki/Kinematics%E2%80%93Hartenberg_parameters
 class Kinematics
-  BASE     = 110
-  FOOT     = 40
-  SHOULDER = 127
-  KNEE     = 26
-  ELBOW    = 133
-  GRIPPER  = 121
+  BASE     = 110.0
+  FOOT     =  40.0
+  SHOULDER = 127.0
+  KNEE     =  26.0
+  ELBOW    = 133.0
+  GRIPPER  = 121.0
 
   class << self
     def rotate angle, i, j
@@ -81,6 +81,10 @@ class Kinematics
       wrist servo_angle[0], servo_angle[1], servo_angle[1] + servo_angle[2], *servo_angle[3...6]
     end
 
+    def cosinus_theorem a, b, c
+      Math.acos (b ** 2 + c ** 2 - a ** 2) / (2 * b * c)
+    end
+
     def inverse matrix
       translation = matrix.column_vectors[3]
       rotation = matrix.column_vectors[2]
@@ -89,9 +93,10 @@ class Kinematics
       arm_vector = wrist_position - Vector[Math.cos(base_angle) * FOOT, Math.sin(base_angle) * FOOT, BASE, 1]
       arm_elevation = Math.atan2 arm_vector[2], Math.hypot(arm_vector[0], arm_vector[1])
       elbow_knee_length = Math.hypot ELBOW, KNEE
-      elbow_elevation = Math.acos((arm_vector.norm ** 2 + SHOULDER ** 2 - elbow_knee_length ** 2) / (2 * arm_vector.norm * SHOULDER))
+      elbow_elevation = cosinus_theorem elbow_knee_length, arm_vector.norm, SHOULDER
       shoulder_angle = arm_elevation + elbow_elevation - 0.5 * Math::PI
-      Vector[base_angle, shoulder_angle, -shoulder_angle, 0, 0, 0]
+      elbow_angle = 0.5 * Math::PI - cosinus_theorem(arm_vector.norm, SHOULDER, elbow_knee_length) + Math.atan(KNEE / ELBOW)
+      Vector[base_angle, shoulder_angle, elbow_angle - shoulder_angle, 0, 0, 0]
     end
   end
 end
