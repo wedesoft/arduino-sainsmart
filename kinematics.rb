@@ -1,8 +1,8 @@
 require 'matrix'
 
 
-# https://en.wikipedia.org/wiki/Denavit%E2%80%93Hartenberg_parameters
-class Denavit
+# https://en.wikipedia.org/wiki/Kinematics%E2%80%93Hartenberg_parameters
+class Kinematics
   BASE     = 110
   FOOT     = 40
   SHOULDER = 127
@@ -75,6 +75,14 @@ class Denavit
     def wrist base_angle, shoulder_angle, elbow_angle, roll_angle, pitch_angle, wrist_angle
       pitch(base_angle, shoulder_angle, elbow_angle, roll_angle, pitch_angle) *
         hartenberg(GRIPPER, 0.5 * Math::PI + wrist_angle, 0, 0)
+    end
+
+    def forward base_angle, shoulder_angle, elbow_angle, roll_angle, pitch_angle, wrist_angle
+      wrist base_angle, shoulder_angle, elbow_angle, roll_angle, pitch_angle, wrist_angle
+    end
+
+    def inverse matrix
+      Vector[0, 0, 0, 0, 0, 0]
     end
   end
 end
