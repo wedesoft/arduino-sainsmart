@@ -85,6 +85,7 @@ describe Kinematics do
   GRIPPER  = Kinematics::GRIPPER
 
   let(:pi2)    { Math::PI / 2 }
+  let(:pi4)    { Math::PI / 4 }
   let(:origin) { Vector[0, 0, 0, 1] }
   let(:x) { Vector[1, 0, 0, 0] }
   let(:y) { Vector[0, 1, 0, 0] }
@@ -219,7 +220,19 @@ describe Kinematics do
     end
 
     it 'should work for the neutral position' do
-      expect(round_trip(Vector[0, 0, 0, 0, 0, 0])).to eq Vector[0, 0, 0, 0, 0, 0]
+      expect(round_trip(Vector[0, 0, 0, 0, 0, 0])).to be_within(1e-6).of Vector[0, 0, 0, 0, 0, 0]
+    end
+
+    it 'should determine rotation of base joint' do
+      expect(round_trip(Vector[pi2, 0, 0, 0, 0, 0])).to be_within(1e-6).of Vector[pi2, 0, 0, 0, 0, 0]
+    end
+
+    it 'should determine the base joint angle when the gripper is orthogonal to the elbow' do
+      expect(round_trip(Vector[pi2, 0, 0, pi2, pi2, 0])[0]).to be_within(1e-6).of pi2
+    end
+
+    it 'should determine the base joint when the gripper is tilted' do
+      expect(round_trip(Vector[0, 0, 0, pi2, pi4, 0])[0]).to be_within(1e-6).of 0
     end
   end
 end

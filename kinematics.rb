@@ -82,7 +82,10 @@ class Kinematics
     end
 
     def inverse matrix
-      Vector[0, 0, 0, 0, 0, 0]
+      translation = matrix.column_vectors[3]
+      rotation = matrix.column_vectors[2]
+      base_angle = Math.atan2 translation[1] - rotation[1] * GRIPPER, translation[0] - rotation[0] * GRIPPER
+      Vector[base_angle, 0, 0, 0, 0, 0]
     end
   end
 end
