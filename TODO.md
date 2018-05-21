@@ -1,9 +1,8 @@
 # TODO
 
-* forward kinematics with tests
+* inverse kinematic, elbow angle is relative to base
 * synchronous point-to-point for samples of cartesian path (fly-by-point)
 * off-board path planning
-* inverse kinematic
 * speech control
 * audio output
 * machine vision

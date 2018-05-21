@@ -84,8 +84,14 @@ class Kinematics
     def inverse matrix
       translation = matrix.column_vectors[3]
       rotation = matrix.column_vectors[2]
-      base_angle = Math.atan2 translation[1] - rotation[1] * GRIPPER, translation[0] - rotation[0] * GRIPPER
-      Vector[base_angle, 0, 0, 0, 0, 0]
+      wrist_position = translation - rotation * GRIPPER
+      base_angle = Math.atan2 wrist_position[1], wrist_position[0]
+      arm_vector = wrist_position - Vector[Math.cos(base_angle) * FOOT, Math.sin(base_angle) * FOOT, BASE, 1]
+      arm_elevation = Math.atan2 arm_vector[2], Math.hypot(arm_vector[0], arm_vector[1])
+      elbow_length = Math.hypot ELBOW, KNEE
+      elbow_elevation = Math.acos((arm_vector.norm ** 2 + SHOULDER ** 2 - elbow_length ** 2) / (2 * arm_vector.norm * SHOULDER))
+      shoulder_angle = arm_elevation + elbow_elevation - 0.5 * Math::PI
+      Vector[base_angle, shoulder_angle, 0, 0, 0, 0]
     end
   end
 end
