@@ -187,28 +187,39 @@ describe Kinematics do
     end
   end
 
-  describe :forward do
+  describe :wrist do
     it 'should orient the z-axis' do
-      expect(Kinematics.forward(0, 0, 0, 0, 0, 0) * z).to be_within(1e-6).of x
+      expect(Kinematics.wrist(0, 0, 0, 0, 0, 0) * z).to be_within(1e-6).of x
     end
 
     it 'should orient the x-axis along the way the gripper opens' do
-      expect(Kinematics.forward(0, 0, 0, 0, 0, 0) * x).to be_within(1e-6).of -y
+      expect(Kinematics.wrist(0, 0, 0, 0, 0, 0) * x).to be_within(1e-6).of -y
     end
 
     it 'should have the correct center' do
-      expect(Kinematics.forward(0, 0, 0, 0, 0, 0) * origin).to be_within(1e-6).
+      expect(Kinematics.wrist(0, 0, 0, 0, 0, 0) * origin).to be_within(1e-6).
         of Vector[FOOT + ELBOW + GRIPPER, 0, BASE + SHOULDER + KNEE, 1]
     end
 
     it 'should support rotation' do
-      expect(Kinematics.forward(0, 0, 0, 0, 0, pi2) * x).to be_within(1e-6).of -z
+      expect(Kinematics.wrist(0, 0, 0, 0, 0, pi2) * x).to be_within(1e-6).of -z
+    end
+  end
+
+  describe :forward do
+    it 'should invoke the complete kinematic chain' do
+      expect(Kinematics).to receive(:wrist).with 1, 2, 3, 4, 5, 6
+      Kinematics.forward Vector[1, 2, 3, 4, 5, 6]
     end
   end
 
   describe :inverse_kinematics do
+    def round_trip *args
+      Kinematics.inverse Kinematics.forward(*args)
+    end
+
     it 'should work for the neutral position' do
-      expect(Kinematics.inverse(Kinematics.forward(0, 0, 0, 0, 0, 0))).to eq Vector[0, 0, 0, 0, 0, 0]
+      expect(round_trip(Vector[0, 0, 0, 0, 0, 0])).to eq Vector[0, 0, 0, 0, 0, 0]
     end
   end
 end

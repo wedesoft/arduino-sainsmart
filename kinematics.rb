@@ -77,8 +77,8 @@ class Kinematics
         hartenberg(GRIPPER, 0.5 * Math::PI + wrist_angle, 0, 0)
     end
 
-    def forward base_angle, shoulder_angle, elbow_angle, roll_angle, pitch_angle, wrist_angle
-      wrist base_angle, shoulder_angle, elbow_angle, roll_angle, pitch_angle, wrist_angle
+    def forward angles
+      wrist *angles
     end
 
     def inverse matrix
