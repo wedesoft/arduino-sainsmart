@@ -14,59 +14,6 @@ class Matrix
 end
 
 describe Kinematics do
-  describe :rotate_x do
-    it 'no rotation should generate identity matrix' do
-      expect(Kinematics.rotate_x(0)).to eq Matrix.identity(4)
-    end
-
-    it 'should perform rotation around x-axis' do
-      expect(Kinematics.rotate_x(0.5 * Math::PI)).to be_within(1e-6).
-        of Matrix[[1, 0, 0, 0], [0, 0, -1, 0], [0, 1, 0, 0], [0, 0, 0, 1]]
-    end
-  end
-
-  describe :rotate_y do
-    it 'no rotation should generate identity matrix' do
-      expect(Kinematics.rotate_y(0)).to eq Matrix.identity(4)
-    end
-
-    it 'should perform rotation around y-axis' do
-      expect(Kinematics.rotate_y(0.5 * Math::PI)).to be_within(1e-6).
-        of Matrix[[0, 0, 1, 0], [0, 1, 0, 0], [-1, 0, 0, 0], [0, 0, 0, 1]]
-    end
-  end
-
-  describe :rotate_z do
-    it 'no rotation should generate the identity matrix' do
-      expect(Kinematics.rotate_z(0)).to eq Matrix.identity(4)
-    end
-
-    it 'should perform rotation around z-axis' do
-      expect(Kinematics.rotate_z(0.5 * Math::PI)).to be_within(1e-6).
-        of Matrix[[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
-    end
-  end
-
-  describe :translate_x do
-    it 'no translation should generate the identity matrix' do
-      expect(Kinematics.translate_x(0)).to eq Matrix.identity(4)
-    end
-
-    it 'should perform translation along x-axis' do
-      expect(Kinematics.translate_x(1)).to eq Matrix[[1, 0, 0, 1], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
-    end
-  end
-
-  describe :translate_z do
-    it 'no translation should generate the identity matrix' do
-      expect(Kinematics.translate_z(0)).to eq Matrix.identity(4)
-    end
-
-    it 'should perform translation along z-axis' do
-      expect(Kinematics.translate_z(1)).to eq Matrix[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 1], [0, 0, 0, 1]]
-    end
-  end
-
   describe :hartenberg do
     it 'zero parameters should generate identity matrix' do
       expect(Kinematics.hartenberg(0, 0, 0, 0)).to eq Matrix.identity(4)
@@ -270,5 +217,8 @@ describe Kinematics do
       expect(round_trip(Vector[0, 0, 0, pi4, -pi2, 0])[4]).to be_within(1e-6).of -pi2
     end
 
+    xit 'should determine the wrist angle' do
+      expect(round_trip(Vector[0, 0, 0, pi4, pi4, pi4])[5]).to be_within(1e-6).of pi4
+    end
   end
 end

@@ -1,4 +1,4 @@
-require 'matrix'
+require_relative 'matrix_ext'
 
 
 # https://en.wikipedia.org/wiki/Kinematics%E2%80%93Hartenberg_parameters
@@ -11,45 +11,8 @@ class Kinematics
   GRIPPER  = 121.0
 
   class << self
-    def rotate angle, i, j
-      cos_angle, sin_angle = Math.cos(angle), Math.sin(angle)
-      arr = Matrix.identity(4).to_a
-      arr[i][i], arr[i][j] = cos_angle, -sin_angle
-      arr[j][i], arr[j][j] = sin_angle,  cos_angle
-      Matrix[*arr]
-    end
-
-    def rotate_x angle
-      rotate angle, 1, 2
-    end
-
-    def rotate_y angle
-      rotate angle, 2, 0
-    end
-
-    def rotate_z angle
-      rotate angle, 0, 1
-    end
-
-    def translate distance, i
-      arr = Matrix.identity(4).to_a
-      arr[i][3] = distance
-      Matrix[*arr]
-    end
-
-    def translate_x distance
-      translate distance, 0
-      arr = Matrix.identity(4).to_a
-      arr[0][3] = distance
-      Matrix[*arr]
-    end
-
-    def translate_z distance
-      translate distance, 2
-    end
-
     def hartenberg d, theta, r, alpha
-      translate_z(d) * rotate_z(theta) * translate_x(r) * rotate_x(alpha)
+      Matrix.translate_z(d) * Matrix.rotate_z(theta) * Matrix.translate_x(r) * Matrix.rotate_x(alpha)
     end
 
     def base base_angle
@@ -91,8 +54,8 @@ class Kinematics
 
     def inverse matrix
       translation = matrix * Vector[0, 0, 0, 1]
-      rotation = matrix * Vector[0, 0, 1, 0]
-      wrist_position = translation - rotation * GRIPPER
+      orientation = matrix.z
+      wrist_position = translation - orientation * GRIPPER
       base_angle = Math.atan2 wrist_position[1], wrist_position[0]
       arm_vector = wrist_position - Vector[Math.cos(base_angle) * FOOT, Math.sin(base_angle) * FOOT, BASE, 1]
       arm_elevation = Math.atan2 arm_vector[2], Math.hypot(arm_vector[0], arm_vector[1])
@@ -100,8 +63,8 @@ class Kinematics
       elbow_elevation = cosinus_theorem elbow_knee_length, arm_vector.norm, SHOULDER
       shoulder_angle = arm_elevation + elbow_elevation - 0.5 * Math::PI
       elbow_angle = 0.5 * Math::PI - cosinus_theorem(arm_vector.norm, SHOULDER, elbow_knee_length) + Math.atan(KNEE / ELBOW)
-      head_matrix = rotate_y(shoulder_angle - elbow_angle) * rotate_z(-base_angle) * matrix
-      gripper_vector = head_matrix * Vector[0, 0, 1, 0]
+      head_matrix = Matrix.rotate_y(shoulder_angle - elbow_angle) * Matrix.rotate_z(-base_angle) * matrix
+      gripper_vector = head_matrix.z
       pitch_angle = Math.atan2 Math.hypot(gripper_vector[1], gripper_vector[2]), gripper_vector[0]
       if Math.hypot(gripper_vector[1], gripper_vector[2]) < 1e-5
         roll_angle = 0
