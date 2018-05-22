@@ -8,6 +8,7 @@ class Kinematics
   SHOULDER = 127.0
   KNEE     =  26.0
   ELBOW    = 133.0
+  SPAN     = Math.hypot ELBOW, KNEE
   GRIPPER  = 121.0
 
   class << self
@@ -53,15 +54,13 @@ class Kinematics
     end
 
     def inverse matrix
-      orientation = matrix.z
-      wrist_position = matrix.translation - orientation * GRIPPER
+      wrist_position = matrix.translation - matrix.z * GRIPPER
       base_angle = Math.atan2 wrist_position[1], wrist_position[0]
       arm_vector = wrist_position - Vector[Math.cos(base_angle) * FOOT, Math.sin(base_angle) * FOOT, BASE, 1]
       arm_elevation = Math.atan2 arm_vector[2], Math.hypot(arm_vector[0], arm_vector[1])
-      elbow_knee_length = Math.hypot ELBOW, KNEE
-      elbow_elevation = cosinus_theorem elbow_knee_length, arm_vector.norm, SHOULDER
+      elbow_elevation = cosinus_theorem SPAN, arm_vector.norm, SHOULDER
       shoulder_angle = arm_elevation + elbow_elevation - 0.5 * Math::PI
-      elbow_angle = 0.5 * Math::PI - cosinus_theorem(arm_vector.norm, SHOULDER, elbow_knee_length) + Math.atan(KNEE / ELBOW)
+      elbow_angle = 0.5 * Math::PI - cosinus_theorem(arm_vector.norm, SHOULDER, SPAN) + Math.atan(KNEE / ELBOW)
       head_matrix = Matrix.rotate_y(shoulder_angle - elbow_angle) * Matrix.rotate_z(-base_angle) * matrix
       gripper_vector = head_matrix.z
       pitch_angle = Math.atan2 Math.hypot(gripper_vector[1], gripper_vector[2]), gripper_vector[0]
@@ -76,7 +75,7 @@ class Kinematics
       adapter_matrix = Matrix[[0, -1, 0, 0], [0, 0, -1, 0], [1, 0, 0, 0], [0, 0, 0, 0]]
       wrist_matrix = Matrix.rotate_x(-pitch_angle) * Matrix.rotate_z(-roll_angle) * adapter_matrix * head_matrix
       wrist_vector = wrist_matrix.x
-      wrist_angle = Math.atan2(wrist_vector[1], wrist_vector[0])
+      wrist_angle = Math.atan2 wrist_vector[1], wrist_vector[0]
       Vector[base_angle, shoulder_angle, elbow_angle - shoulder_angle, roll_angle, pitch_angle, wrist_angle]
     end
   end
