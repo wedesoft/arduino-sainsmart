@@ -23,6 +23,10 @@ class Kinematics
       rotate angle, 1, 2
     end
 
+    def rotate_y angle
+      rotate angle, 2, 0
+    end
+
     def rotate_z angle
       rotate angle, 0, 1
     end
@@ -96,8 +100,14 @@ class Kinematics
       elbow_elevation = cosinus_theorem elbow_knee_length, arm_vector.norm, SHOULDER
       shoulder_angle = arm_elevation + elbow_elevation - 0.5 * Math::PI
       elbow_angle = 0.5 * Math::PI - cosinus_theorem(arm_vector.norm, SHOULDER, elbow_knee_length) + Math.atan(KNEE / ELBOW)
-      roll_angle = -Math.atan2(matrix[2, 0], -matrix[1, 0])
-      Vector[base_angle, shoulder_angle, elbow_angle - shoulder_angle, 0, 0, 0]
+      head_matrix = rotate_y(shoulder_angle - elbow_angle) * rotate_z(-base_angle) * matrix
+      gripper_vector = head_matrix * Vector[0, 0, 1, 0]
+      if Math.hypot(gripper_vector[1], gripper_vector[2]) < 1e-5
+        roll_angle = 0
+      else
+        roll_angle = Math.atan2 -gripper_vector[1], gripper_vector[2]
+      end
+      Vector[base_angle, shoulder_angle, elbow_angle - shoulder_angle, roll_angle, 0, 0]
     end
   end
 end

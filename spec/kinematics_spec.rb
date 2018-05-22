@@ -14,17 +14,6 @@ class Matrix
 end
 
 describe Kinematics do
-  describe :rotate_z do
-    it 'no rotation should generate the identity matrix' do
-      expect(Kinematics.rotate_z(0)).to eq Matrix.identity(4)
-    end
-
-    it 'should perform rotation around z-axis' do
-      expect(Kinematics.rotate_z(0.5 * Math::PI)).to be_within(1e-6).
-        of Matrix[[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
-    end
-  end
-
   describe :rotate_x do
     it 'no rotation should generate identity matrix' do
       expect(Kinematics.rotate_x(0)).to eq Matrix.identity(4)
@@ -33,6 +22,28 @@ describe Kinematics do
     it 'should perform rotation around x-axis' do
       expect(Kinematics.rotate_x(0.5 * Math::PI)).to be_within(1e-6).
         of Matrix[[1, 0, 0, 0], [0, 0, -1, 0], [0, 1, 0, 0], [0, 0, 0, 1]]
+    end
+  end
+
+  describe :rotate_y do
+    it 'no rotation should generate identity matrix' do
+      expect(Kinematics.rotate_y(0)).to eq Matrix.identity(4)
+    end
+
+    it 'should perform rotation around y-axis' do
+      expect(Kinematics.rotate_y(0.5 * Math::PI)).to be_within(1e-6).
+        of Matrix[[0, 0, 1, 0], [0, 1, 0, 0], [-1, 0, 0, 0], [0, 0, 0, 1]]
+    end
+  end
+
+  describe :rotate_z do
+    it 'no rotation should generate the identity matrix' do
+      expect(Kinematics.rotate_z(0)).to eq Matrix.identity(4)
+    end
+
+    it 'should perform rotation around z-axis' do
+      expect(Kinematics.rotate_z(0.5 * Math::PI)).to be_within(1e-6).
+        of Matrix[[0, -1, 0, 0], [1, 0, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
     end
   end
 
@@ -243,8 +254,8 @@ describe Kinematics do
       expect(round_trip(Vector[0, 0, pi4, 0, 0, 0])).to be_within(1e-6).of Vector[0, 0, pi4, 0, 0, 0]
     end
 
-    xit 'should determine the roll angle' do
-      expect(round_trip(Vector[0, 0, 0, pi2, 0, 0])).to be_within(1e-6).of Vector[0, 0, 0, pi2, 0, 0]
+    it 'should determine the roll angle' do
+      expect(round_trip(Vector[0, 0, 0, pi4, pi2, 0])[3]).to be_within(1e-6).of pi4
     end
   end
 end
