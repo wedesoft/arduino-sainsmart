@@ -53,9 +53,8 @@ class Kinematics
     end
 
     def inverse matrix
-      translation = matrix * Vector[0, 0, 0, 1]
       orientation = matrix.z
-      wrist_position = translation - orientation * GRIPPER
+      wrist_position = matrix.translation - orientation * GRIPPER
       base_angle = Math.atan2 wrist_position[1], wrist_position[0]
       arm_vector = wrist_position - Vector[Math.cos(base_angle) * FOOT, Math.sin(base_angle) * FOOT, BASE, 1]
       arm_elevation = Math.atan2 arm_vector[2], Math.hypot(arm_vector[0], arm_vector[1])
@@ -74,7 +73,11 @@ class Kinematics
         roll_angle = Math.atan2 gripper_vector[1], -gripper_vector[2]
         pitch_angle = -pitch_angle
       end
-      Vector[base_angle, shoulder_angle, elbow_angle - shoulder_angle, roll_angle, pitch_angle, 0]
+      adapter_matrix = Matrix[[0, -1, 0, 0], [0, 0, -1, 0], [1, 0, 0, 0], [0, 0, 0, 0]]
+      wrist_matrix = Matrix.rotate_x(-pitch_angle) * Matrix.rotate_z(-roll_angle) * adapter_matrix * head_matrix
+      wrist_vector = wrist_matrix.x
+      wrist_angle = Math.atan2(wrist_vector[1], wrist_vector[0])
+      Vector[base_angle, shoulder_angle, elbow_angle - shoulder_angle, roll_angle, pitch_angle, wrist_angle]
     end
   end
 end

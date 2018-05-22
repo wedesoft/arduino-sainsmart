@@ -217,8 +217,8 @@ describe Kinematics do
       expect(round_trip(Vector[0, 0, 0, pi4, -pi2, 0])[4]).to be_within(1e-6).of -pi2
     end
 
-    xit 'should determine the wrist angle' do
-      expect(round_trip(Vector[0, 0, 0, pi4, pi4, pi4])[5]).to be_within(1e-6).of pi4
+    it 'should determine the wrist angle' do
+      expect(round_trip(Vector[0.6, 0.5, 0.4, 0.3, 0.2, 0.1])[5]).to be_within(1e-6).of 0.1
     end
   end
 end
