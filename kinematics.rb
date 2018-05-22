@@ -102,14 +102,16 @@ class Kinematics
       elbow_angle = 0.5 * Math::PI - cosinus_theorem(arm_vector.norm, SHOULDER, elbow_knee_length) + Math.atan(KNEE / ELBOW)
       head_matrix = rotate_y(shoulder_angle - elbow_angle) * rotate_z(-base_angle) * matrix
       gripper_vector = head_matrix * Vector[0, 0, 1, 0]
+      pitch_angle = Math.atan2 Math.hypot(gripper_vector[1], gripper_vector[2]), gripper_vector[0]
       if Math.hypot(gripper_vector[1], gripper_vector[2]) < 1e-5
         roll_angle = 0
       elsif gripper_vector[2] >= 0
         roll_angle = Math.atan2 -gripper_vector[1], gripper_vector[2]
       else
         roll_angle = Math.atan2 gripper_vector[1], -gripper_vector[2]
+        pitch_angle = -pitch_angle
       end
-      Vector[base_angle, shoulder_angle, elbow_angle - shoulder_angle, roll_angle, 0, 0]
+      Vector[base_angle, shoulder_angle, elbow_angle - shoulder_angle, roll_angle, pitch_angle, 0]
     end
   end
 end

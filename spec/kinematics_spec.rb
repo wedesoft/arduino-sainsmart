@@ -261,5 +261,14 @@ describe Kinematics do
     it 'should restrict the roll angle' do
       expect(round_trip(Vector[0, 0, 0, pi4, -pi2, 0])[3]).to be_within(1e-6).of pi4
     end
+
+    it 'should determine the pitch angle' do
+      expect(round_trip(Vector[0, 0, 0, pi4, pi2, 0])[4]).to be_within(1e-6).of pi2
+    end
+
+    it 'should support negative pitch angles' do
+      expect(round_trip(Vector[0, 0, 0, pi4, -pi2, 0])[4]).to be_within(1e-6).of -pi2
+    end
+
   end
 end
