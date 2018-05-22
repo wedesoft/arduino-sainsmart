@@ -104,8 +104,10 @@ class Kinematics
       gripper_vector = head_matrix * Vector[0, 0, 1, 0]
       if Math.hypot(gripper_vector[1], gripper_vector[2]) < 1e-5
         roll_angle = 0
-      else
+      elsif gripper_vector[2] >= 0
         roll_angle = Math.atan2 -gripper_vector[1], gripper_vector[2]
+      else
+        roll_angle = Math.atan2 gripper_vector[1], -gripper_vector[2]
       end
       Vector[base_angle, shoulder_angle, elbow_angle - shoulder_angle, roll_angle, 0, 0]
     end

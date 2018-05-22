@@ -257,5 +257,9 @@ describe Kinematics do
     it 'should determine the roll angle' do
       expect(round_trip(Vector[0, 0, 0, pi4, pi2, 0])[3]).to be_within(1e-6).of pi4
     end
+
+    it 'should restrict the roll angle' do
+      expect(round_trip(Vector[0, 0, 0, pi4, -pi2, 0])[3]).to be_within(1e-6).of pi4
+    end
   end
 end
