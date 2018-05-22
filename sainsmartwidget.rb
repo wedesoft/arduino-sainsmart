@@ -1,6 +1,8 @@
 require 'Qt4'
 require_relative 'joystick'
 require_relative 'ui_sainsmartwidget'
+require_relative 'kinematics'
+
 
 class SainsmartWidget < Qt::Widget
   DEADZONE = 6000
@@ -205,12 +207,12 @@ class SainsmartWidget < Qt::Widget
     @joystick.update
     axis = @joystick.axis
     button_a = @joystick.button[0]
-    unless button_a
-      move_slider @ui.baseSlider    , +1, axis[0], elapsed
-      move_slider @ui.shoulderSlider, -1, axis[1], elapsed
-    else
+    if button_a
       move_slider @ui.wristSlider, -1, axis[0], elapsed
       move_slider @ui.pitchSlider, -1, axis[1], elapsed
+    else
+      move_slider @ui.baseSlider    , +1, axis[0], elapsed
+      move_slider @ui.shoulderSlider, -1, axis[1], elapsed
     end
     move_slider @ui.elbowSlider, +1, axis[4], elapsed
     move_slider @ui.rollSlider , -1, axis[3], elapsed

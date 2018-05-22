@@ -1,8 +1,8 @@
 # TODO
 
-* inverse kinematic
-* synchronous point-to-point for samples of cartesian path (fly-by-point)
-* off-board path planning
+* cartesian input with game controller
+* teach points on computer (create program on stdout)
+* remove GUI
 * speech control
 * audio output
 * machine vision
