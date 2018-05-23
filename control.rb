@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require_relative 'matrix_ext'
 require_relative 'joystick'
 require_relative 'serial_client'
@@ -47,5 +48,13 @@ class Control
 
   def quit?
     @joystick.button[0] || false
+  end
+end
+
+
+if __FILE__ == $0
+  control = Control.new
+  while not control.quit?
+    control.update
   end
 end
