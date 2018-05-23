@@ -44,4 +44,8 @@ class Control
       @serial_client.target *target
     end
   end
+
+  def quit?
+    @joystick.button[0] || false
+  end
 end

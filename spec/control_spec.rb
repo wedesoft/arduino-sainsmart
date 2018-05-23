@@ -13,6 +13,7 @@ describe Control do
     allow(Joystick).to receive(:new).and_return joystick
     allow(joystick).to receive :update
     allow(joystick).to receive(:axis).and_return({})
+    allow(joystick).to receive(:button).and_return({})
     allow(SerialClient).to receive(:new).and_return serial_client
     allow(serial_client).to receive :target
     allow(serial_client).to receive(:ready?).and_return true
@@ -139,6 +140,17 @@ describe Control do
       expect(serial_client).to receive(:time_required).with(*target).and_return 9
       expect(serial_client).to_not receive :target
       control.update
+    end
+  end
+
+  describe :quit? do
+    it 'should return false by default' do
+      expect(control.quit?).to be false
+    end
+
+    it 'should return true if the A button is pressed' do
+      expect(joystick).to receive(:button).and_return({0 => true})
+      expect(control.quit?).to be true
     end
   end
 end
