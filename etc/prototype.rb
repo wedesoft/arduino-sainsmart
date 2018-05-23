@@ -6,7 +6,7 @@ require_relative '../kinematics'
 
 DEVICE = '/dev/ttyUSB0'
 BAUD = 115200
-joystick = JoyStick.new
+joystick = Joystick.new
 client = SerialClient.new DEVICE, BAUD
 initial = Kinematics.forward Vector[0, 0, 0, 0, 0, 0]
 t = Time.new.to_f

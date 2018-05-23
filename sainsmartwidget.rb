@@ -64,7 +64,7 @@ class SainsmartWidget < Qt::Widget
     sync @ui.pitchSlider, @ui.pitchSpin
     sync @ui.wristSlider, @ui.wristSpin
     @ui.gripperOpenSpin.value = @ui.gripperSpin.value
-    @joystick = JoyStick.new
+    @joystick = Joystick.new
     @pending_timer = nil
     @joystick_timer = startTimer 0
     @time = Time.new.to_f

@@ -1,7 +1,7 @@
 require 'sdl2'
 
 
-class JoyStick
+class Joystick
   attr_reader :axis
   attr_reader :button
 
