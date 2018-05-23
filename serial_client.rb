@@ -7,7 +7,7 @@ class SerialClient
   end
 
   def time_required *values
-    write_serial "#{values.join ' '}t"
+    write_serial "#{values.collect { |value| "%3.1f" % value}.join ' '}t"
     read_serial.to_f
   end
 
@@ -22,7 +22,7 @@ class SerialClient
   end
 
   def target *values
-    write_serial "#{values.join ' '}c"
+    write_serial "#{values.collect { |value| "%3.1f" % value}.join ' '}c"
   end
 
   def configuration str

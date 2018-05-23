@@ -1,5 +1,6 @@
 # TODO
 
+* switch code to radians
 * cartesian input with game controller
 * teach points on computer (create program on stdout)
 * remove GUI

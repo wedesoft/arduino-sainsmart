@@ -12,9 +12,15 @@ describe SerialClient do
   end
 
   it 'should inform about time required' do
-    expect(client).to receive(:write_serial).with('30 50t')
+    expect(client).to receive(:write_serial).with('30.0 50.0t')
     expect(client).to receive(:read_serial).and_return "1.5\r\n"
     expect(client.time_required(30, 50)).to eq 1.5
+  end
+
+  it 'should not use exponential representation' do
+    expect(client).to receive(:write_serial).with('0.0t')
+    expect(client).to receive(:read_serial).and_return "1.5\r\n"
+    expect(client.time_required(1e-6)).to eq 1.5
   end
 
   it 'should report the current time' do
@@ -30,7 +36,7 @@ describe SerialClient do
   end
 
   it 'should set drive targets' do
-    expect(client).to receive(:write_serial).with('1 2 3 4 5 6 7c')
+    expect(client).to receive(:write_serial).with('1.0 2.0 3.0 4.0 5.0 6.0 7.0c')
     client.target 1, 2, 3, 4, 5, 6, 7
   end
 
