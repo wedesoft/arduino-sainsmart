@@ -25,16 +25,17 @@ def adapt value
 end
 while not joystick.button[0]
   joystick.update
-  change1 = -adapt(joystick.axis[1] || 0)
-  change2 = -adapt(joystick.axis[0] || 0)
-  change3 = -adapt(joystick.axis[4] || 0)
+  change1 =  adapt(joystick.axis[0] || 0)
+  change2 =  adapt(joystick.axis[4] || 0)
+  change3 = -adapt(joystick.axis[1] || 0)
   dt = Time.new.to_f - t
   t += dt
   offset1 = offset1 + speed * change1 * dt
   offset2 = offset2 + speed * change2 * dt
   offset3 = offset3 + speed * change3 * dt
   diff = Matrix[[1, 0, 0, offset1], [0, 1, 0, offset2], [0, 0, 1, offset3], [0, 0, 0, 1]]
-  target = Kinematics.inverse(diff * initial)
+  target = Kinematics.inverse(initial * diff)
+  p joystick.axis
   target = target.collect { |x| x * 180 / Math::PI }
   if client.ready? and 2 * client.time_remaining <= client.time_required(*target)
     client.target *target

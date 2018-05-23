@@ -23,21 +23,24 @@ class Matrix
       rotate angle, 0, 1
     end
 
-    def translate distance, i
+    def translation x, y, z
       arr = Matrix.identity(4).to_a
-      arr[i][3] = distance
+      arr[0][3] = x
+      arr[1][3] = y
+      arr[2][3] = z
       Matrix[*arr]
     end
 
     def translate_x distance
-      translate distance, 0
-      arr = Matrix.identity(4).to_a
-      arr[0][3] = distance
-      Matrix[*arr]
+      translation distance, 0, 0
+    end
+
+    def translate_y distance
+      translation 0, distance, 0
     end
 
     def translate_z distance
-      translate distance, 2
+      translation 0, 0, distance
     end
   end
 
