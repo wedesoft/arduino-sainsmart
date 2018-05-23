@@ -15,6 +15,9 @@ describe Control do
     allow(joystick).to receive(:axis).and_return({})
     allow(SerialClient).to receive(:new).and_return serial_client
     allow(serial_client).to receive :target
+    allow(serial_client).to receive(:ready?).and_return true
+    allow(serial_client).to receive(:time_remaining).and_return 5
+    allow(serial_client).to receive(:time_required).and_return 11
     allow(neutral_pose).to receive(:*).and_return pose
     allow(Kinematics).to receive(:forward).and_return neutral_pose
     allow(Kinematics).to receive(:inverse).and_return target
@@ -122,6 +125,19 @@ describe Control do
 
     it 'should target the dessired configuration' do
       expect(serial_client).to receive(:target).with *target
+      control.update
+    end
+
+    it 'should only target the desired configuration if the microcontroller is ready' do
+      expect(serial_client).to receive(:ready?).and_return false
+      expect(serial_client).to_not receive :target
+      control.update
+    end
+
+    it 'should only submit a target if it requires more than twice the remaining time of the current target' do
+      expect(serial_client).to receive(:time_remaining).and_return 5
+      expect(serial_client).to receive(:time_required).with(*target).and_return 9
+      expect(serial_client).to_not receive :target
       control.update
     end
   end

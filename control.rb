@@ -40,6 +40,8 @@ class Control
     @position += offset
     pose_offset = pose_matrix @position
     target = Kinematics.inverse @neutral_pose * pose_offset
-    @serial_client.target *target
+    if @serial_client.ready? and 2 * @serial_client.time_remaining <= @serial_client.time_required(*target)
+      @serial_client.target *target
+    end
   end
 end
