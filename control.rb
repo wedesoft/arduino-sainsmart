@@ -51,7 +51,7 @@ class Control
   end
 
   def quit?
-    @joystick.button[0] || false
+    @joystick.button[2] || false
   end
 end
 

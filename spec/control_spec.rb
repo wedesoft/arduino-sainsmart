@@ -161,8 +161,8 @@ describe Control do
       expect(control.quit?).to be false
     end
 
-    it 'should return true if the A button is pressed' do
-      expect(joystick).to receive(:button).and_return({0 => true})
+    it 'should return true if the X button is pressed' do
+      expect(joystick).to receive(:button).and_return({2 => true})
       expect(control.quit?).to be true
     end
   end
