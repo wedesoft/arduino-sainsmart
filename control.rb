@@ -30,8 +30,7 @@ class Control
   end
 
   def pose_matrix vector
-    x, y, z = *vector
-    Matrix[[1, 0, 0, x], [0, 1, 0, y], [0, 0, 1, z], [0, 0, 0, 1]]
+    Matrix.translation *vector
   end
 
   def degrees vector
