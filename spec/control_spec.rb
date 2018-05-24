@@ -6,7 +6,8 @@ describe Control do
   let(:neutral_pose) { double 'neutral_pose' }
   let(:serial_client) { double 'serial_client' }
   let(:pose) { double 'pose' }
-  let(:target) { double 'target' }
+  let(:target_radians) { double 'target_radians' }
+  let(:target_degrees) { double 'target_degrees' }
   let(:control) { Control.new }
 
   before :each do
@@ -21,7 +22,7 @@ describe Control do
     allow(serial_client).to receive(:time_required).and_return 11
     allow(neutral_pose).to receive(:*).and_return pose
     allow(Kinematics).to receive(:forward).and_return neutral_pose
-    allow(Kinematics).to receive(:inverse).and_return target
+    allow(Kinematics).to receive(:inverse).and_return target_radians
   end
 
   describe :initialize do
@@ -81,11 +82,18 @@ describe Control do
     end
   end
 
+  describe :degrees do
+    it 'should convert angles from radians to degrees' do
+      expect(control.degrees([0, Math::PI, 2 * Math::PI])).to eq [0, 180, 360]
+    end
+  end
+
   describe :update do
     let(:pose_offset) { double 'pose_offset' }
     before :each do
       allow(control).to receive(:adapt).and_return 0.2, 0.5, 1.0
       allow(control).to receive(:pose_matrix).and_return pose_offset
+      allow(control).to receive(:degrees).and_return target_degrees
     end
 
     it 'should update the joystick' do
@@ -124,8 +132,13 @@ describe Control do
       control.update
     end
 
+    it 'should convert the angles to degrees' do
+      expect(control).to receive(:degrees).with target_radians
+      control.update
+    end
+
     it 'should target the dessired configuration' do
-      expect(serial_client).to receive(:target).with *target
+      expect(serial_client).to receive(:target).with *target_degrees
       control.update
     end
 
@@ -137,7 +150,7 @@ describe Control do
 
     it 'should only submit a target if it requires more than twice the remaining time of the current target' do
       expect(serial_client).to receive(:time_remaining).and_return 5
-      expect(serial_client).to receive(:time_required).with(*target).and_return 9
+      expect(serial_client).to receive(:time_required).with(*target_degrees).and_return 9
       expect(serial_client).to_not receive :target
       control.update
     end

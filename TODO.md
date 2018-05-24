@@ -2,7 +2,6 @@
 
 * convert to degrees
 * speed
-* cartesian input with game controller
 * teach points on computer (create program on stdout)
 * remove GUI
 * speech control

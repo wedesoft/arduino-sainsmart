@@ -34,14 +34,17 @@ class Control
     Matrix[[1, 0, 0, x], [0, 1, 0, y], [0, 0, 1, z], [0, 0, 0, 1]]
   end
 
+  def degrees vector
+    vector.collect { |x| x * 180 / Math::PI }
+  end
+
   def update
     @joystick.update
     axis = @joystick.axis
     offset = Vector[adapt(axis[0] || 0), adapt(axis[4] || 0), -adapt(axis[1] || 0)]
     @position += offset
     pose_offset = pose_matrix @position
-    target = Kinematics.inverse @neutral_pose * pose_offset
-    # target = target.collect { |x| x * 180 / Math::PI } TODO
+    target = degrees Kinematics.inverse(@neutral_pose * pose_offset)
     if @serial_client.ready? and 2 * @serial_client.time_remaining <= @serial_client.time_required(*target)
       @serial_client.target *target
     end
