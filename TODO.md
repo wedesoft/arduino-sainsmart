@@ -1,6 +1,7 @@
 # TODO
 
-* speed
+* rotations, gripper
+* acos out of range
 * teach points on computer (create program on stdout)
 * speech control
 * audio output
