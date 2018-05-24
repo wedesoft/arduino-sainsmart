@@ -2,6 +2,5 @@ test-suite
 calibration.hh
 build-*
 *.o
-ui_*.rb
 .*.swp
 .*.un~

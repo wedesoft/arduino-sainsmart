@@ -1,9 +1,7 @@
 # TODO
 
-* convert to degrees
 * speed
 * teach points on computer (create program on stdout)
-* remove GUI
 * speech control
 * audio output
 * machine vision

@@ -35,11 +35,7 @@ Furthermore you need a PC with a USB port.
 
 ## software build
 
-Install the dependencies as follows:
-
-```
-sudo aptitude install arduino-mk screen google-mock
-```
+First install the dependencies. Please refer to the file *.travis.yml* for more information.
 
 Create the initial calibration file with the limits and offsets of each servo:
 
@@ -135,20 +131,15 @@ You can exit the *screen* terminal using Ctrl-A \\.
 
 **Warning: self-collisions of the robot can damage the servos!**
 
-## Run graphical user interface
+## XBox controller
 
-You can run the graphical user interface as follows.
+You can control the robot using a calibrated XBox controller.
 
 ```
-ruby main.rb
+ruby control.rb
 ```
 
 ![XBox Controller](xbox.png)
-
-The GUI also recognises a calibrated X-Box controller.
-You can control the first four axes using the left and right stick.
-By holding the 'A' button, the first stick can be used to control the remaining two axes.
-The left and right trigger can be used to close and open the gripper.
 
 # External links
 
