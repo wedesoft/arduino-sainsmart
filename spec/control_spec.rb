@@ -22,7 +22,7 @@ describe Control do
     allow(serial_client).to receive(:time_required).and_return 11
     allow(neutral_pose).to receive(:*).and_return pose
     allow(Kinematics).to receive(:forward).and_return neutral_pose
-    allow(Kinematics).to receive(:inverse).and_return target_radians
+    allow(Kinematics).to receive(:inverse).and_return(Vector[target_radians])
   end
 
   describe :initialize do
@@ -117,13 +117,13 @@ describe Control do
     end
 
     it 'should apply the positional offset' do
-      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
+      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2, 0, 0
       control.update
       expect(control.position).to eq Vector[0.2, 0.5, -1.0, 0, 0, 1.2, 0]
     end
 
     it 'should accumulate the positional offset' do
-      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2, 0.2, 0.5, 1.0, 1.2
+      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2, 0, 0, 0.2, 0.5, 1.0, 1.2, 0, 0
       control.update
       control.update
       expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 2.4, 0]
@@ -132,13 +132,13 @@ describe Control do
     it 'should use the specified speed values' do
       control = Control.new 2, 4
       allow(control).to receive(:degrees).and_return target_degrees
-      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
+      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2, 0, 0
       control.update
       expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 4.8, 0]
     end
 
     it 'should use the specified time step' do
-      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
+      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2, 0, 0
       control.update 2
       expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 2.4, 0]
     end
@@ -154,7 +154,7 @@ describe Control do
     end
 
     it 'should convert the angles to degrees' do
-      expect(control).to receive(:degrees).with target_radians
+      expect(control).to receive(:degrees).with([target_radians, 0])
       control.update
     end
 
@@ -182,16 +182,18 @@ describe Control do
       end
 
       it 'should convert rotational changes' do
-        expect(joystick).to receive(:axis).and_return({4 => 2, 0 => 3, 1 => 5, 3 => 7})
+        expect(joystick).to receive(:axis).and_return({4 => 2, 0 => 3, 1 => 5, 3 => 7, 5 => 11, 2 => 13})
         expect(control).to receive(:adapt).with(2).ordered.and_return 0.2
         expect(control).to receive(:adapt).with(3).ordered.and_return 0.5
         expect(control).to receive(:adapt).with(5).ordered.and_return 1.0
         expect(control).to receive(:adapt).with(7).ordered.and_return 1.2
+        expect(control).to receive(:adapt).with(11).ordered.and_return 0
+        expect(control).to receive(:adapt).with(13).ordered.and_return 0
         control.update
       end
 
       it 'should apply the rotational offset' do
-        expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
+        expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2, 0, 0
         control.update
         expect(control.position).to eq Vector[0, 0.2, 0, -0.5, 1.0, 1.2, 0]
       end
@@ -199,7 +201,7 @@ describe Control do
       it 'should use the specified speed values' do
         control = Control.new 2, 4
         allow(control).to receive(:degrees).and_return target_degrees
-        expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
+        expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2, 0, 0
         control.update
         expect(control.position).to eq Vector[0, 0.4, 0, -2.0, 4.0, 4.8, 0]
       end
@@ -209,15 +211,23 @@ describe Control do
     it 'should update the gripper' do
       allow(joystick).to receive(:axis).and_return({5 => 2})
       allow(control).to receive(:adapt).and_return 0
+      expect(control).to receive(:adapt).and_return 0, 0, 0, 0, 2, 0
       control.update
       expect(control.position).to eq Vector[0, 0, 0, 0, 0, 0, 2]
     end
 
     it 'should use the difference of two axes for the gripper' do
       allow(joystick).to receive(:axis).and_return({5 => 2, 2 => 2})
-      allow(control).to receive(:adapt).and_return 0
+      expect(control).to receive(:adapt).and_return 0, 0, 0, 0, 2, 2
       control.update
       expect(control.position).to eq Vector[0, 0, 0, 0, 0, 0, 0]
+    end
+
+    it 'should convert the gripper angle to degrees' do
+      allow(joystick).to receive(:axis).and_return({5 => 2})
+      expect(control).to receive(:adapt).and_return 0, 0, 0, 0, 2, 0
+      expect(control).to receive(:degrees).with([target_radians, 2])
+      control.update
     end
   end
 

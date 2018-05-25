@@ -60,11 +60,11 @@ class Control
       b =  adapt(axis[1] || 0) * @rotation_speed
       c =  adapt(axis[3] || 0) * @rotation_speed
     end
-    gripper = (axis[5] || 0) - (axis[2] || 0)
+    gripper = (adapt(axis[5] || 0) - adapt(axis[2] || 0)) * @rotation_speed
     offset = Vector[x, y, z, a, b, c, gripper]
     @position += offset * elapsed
     pose_offset = pose_matrix @position
-    target = degrees Kinematics.inverse(@neutral_pose * pose_offset)
+    target = degrees Kinematics.inverse(@neutral_pose * pose_offset).to_a + [offset[6]]
     if @serial_client.ready? and 2 * @serial_client.time_remaining <= @serial_client.time_required(*target)
       @serial_client.target *target
     end
