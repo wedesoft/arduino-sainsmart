@@ -174,6 +174,27 @@ describe Control do
       expect(serial_client).to_not receive :target
       control.update
     end
+
+    context 'when the A button is pressed' do
+      before :each do
+        allow(joystick).to receive(:button).and_return({0 => true})
+      end
+
+      it 'should convert rotational changes' do
+        expect(joystick).to receive(:axis).and_return({4 => 2, 3 => 3, 0 => 5, 1 => 7})
+        expect(control).to receive(:adapt).with(2).ordered.and_return 0.2
+        expect(control).to receive(:adapt).with(3).ordered.and_return 0.5
+        expect(control).to receive(:adapt).with(5).ordered.and_return 1.0
+        expect(control).to receive(:adapt).with(7).ordered.and_return 1.2
+        control.update
+      end
+
+      it 'should apply the rotational offset' do
+        expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
+        control.update
+        expect(control.position).to eq Vector[0, 0.2, 0, 0.5, 1.0, 1.2]
+      end
+    end
   end
 
   describe :quit? do
