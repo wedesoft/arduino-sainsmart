@@ -64,7 +64,7 @@ class Control
     offset = Vector[x, y, z, a, b, c, gripper]
     @position += offset * elapsed
     pose_offset = pose_matrix @position
-    target = degrees Kinematics.inverse(@neutral_pose * pose_offset).to_a + [offset[6]]
+    target = degrees Kinematics.inverse(@neutral_pose * pose_offset).to_a + [@position[6]]
     if @serial_client.ready? and 2 * @serial_client.time_remaining <= @serial_client.time_required(*target)
       @serial_client.target *target
     end
