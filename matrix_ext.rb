@@ -1,6 +1,15 @@
 require 'matrix'
 
 
+class Vector
+  def abs
+    Math.sqrt inject(0) { |s, x| s + x ** 2 }
+  end
+end
+
+class Matrix
+end
+
 class Matrix
   class << self
     def rotate angle, i, j
@@ -43,6 +52,11 @@ class Matrix
       translation 0, 0, distance
     end
   end
+
+  def abs
+    Math.sqrt inject { |s, x| s + x ** 2 }
+  end
+
 
   def x
     column_vectors[0]

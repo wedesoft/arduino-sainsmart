@@ -33,11 +33,11 @@ describe Control do
 
     it 'should initialize serial communication' do
       expect(SerialClient).to receive(:new).with '/dev/ttyUSB0', 115200
-      Control.new '/dev/ttyUSB0', 115200
+      Control.new 1, '/dev/ttyUSB0', 115200
     end
 
     it 'should start with a zero position offset' do
-      expect(Control.new.position).to eq Vector[0, 0, 0]
+      expect(Control.new.position).to eq Vector[0, 0, 0, 0, 0, 0]
     end
 
     it 'should determine the forward kinematics of the neutral configuration' do
@@ -78,7 +78,12 @@ describe Control do
 
   describe :pose_matrix do
     it 'should create a translation matrix' do
-      expect(control.pose_matrix(Vector[2, 3, 5])).to eq Matrix[[1, 0, 0, 2], [0, 1, 0, 3], [0, 0, 1, 5], [0, 0, 0, 1]]
+      expect(control.pose_matrix(Vector[2, 3, 5, 0, 0, 0])).to eq Matrix[[1, 0, 0, 2], [0, 1, 0, 3], [0, 0, 1, 5], [0, 0, 0, 1]]
+    end
+
+    it 'should perform rotations' do
+      expect(control.pose_matrix(Vector[2, 3, 5, 0.1, 0.2, 0.3])).
+        to be_within(1e-6).of Matrix.translation(2, 3, 5) * Matrix.rotate_y(0.1) * Matrix.rotate_x(0.2) * Matrix.rotate_z(0.3)
     end
   end
 
@@ -112,18 +117,32 @@ describe Control do
     it 'should apply the positional offset' do
       expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0
       control.update
-      expect(control.position).to eq Vector[0.2, 0.5, -1.0]
+      expect(control.position).to eq Vector[0.2, 0.5, -1.0, 0, 0, 0]
     end
 
     it 'should accumulate the positional offset' do
       expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 0.2, 0.5, 1.0
       control.update
       control.update
-      expect(control.position).to eq Vector[0.4, 1.0, -2.0]
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 0]
+    end
+
+    it 'should use the specified translational speed' do
+      control = Control.new 2
+      allow(control).to receive(:degrees).and_return target_degrees
+      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0
+      control.update
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 0]
+    end
+
+    it 'should use the specified tiome step' do
+      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0
+      control.update 2
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 0]
     end
 
     it 'should determine the pose matrix' do
-      expect(control).to receive(:pose_matrix).with Vector[0.2, 0.5, -1.0]
+      expect(control).to receive(:pose_matrix).with Vector[0.2, 0.5, -1.0, 0, 0, 0]
       control.update
     end
 

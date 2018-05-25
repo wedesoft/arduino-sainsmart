@@ -12,11 +12,12 @@ class Control
 
   attr_reader :position
 
-  def initialize device = DEVICE, baud = BAUD
+  def initialize translation_speed = 1, device = DEVICE, baud = BAUD
     @joystick = Joystick.new
     @serial_client = SerialClient.new device, baud
-    @position = Vector[0, 0, 0]
+    @position = Vector[0, 0, 0, 0, 0, 0]
     @neutral_pose = Kinematics.forward Vector[0, 0, 0, 0, 0, 0]
+    @translation_speed = translation_speed
   end
 
   def adapt value
@@ -30,18 +31,24 @@ class Control
   end
 
   def pose_matrix vector
-    Matrix.translation *vector
+    Matrix.translation(*vector[0 ... 3]) *
+      Matrix.rotate_y(vector[3]) *
+      Matrix.rotate_x(vector[4]) *
+      Matrix.rotate_z(vector[5])
   end
 
   def degrees vector
     vector.collect { |x| x * 180 / Math::PI }
   end
 
-  def update
+  def update elapsed = 1
     @joystick.update
     axis = @joystick.axis
-    offset = Vector[adapt(axis[0] || 0), adapt(axis[4] || 0), -adapt(axis[1] || 0)]
-    @position += offset
+    x =  adapt(axis[0] || 0) * @translation_speed
+    y =  adapt(axis[4] || 0) * @translation_speed
+    z = -adapt(axis[1] || 0) * @translation_speed
+    offset = Vector[x, y, z, 0, 0, 0]
+    @position += offset * elapsed
     pose_offset = pose_matrix @position
     target = degrees Kinematics.inverse(@neutral_pose * pose_offset)
     if @serial_client.ready? and 2 * @serial_client.time_remaining <= @serial_client.time_required(*target)
@@ -57,7 +64,10 @@ end
 
 if __FILE__ == $0
   control = Control.new
+  time = Time.new.to_f
   while not control.quit?
-    control.update
+    elapsed = Time.new.to_f - time
+    control.update elapsed
+    time += elapsed
   end
 end

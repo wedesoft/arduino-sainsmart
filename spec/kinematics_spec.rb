@@ -1,18 +1,6 @@
 require_relative '../kinematics'
 
 
-class Vector
-  def abs
-    Math.sqrt inject(0) { |s, x| s + x ** 2 }
-  end
-end
-
-class Matrix
-  def abs
-    Math.sqrt inject { |s, x| s + x ** 2 }
-  end
-end
-
 describe Kinematics do
   describe :hartenberg do
     it 'zero parameters should generate identity matrix' do
