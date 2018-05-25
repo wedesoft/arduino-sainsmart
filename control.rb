@@ -49,16 +49,16 @@ class Control
       x =  adapt(axis[0] || 0) * @translation_speed
       y =  adapt(axis[4] || 0) * @translation_speed
       z = -adapt(axis[1] || 0) * @translation_speed
-      a =  adapt(axis[3] || 0) * @rotation_speed
       b = 0
-      c = 0
+      a = 0
+      c =  adapt(axis[3] || 0) * @rotation_speed
     else
       x = 0
       y =  adapt(axis[4] || 0) * @translation_speed
       z = 0
-      a =  adapt(axis[3] || 0) * @rotation_speed
-      b = -adapt(axis[0] || 0) * @rotation_speed
-      c =  adapt(axis[1] || 0) * @rotation_speed
+      a = -adapt(axis[0] || 0) * @rotation_speed
+      b =  adapt(axis[1] || 0) * @rotation_speed
+      c =  adapt(axis[3] || 0) * @rotation_speed
     end
     offset = Vector[x, y, z, a, b, c]
     @position += offset * elapsed

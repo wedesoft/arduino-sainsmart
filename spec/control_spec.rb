@@ -118,14 +118,14 @@ describe Control do
     it 'should apply the positional offset' do
       expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
       control.update
-      expect(control.position).to eq Vector[0.2, 0.5, -1.0, 1.2, 0, 0]
+      expect(control.position).to eq Vector[0.2, 0.5, -1.0, 0, 0, 1.2]
     end
 
     it 'should accumulate the positional offset' do
       expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2, 0.2, 0.5, 1.0, 1.2
       control.update
       control.update
-      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 2.4, 0, 0]
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 2.4]
     end
 
     it 'should use the specified speed values' do
@@ -133,17 +133,17 @@ describe Control do
       allow(control).to receive(:degrees).and_return target_degrees
       expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
       control.update
-      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 4.8, 0, 0]
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 4.8]
     end
 
     it 'should use the specified time step' do
       expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
       control.update 2
-      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 2.4, 0, 0]
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 2.4]
     end
 
     it 'should determine the pose matrix' do
-      expect(control).to receive(:pose_matrix).with Vector[0.2, 0.5, -1.0, 1.2, 0, 0]
+      expect(control).to receive(:pose_matrix).with Vector[0.2, 0.5, -1.0, 0, 0, 1.2]
       control.update
     end
 
@@ -181,7 +181,7 @@ describe Control do
       end
 
       it 'should convert rotational changes' do
-        expect(joystick).to receive(:axis).and_return({4 => 2, 3 => 3, 0 => 5, 1 => 7})
+        expect(joystick).to receive(:axis).and_return({4 => 2, 0 => 3, 1 => 5, 3 => 7})
         expect(control).to receive(:adapt).with(2).ordered.and_return 0.2
         expect(control).to receive(:adapt).with(3).ordered.and_return 0.5
         expect(control).to receive(:adapt).with(5).ordered.and_return 1.0
@@ -192,7 +192,7 @@ describe Control do
       it 'should apply the rotational offset' do
         expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
         control.update
-        expect(control.position).to eq Vector[0, 0.2, 0, 0.5, -1.0, 1.2]
+        expect(control.position).to eq Vector[0, 0.2, 0, -0.5, 1.0, 1.2]
       end
 
       it 'should use the specified speed values' do
@@ -200,7 +200,7 @@ describe Control do
         allow(control).to receive(:degrees).and_return target_degrees
         expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
         control.update
-        expect(control.position).to eq Vector[0, 0.4, 0, 2.0, -4.0, 4.8]
+        expect(control.position).to eq Vector[0, 0.4, 0, -2.0, 4.0, 4.8]
       end
 
     end
