@@ -194,6 +194,15 @@ describe Control do
         control.update
         expect(control.position).to eq Vector[0, 0.2, 0, 0.5, 1.0, 1.2]
       end
+
+      it 'should use the specified speed values' do
+        control = Control.new 2, 4
+        allow(control).to receive(:degrees).and_return target_degrees
+        expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
+        control.update
+        expect(control.position).to eq Vector[0, 0.4, 0, 2.0, 4.0, 4.8]
+      end
+
     end
   end
 

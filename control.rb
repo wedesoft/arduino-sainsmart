@@ -50,8 +50,8 @@ class Control
       y =  adapt(axis[4] || 0) * @translation_speed
       z = 0
       a =  adapt(axis[3] || 0) * @rotation_speed
-      b =  adapt(axis[0] || 0)
-      c =  adapt(axis[1] || 0)
+      b =  adapt(axis[0] || 0) * @rotation_speed
+      c =  adapt(axis[1] || 0) * @rotation_speed
     else
       x =  adapt(axis[0] || 0) * @translation_speed
       y =  adapt(axis[4] || 0) * @translation_speed
