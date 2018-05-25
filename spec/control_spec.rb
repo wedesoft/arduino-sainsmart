@@ -37,7 +37,7 @@ describe Control do
     end
 
     it 'should start with a zero position offset' do
-      expect(Control.new.position).to eq Vector[0, 0, 0, 0, 0, 0]
+      expect(Control.new.position).to eq Vector[0, 0, 0, 0, 0, 0, 0]
     end
 
     it 'should determine the forward kinematics of the neutral configuration' do
@@ -78,11 +78,12 @@ describe Control do
 
   describe :pose_matrix do
     it 'should create a translation matrix' do
-      expect(control.pose_matrix(Vector[2, 3, 5, 0, 0, 0])).to eq Matrix[[1, 0, 0, 2], [0, 1, 0, 3], [0, 0, 1, 5], [0, 0, 0, 1]]
+      expect(control.pose_matrix(Vector[2, 3, 5, 0, 0, 0, 0])).
+        to eq Matrix[[1, 0, 0, 2], [0, 1, 0, 3], [0, 0, 1, 5], [0, 0, 0, 1]]
     end
 
     it 'should perform rotations' do
-      expect(control.pose_matrix(Vector[2, 3, 5, 0.1, 0.2, 0.3])).
+      expect(control.pose_matrix(Vector[2, 3, 5, 0.1, 0.2, 0.3, 0])).
         to be_within(1e-6).of Matrix.translation(2, 3, 5) * Matrix.rotate_y(0.1) * Matrix.rotate_x(0.2) * Matrix.rotate_z(0.3)
     end
   end
@@ -118,14 +119,14 @@ describe Control do
     it 'should apply the positional offset' do
       expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
       control.update
-      expect(control.position).to eq Vector[0.2, 0.5, -1.0, 0, 0, 1.2]
+      expect(control.position).to eq Vector[0.2, 0.5, -1.0, 0, 0, 1.2, 0]
     end
 
     it 'should accumulate the positional offset' do
       expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2, 0.2, 0.5, 1.0, 1.2
       control.update
       control.update
-      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 2.4]
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 2.4, 0]
     end
 
     it 'should use the specified speed values' do
@@ -133,17 +134,17 @@ describe Control do
       allow(control).to receive(:degrees).and_return target_degrees
       expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
       control.update
-      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 4.8]
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 4.8, 0]
     end
 
     it 'should use the specified time step' do
       expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
       control.update 2
-      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 2.4]
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 2.4, 0]
     end
 
     it 'should determine the pose matrix' do
-      expect(control).to receive(:pose_matrix).with Vector[0.2, 0.5, -1.0, 0, 0, 1.2]
+      expect(control).to receive(:pose_matrix).with Vector[0.2, 0.5, -1.0, 0, 0, 1.2, 0]
       control.update
     end
 
@@ -192,7 +193,7 @@ describe Control do
       it 'should apply the rotational offset' do
         expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
         control.update
-        expect(control.position).to eq Vector[0, 0.2, 0, -0.5, 1.0, 1.2]
+        expect(control.position).to eq Vector[0, 0.2, 0, -0.5, 1.0, 1.2, 0]
       end
 
       it 'should use the specified speed values' do
@@ -200,9 +201,23 @@ describe Control do
         allow(control).to receive(:degrees).and_return target_degrees
         expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
         control.update
-        expect(control.position).to eq Vector[0, 0.4, 0, -2.0, 4.0, 4.8]
+        expect(control.position).to eq Vector[0, 0.4, 0, -2.0, 4.0, 4.8, 0]
       end
 
+    end
+
+    it 'should update the gripper' do
+      allow(joystick).to receive(:axis).and_return({5 => 2})
+      allow(control).to receive(:adapt).and_return 0
+      control.update
+      expect(control.position).to eq Vector[0, 0, 0, 0, 0, 0, 2]
+    end
+
+    it 'should use the difference of two axes for the gripper' do
+      allow(joystick).to receive(:axis).and_return({5 => 2, 2 => 2})
+      allow(control).to receive(:adapt).and_return 0
+      control.update
+      expect(control.position).to eq Vector[0, 0, 0, 0, 0, 0, 0]
     end
   end
 

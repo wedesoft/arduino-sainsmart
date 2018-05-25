@@ -15,7 +15,7 @@ class Control
   def initialize translation_speed = 100, rotation_speed = 1, device = DEVICE, baud = BAUD
     @joystick = Joystick.new
     @serial_client = SerialClient.new device, baud
-    @position = Vector[0, 0, 0, 0, 0, 0]
+    @position = Vector[0, 0, 0, 0, 0, 0, 0]
     @neutral_pose = Kinematics.forward Vector[0, 0, 0, 0, 0, 0]
     @translation_speed = translation_speed
     @rotation_speed = rotation_speed
@@ -60,7 +60,8 @@ class Control
       b =  adapt(axis[1] || 0) * @rotation_speed
       c =  adapt(axis[3] || 0) * @rotation_speed
     end
-    offset = Vector[x, y, z, a, b, c]
+    gripper = (axis[5] || 0) - (axis[2] || 0)
+    offset = Vector[x, y, z, a, b, c, gripper]
     @position += offset * elapsed
     pose_offset = pose_matrix @position
     target = degrees Kinematics.inverse(@neutral_pose * pose_offset)
