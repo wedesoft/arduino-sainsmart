@@ -45,20 +45,20 @@ class Control
   def update elapsed = 1
     @joystick.update
     axis = @joystick.axis
-    if @joystick.button[0]
-      x = 0
-      y =  adapt(axis[4] || 0) * @translation_speed
-      z = 0
-      a =  adapt(axis[3] || 0) * @rotation_speed
-      b = -adapt(axis[0] || 0) * @rotation_speed
-      c =  adapt(axis[1] || 0) * @rotation_speed
-    else
+    unless @joystick.button[0]
       x =  adapt(axis[0] || 0) * @translation_speed
       y =  adapt(axis[4] || 0) * @translation_speed
       z = -adapt(axis[1] || 0) * @translation_speed
       a =  adapt(axis[3] || 0) * @rotation_speed
       b = 0
       c = 0
+    else
+      x = 0
+      y =  adapt(axis[4] || 0) * @translation_speed
+      z = 0
+      a =  adapt(axis[3] || 0) * @rotation_speed
+      b = -adapt(axis[0] || 0) * @rotation_speed
+      c =  adapt(axis[1] || 0) * @rotation_speed
     end
     offset = Vector[x, y, z, a, b, c]
     @position += offset * elapsed
