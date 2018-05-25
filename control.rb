@@ -12,12 +12,13 @@ class Control
 
   attr_reader :position
 
-  def initialize translation_speed = 1, device = DEVICE, baud = BAUD
+  def initialize translation_speed = 100, rotation_speed = 1, device = DEVICE, baud = BAUD
     @joystick = Joystick.new
     @serial_client = SerialClient.new device, baud
     @position = Vector[0, 0, 0, 0, 0, 0]
     @neutral_pose = Kinematics.forward Vector[0, 0, 0, 0, 0, 0]
     @translation_speed = translation_speed
+    @rotation_speed = rotation_speed
   end
 
   def adapt value
@@ -47,7 +48,8 @@ class Control
     x =  adapt(axis[0] || 0) * @translation_speed
     y =  adapt(axis[4] || 0) * @translation_speed
     z = -adapt(axis[1] || 0) * @translation_speed
-    offset = Vector[x, y, z, 0, 0, 0]
+    a =  adapt(axis[3] || 0) * @rotation_speed
+    offset = Vector[x, y, z, a, 0, 0]
     @position += offset * elapsed
     pose_offset = pose_matrix @position
     target = degrees Kinematics.inverse(@neutral_pose * pose_offset)

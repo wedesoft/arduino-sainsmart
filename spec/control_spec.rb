@@ -8,7 +8,7 @@ describe Control do
   let(:pose) { double 'pose' }
   let(:target_radians) { double 'target_radians' }
   let(:target_degrees) { double 'target_degrees' }
-  let(:control) { Control.new }
+  let(:control) { Control.new 1, 1 }
 
   before :each do
     allow(Joystick).to receive(:new).and_return joystick
@@ -33,7 +33,7 @@ describe Control do
 
     it 'should initialize serial communication' do
       expect(SerialClient).to receive(:new).with '/dev/ttyUSB0', 115200
-      Control.new 1, '/dev/ttyUSB0', 115200
+      Control.new 1, 1, '/dev/ttyUSB0', 115200
     end
 
     it 'should start with a zero position offset' do
@@ -96,7 +96,7 @@ describe Control do
   describe :update do
     let(:pose_offset) { double 'pose_offset' }
     before :each do
-      allow(control).to receive(:adapt).and_return 0.2, 0.5, 1.0
+      allow(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
       allow(control).to receive(:pose_matrix).and_return pose_offset
       allow(control).to receive(:degrees).and_return target_degrees
     end
@@ -107,42 +107,43 @@ describe Control do
     end
 
     it 'should convert positional changes' do
-      expect(joystick).to receive(:axis).and_return({0 => 2, 4 => 3, 1 => 5})
+      expect(joystick).to receive(:axis).and_return({0 => 2, 4 => 3, 1 => 5, 3 => 7})
       expect(control).to receive(:adapt).with(2).ordered.and_return 0.2
       expect(control).to receive(:adapt).with(3).ordered.and_return 0.5
       expect(control).to receive(:adapt).with(5).ordered.and_return 1.0
+      expect(control).to receive(:adapt).with(7).ordered.and_return 1.2
       control.update
     end
 
     it 'should apply the positional offset' do
-      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0
+      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
       control.update
-      expect(control.position).to eq Vector[0.2, 0.5, -1.0, 0, 0, 0]
+      expect(control.position).to eq Vector[0.2, 0.5, -1.0, 1.2, 0, 0]
     end
 
     it 'should accumulate the positional offset' do
-      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 0.2, 0.5, 1.0
+      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2, 0.2, 0.5, 1.0, 1.2
       control.update
       control.update
-      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 0]
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 2.4, 0, 0]
     end
 
-    it 'should use the specified translational speed' do
-      control = Control.new 2
+    it 'should use the specified speed values' do
+      control = Control.new 2, 4
       allow(control).to receive(:degrees).and_return target_degrees
-      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0
+      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
       control.update
-      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 0]
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 4.8, 0, 0]
     end
 
-    it 'should use the specified tiome step' do
-      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0
+    it 'should use the specified time step' do
+      expect(control).to receive(:adapt).and_return 0.2, 0.5, 1.0, 1.2
       control.update 2
-      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 0, 0, 0]
+      expect(control.position).to eq Vector[0.4, 1.0, -2.0, 2.4, 0, 0]
     end
 
     it 'should determine the pose matrix' do
-      expect(control).to receive(:pose_matrix).with Vector[0.2, 0.5, -1.0, 0, 0, 0]
+      expect(control).to receive(:pose_matrix).with Vector[0.2, 0.5, -1.0, 1.2, 0, 0]
       control.update
     end
 
