@@ -208,5 +208,9 @@ describe Kinematics do
     it 'should determine the wrist angle' do
       expect(round_trip(Vector[0.6, 0.5, 0.4, 0.3, 0.2, 0.1])[5]).to be_within(1e-6).of 0.1
     end
+
+    it 'should return nil if there is no solution' do
+      expect(Kinematics.inverse(Matrix.translation(0, 0, 1000))).to be nil
+    end
   end
 end
