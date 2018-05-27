@@ -176,6 +176,12 @@ describe Control do
       control.update
     end
 
+    it 'should not submit a target if the inverse kinematics does not return a solution' do
+      allow(Kinematics).to receive(:inverse).and_return nil
+      expect(serial_client).to_not receive :target
+      control.update
+    end
+
     context 'when the A button is pressed' do
       before :each do
         allow(joystick).to receive(:button).and_return({0 => true})
