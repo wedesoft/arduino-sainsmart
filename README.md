@@ -12,6 +12,8 @@ The plot shows jerk (blue), acceleration (red), speed (green), and position (mag
 
 [![SainSmart 6-axis servo steering](https://i.ytimg.com/vi/Fv_c3pXyLH4/hqdefault.jpg)][vid]
 
+![Schematics](schematics.jpg)
+
 ## equipment
 
 [![SainsSmart 6-axis robot arm](6axis-size.jpg)][2]
