@@ -8,9 +8,6 @@ class Vector
 end
 
 class Matrix
-end
-
-class Matrix
   class << self
     def rotate angle, i, j
       cos_angle, sin_angle = Math.cos(angle), Math.sin(angle)
