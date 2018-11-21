@@ -10,7 +10,7 @@ At any time the sum of up to two speed profiles is output to the drives.
 Using *sin²(t)+cos²(t)=1* one can achieve constant motion.
 The plot shows jerk (blue), acceleration (red), speed (green), and position (magenta).
 
-[![SainSmart 6-axis servo steering](https://i.ytimg.com/vi/Fv_c3pXyLH4/hqdefault.jpg)][vid]
+[![SainSmart 6-axis servo steering](https://i.ytimg.com/vi/ufObK9-eSjE/hqdefault.jpg)][vid]
 
 ![Schematics](schematics.jpg)
 
@@ -177,4 +177,4 @@ ruby control.rb
 [17]: https://www.amazon.co.uk/d/B00P1716VO
 [18]: http://image.dfrobot.com/image/data/Common/Arduino%20Shield%20Manual.pdf
 [19]: http://elementalselenium.com/tips/38-headless
-[vid]: https://www.youtube.com/watch?v=Fv_c3pXyLH4
+[vid]: https://www.youtube.com/watch?v=ufObK9-eSjE
