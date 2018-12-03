@@ -141,6 +141,8 @@ You can control the robot using a calibrated XBox controller.
 ruby control.rb
 ```
 
+Note that for some reason you sometimes need to run the serial terminal first, press *t* a few times, and then exit for the Arduino to wake up.
+
 ![XBox Controller](xbox.png)
 
 # External links
