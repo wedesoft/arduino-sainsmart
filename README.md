@@ -154,8 +154,8 @@ Note that for some reason you sometimes need to run the serial terminal first, p
 * [6V DC/3A power supply][6]
 * [2.1 x 5.5mm DC Socket][10]
 * [Sparkfun USB Mini-B cable][7]
-* [Towerpro MG996R servo][8]
-* [Towerpro SG90 9g servo][9] (note: Servo shaft not compatible with Sunfounder Rollpaw servos!)
+* [Towerpro MG996R servo][8] (comes with Sainsmart robot)
+* [Towerpro SG90 9g servo][9] (comes with Sainsmart robot; servo shaft not compatible with Sunfounder Rollpaw servos!)
 * [22 AWG RC JR Servo Straight Extension Wire 150mm][17]
 * [Arduino multitasking part 1][12], [part 2][13], [part 3][14]
 * [How to run test headlessly with Xvfb][19]
