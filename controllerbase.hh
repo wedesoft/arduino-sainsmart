@@ -10,7 +10,7 @@ const int ELBOW    = 2;
 const int ROLL     = 3;
 const int PITCH    = 4;
 const int WRIST    = 5;
-const int GRIPPER  = 6;
+const int DRIVES   = 6;
 
 const float ELBOW_RANGE = 60;
 

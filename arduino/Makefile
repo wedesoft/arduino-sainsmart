@@ -1,9 +1,9 @@
 ARDUINO_DIR = /usr/share/arduino
 ARDMK_DIR = /usr/share/arduino
 BOARD_TAG = uno
-BOARD_SUB = atmega168
-ARDUINO_PORT = /dev/ttyUSB0
-ARDUINO_LIBS = Servo
+
+ARDUINO_PORT = /dev/ttyACM*
+ARDUINO_LIBS = Adafruit_PWMServoDriver Wire
 SCREEN = screen
 
 include $(ARDMK_DIR)/Arduino.mk

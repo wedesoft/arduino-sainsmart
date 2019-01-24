@@ -1,6 +1,6 @@
-#include <Servo.h>
 #include "../calibration.hh"
 #include "../controllerbase.hh"
+#include <Adafruit_PWMServoDriver.h>
 
 
 // Humble Object connecting device to tested code http://xunitpatterns.com/Humble%20Object.html
@@ -9,10 +9,10 @@ class Controller: public ControllerBase
 {
 public:
   Controller(void) {}
-  void setup(void) {
-    for (int drive=0; drive<DRIVES; drive++)
-      m_servo[drive].attach(SERVOPIN[drive]);
-  }
+	void setup(void) {
+		m_servo.begin();
+		m_servo.setPWMFreq(60);
+	}	
   int offset(int drive) { return OFFSET[drive]; }
   float resolution(int drive) { return RESOLUTION[drive]; }
   int lower(int drive) { return MIN[drive]; }
@@ -68,10 +68,10 @@ public:
     reportConfiguration(base, shoulder, elbow, roll, pitch, wrist);
   }
   void writePWM(int drive, int pwm) {
-    m_servo[drive].writeMicroseconds(pwm);
+		m_servo.setPWM(drive, 0, pwm); 	   
   }
 protected:
-  Servo m_servo[DRIVES];
+  Adafruit_PWMServoDriver m_servo = Adafruit_PWMServoDriver();
 };
 
 unsigned long t0;
