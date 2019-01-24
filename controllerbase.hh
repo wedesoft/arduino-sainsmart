@@ -11,7 +11,6 @@ const int ROLL     = 3;
 const int PITCH    = 4;
 const int WRIST    = 5;
 const int GRIPPER  = 6;
-const int DRIVES   = 7;
 
 const float ELBOW_RANGE = 60;
 
@@ -39,8 +38,6 @@ public:
       return PITCH;
     case 'w':
       return WRIST;
-    case 'g':
-      return GRIPPER;
     default:
       return BASE;
     };
@@ -97,8 +94,7 @@ public:
 
   void displayTeachPoint(int index) {
     reportTeachPoint(m_teach[index][0], m_teach[index][1], m_teach[index][2],
-                     m_teach[index][3], m_teach[index][4], m_teach[index][5],
-                     m_teach[index][6]);
+                     m_teach[index][3], m_teach[index][4], m_teach[index][5]);
   }
 
   void takeConfigurationValue(void) {
@@ -232,8 +228,6 @@ public:
       case 'P':
       case 'w':
       case 'W':
-      case 'g':
-      case 'G':
         if (hasNumber()) {
           if (isupper(c))
             targetPWM(drive(c), number());
@@ -278,8 +272,7 @@ public:
           targetPoint(m_configuration);
         } else
           reportConfiguration(m_curve[0].pos(), m_curve[1].pos(), m_curve[2].pos(),
-                              m_curve[3].pos(), m_curve[4].pos(), m_curve[5].pos(),
-                              m_curve[6].pos());
+                              m_curve[3].pos(), m_curve[4].pos(), m_curve[5].pos());
         resetParser();
         break;
       case 'l':
@@ -288,8 +281,7 @@ public:
                     (lower(2) - offset(2)) / resolution(2),
                     (lower(3) - offset(3)) / resolution(3),
                     (lower(4) - offset(4)) / resolution(4),
-                    (lower(5) - offset(5)) / resolution(5),
-                    (lower(6) - offset(6)) / resolution(6));
+                    (lower(5) - offset(5)) / resolution(5));
         resetParser();
         break;
       case 'u':
@@ -298,8 +290,7 @@ public:
                     (upper(2) - offset(2)) / resolution(2),
                     (upper(3) - offset(3)) / resolution(3),
                     (upper(4) - offset(4)) / resolution(4),
-                    (upper(5) - offset(5)) / resolution(5),
-                    (upper(6) - offset(6)) / resolution(6));
+                    (upper(5) - offset(5)) / resolution(5));
         resetParser();
         break;
       default:
@@ -318,10 +309,10 @@ public:
   virtual void reportRemaining(float time) = 0;
   virtual void reportAngle(float) = 0;
   virtual void reportPWM(int) = 0;
-  virtual void reportConfiguration(float, float, float, float, float, float, float) = 0;
-  virtual void reportLower(float, float, float, float, float, float, float) = 0;
-  virtual void reportUpper(float, float, float, float, float, float, float) = 0;
-  virtual void reportTeachPoint(float, float, float, float, float, float, float) = 0;
+  virtual void reportConfiguration(float, float, float, float, float, float) = 0;
+  virtual void reportLower(float, float, float, float, float, float) = 0;
+  virtual void reportUpper(float, float, float, float, float, float) = 0;
+  virtual void reportTeachPoint(float, float, float, float, float, float) = 0;
   virtual void writePWM(int, int) = 0;
 
 protected:
