@@ -5,11 +5,15 @@
 
 class Path
 {
+// All the "Path" public methods 
 public:
+  // Constructor take no argument that set initialize the default value to instance variables
   Path(void): m_offset(0) {
     m_time[0] = 0;
     m_time[1] = 0;
   }
+  
+  // "pos" func take no argument and yield the sum of "offset" with the "retval" value from "rofile" class
   float pos(void) {
     return m_offset + m_profile[0].value(m_time[0]) + m_profile[1].value(m_time[1]);
   }
@@ -56,8 +60,10 @@ public:
     float b = timeRemaining(m_time[1], m_profile[1]);
     return a >= b ? a : b;
   }
+  
+// All the protected attributes of "Path" class
 protected:
-  Profile m_profile[2];
+  Profile m_profile[2]; // "Profile" objects
   float m_time[2];
   float m_offset;
 };
