@@ -6,17 +6,18 @@
 class Profile
 {
 public:
-  // Constructor With no Argument
-  Profile(void) {
-    m_distance = 0; // Set distance to 0
-    m_duration = 0; // Set duration to 0
-  }
-  
-  // Constructor with 2 arguments: distance as float and duration as float
+  Profile(void) { reset(); }
   Profile(float distance, float duration) {
+    reset(distance, duration);
+  }
+  void reset(void) {
+    m_distance = 0;
+    m_duration = 0;
+  }
+  void reset(float distance, float duration) {
     m_distance = distance;
     m_duration = duration;
-  }
+  };
   
   // distance func take no argument & return m_distance as float of the object
   float getDistance(void) { return m_distance; }
