@@ -11,7 +11,7 @@ public:
   Controller(void) {}
 	void setup(void) {
 		m_servo.begin();
-		m_servo.setPWMFreq(60);
+		m_servo.setPWMFreq(50);
 	}	
   int offset(int drive) { return OFFSET[drive]; }
   float resolution(int drive) { return RESOLUTION[drive]; }
@@ -68,7 +68,9 @@ public:
     reportConfiguration(base, shoulder, elbow, roll, pitch, wrist);
   }
   void writePWM(int drive, int pwm) {
-		m_servo.setPWM(drive, 0, pwm); 	   
+  	// Convert to Pulse Width from Pulse wide
+		int pulse_width = int(float(pwm) / 1000000 * 50 * 4096);
+		m_servo.setPWM(drive, 0, pulse_width); 	   
   }
 protected:
   Adafruit_PWMServoDriver m_servo = Adafruit_PWMServoDriver();
