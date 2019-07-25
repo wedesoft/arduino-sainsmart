@@ -3,13 +3,13 @@ require_relative 'matrix_ext'
 
 # https://en.wikipedia.org/wiki/Kinematics%E2%80%93Hartenberg_parameters
 class Kinematics
-  BASE     = 110.0
-  FOOT     =  40.0
-  SHOULDER = 127.0
-  KNEE     =  26.0
-  ELBOW    = 133.0
-  SPAN     = Math.hypot ELBOW, KNEE
-  GRIPPER  = 121.0
+  BASE     = 110.0 #d1
+  FOOT     =  40.0 #a1
+  SHOULDER = 127.0 #a2
+  KNEE     =  26.0 #a3
+  ELBOW    = 133.0 #d4
+  SPAN     = Math.hypot ELBOW, KNEE #d4, a3
+  GRIPPER  = 121.0 #d6
 
   class << self
     def hartenberg d, theta, r, alpha
