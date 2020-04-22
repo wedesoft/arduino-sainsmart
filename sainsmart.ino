@@ -1,12 +1,9 @@
-#include "../calibration.hh"
-#include "../controllerbase.hh"
+#include "calibration.hh"
+#include "controllerbase.hh"
 #include <Adafruit_PWMServoDriver.h>
 
 
-// Humble Object connecting device to tested code http://xunitpatterns.com/Humble%20Object.html
-
-class Controller: public ControllerBase
-{
+class Controller: public ControllerBase {
 public:
   Controller(void) {}
 	void setup(void) {

@@ -14,8 +14,7 @@ const int DRIVES   = 6;
 
 const float ELBOW_RANGE = 60;
 
-class ControllerBase
-{
+class ControllerBase {
 public:
   ControllerBase(void): m_number(0), m_fraction(0), m_sign(0), m_teachFun(NULL), m_index(0) {
     memset(m_teach, 0, sizeof(m_teach));

@@ -1,5 +1,4 @@
-# arduino-sainsmart [![Build Status](https://travis-ci.org/wedesoft/arduino-sainsmart.svg?branch=master)](https://travis-ci.org/wedesoft/arduino-sainsmart)
-
+# arduino-sainsmart
 
 [Arduino][1] software to steer the SainSmart [DIY 6-axis palletizing robot arm][2] and [Sunfounder Rollpaw gripper][15].
 
@@ -10,61 +9,61 @@ At any time the sum of up to two speed profiles is output to the drives.
 Using *sin²(t)+cos²(t)=1* one can achieve constant motion.
 The plot shows jerk (blue), acceleration (red), speed (green), and position (magenta).
 
-[![SainSmart 6-axis servo steering](https://i.ytimg.com/vi/ufObK9-eSjE/hqdefault.jpg)][vid]
-
 ![Schematics](schematics.jpg)
 
 ## equipment
 
 [![SainsSmart 6-axis robot arm](6axis-size.jpg)][2]
 
-[![Redboard](redboard.jpg)][5]
+[![Redboard](arduino_uno.jpg)][5]
 
-[![DFRobot IO expansion shield for Arduino](dfrobot.jpg)][4]
+[![PCA9685 Servo Driver for Arduino](pca9685.jpg)][4]
 
 [![6V DC/3A power supply](power-supply.jpg)][6]
-
-[![USB Mini-B cable](usb-mini-b.jpg)][7]
-
-[![2.1 x 5.5mm DC Socket](dc-socket.jpg)][10]
 
 [![JR Servo Extension Wire](jr-servo-wire.jpg)][17]
 
 [![Sunfounder Rollpaw gripper](rollpaw.jpg)][15]
 
-Altogether the equipment cost is about 200£.
+Altogether the equipment cost is about 200$.
 Furthermore you need a PC with a USB port.
 
 ## software build
 
-First install the dependencies. Please refer to the file *.travis.yml* for more information.
+First install the dependencies. Please follow these steps:
 
-Create the initial calibration file with the limits and offsets of each servo:
+sudo: required
+dist: xenial
+languge: c
+compiler: 
+* gcc
 
+Before install:
 ```
-cp calibration.hh.default calibration.hh
-```
+sudo apt-get install arduino-mk
+sudo apt-get install arduino
+````
 
-Then build the Arduino program using *make*:
+PCA9685 library install:
+```
+git clone https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library
+```
+and rename the folder to *Adafruit_PWMServoDriver*
+
+Then open Arduino IDE and go to Sketch > Import Library > Add Library > Choose the folder *Adafruit_PWMServoDriver*
+
+Build the Arduino program using *make*:
 
 ```
 make
 ```
 
-Note: You might have to change the *BOARD_TAG* in the *arduino/Makefile*.
+Note: You might have to change the *BOARD_TAG* in the *Makefile*.
 See */usr/share/arduino/hardware/arduino/boards.txt* for supported board tags.
-
-## software test
-
-You can also build and run the tests on the *PC* using the check target:
-
-```
-make check
-```
 
 ## install on Arduino
 
-The upload target will upload the program via */dev/ttyUSB0* to the *Arduino* board.
+The upload target will upload the program via */dev/ttyACM0* to the *Arduino* board.
 
 ```
 make upload
@@ -72,7 +71,7 @@ make upload
 
 **Warning: program the board before connecting the servos the first time to prevent erratic motion!**
 
-**Warning: once servos are plugged into the board, always connect the servo power to the DFRobot I/O expansion shield before connecting the USB cable to the Arduino to prevent the board power from stalling which causes erratic motion!**
+**Warning: once servos are plugged into the board, always connect the servo power to the PCA9685 Servo Driver before connecting the USB cable to the Arduino to prevent the board power from stalling which causes erratic motion!**
 
 **Warning: self-collisions or collisions with the surface and other objects can damage the servos!**
 
@@ -133,43 +132,25 @@ You can exit the *screen* terminal using Ctrl-A \\.
 
 **Warning: self-collisions of the robot can damage the servos!**
 
-## XBox controller
-
-You can control the robot using a calibrated XBox controller.
-
-```
-ruby control.rb
-```
-
-Note that for some reason you sometimes need to run the serial terminal first, press *t* a few times, and then exit for the Arduino to wake up.
-
-![XBox Controller](xbox.png)
-
 # External links
 
 * [Sainsmart DIY 6-axis palletizing robot arm][2] (also see [Sainsmart Wiki][11])
 * [Sunfounder Standard Gripper Kit Rollpaw for Robotic Arm][15] ([gripper installation instructions][16])
-* [Redboard][5] ([Arduino][1] compatible board)
-* [DFRobot IO expansion shield for Arduino][4] ([manual][18])
+* [Arduino Uno][5] ([Arduino][1] compatible board)
+* [PCA9685 Servo Driver for Arduino][4] ([manual][18])
 * [6V DC/3A power supply][6]
-* [2.1 x 5.5mm DC Socket][10]
-* [Sparkfun USB Mini-B cable][7]
 * [Towerpro MG996R servo][8] (comes with Sainsmart robot)
 * [Towerpro SG90 9g servo][9] (comes with Sainsmart robot; servo shaft not compatible with Sunfounder Rollpaw servos!)
 * [22 AWG RC JR Servo Straight Extension Wire 150mm][17]
 * [Arduino multitasking part 1][12], [part 2][13], [part 3][14]
-* [How to run test headlessly with Xvfb][19]
 
 [1]: https://www.arduino.cc/
 [2]: https://www.sainsmart.com/products/6-axis-desktop-robotic-arm-assembled
-[3]: http://7bot.cc/
-[4]: https://robosavvy.com/store/dfrobot-io-expansion-shield-for-arduino-v6.html
+[4]: https://www.adafruit.com/product/815
 [5]: https://learn.sparkfun.com/tutorials/redboard-vs-uno
 [6]: http://uk.rs-online.com/web/p/plug-in-power-supply/7424762/
-[7]: https://robosavvy.com/store/sparkfun-usb-mini-b-cable-6-foot.html
 [8]: http://www.hobbyking.com/hobbyking/store/__6221__Towerpro_MG996R_10kg_Servo_10kg_0_20sec_55g.html
 [9]: http://www.servodatabase.com/servo/towerpro/sg90
-[10]: http://www.maplin.co.uk/p/21-x-55mm-dc-socket-plastic-ft96e
 [11]: http://wiki.sainsmart.com/index.php/DIY_6-Axis_Servos_Control_Palletizing_Robot_Arm_Model_for_Arduino_UNO_MEGA2560
 [12]: https://learn.adafruit.com/multi-tasking-the-arduino-part-1/
 [13]: https://learn.adafruit.com/multi-tasking-the-arduino-part-2/
@@ -177,6 +158,4 @@ Note that for some reason you sometimes need to run the serial terminal first, p
 [15]: https://www.sunfounder.com/rollpaw.html
 [16]: https://www.sunfounder.com/learn/category/Standard-Gripper-Kit-Rollpaw.html
 [17]: https://www.amazon.co.uk/d/B00P1716VO
-[18]: http://image.dfrobot.com/image/data/Common/Arduino%20Shield%20Manual.pdf
-[19]: http://elementalselenium.com/tips/38-headless
-[vid]: https://www.youtube.com/watch?v=ufObK9-eSjE
+[18]: https://learn.adafruit.com/16-channel-pwm-servo-driver?view=all
