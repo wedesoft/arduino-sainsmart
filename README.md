@@ -28,6 +28,15 @@ The plot shows jerk (blue), acceleration (red), speed (green), and position (mag
 Altogether the equipment cost is about 200$.
 Furthermore you need a PC with a USB port.
 
+## PCA9685 to Arduino
+
+* +5v -> VCC
+* GND -> GND
+* Analog 4 or A4 -> SDA
+* Analog 5 or A5 -> SCL
+
+[![PCA9685 to Arduno Connection](pca9685_arduino.jpg)][3]
+
 ## software build
 
 First install the dependencies. Please follow these steps:
@@ -55,6 +64,8 @@ Then open Arduino IDE and go to Sketch > Import Library > Add Library > Choose t
 Build the Arduino program using *make*:
 
 ```
+make clean
+
 make
 ```
 
@@ -66,7 +77,7 @@ See */usr/share/arduino/hardware/arduino/boards.txt* for supported board tags.
 The upload target will upload the program via */dev/ttyACM0* to the *Arduino* board.
 
 ```
-make upload
+sudo make upload
 ```
 
 **Warning: program the board before connecting the servos the first time to prevent erratic motion!**
@@ -79,10 +90,10 @@ You can then adjust the limits and offsets for your robot and then compile and u
 
 ## control robot
 
-You can control the robot using the *screen* serial terminal (make sure *ttyUSB0* is the correct port):
+You can control the robot using the *screen* serial terminal (make sure *ttyACM0* is the correct port):
 
 ```
-screen /dev/ttyUSB0 115200
+sudo screen /dev/ttyACM0 115200
 ```
 
 Examples of servo commands are:
@@ -146,6 +157,7 @@ You can exit the *screen* terminal using Ctrl-A \\.
 
 [1]: https://www.arduino.cc/
 [2]: https://www.sainsmart.com/products/6-axis-desktop-robotic-arm-assembled
+[3]: https://learn.adafruit.com/16-channel-pwm-servo-driver/hooking-it-up
 [4]: https://www.adafruit.com/product/815
 [5]: https://learn.sparkfun.com/tutorials/redboard-vs-uno
 [6]: http://uk.rs-online.com/web/p/plug-in-power-supply/7424762/

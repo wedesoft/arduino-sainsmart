@@ -8,7 +8,7 @@ SCREEN = screen
 
 include $(ARDMK_DIR)/Arduino.mk
 
-$(OBJDIR)/sainsmart.o: ../profile.hh ../path.hh ../controllerbase.hh ../calibration.hh
+$(OBJDIR)/sainsmart.o: profile.hh path.hh controllerbase.hh calibration.hh
 
 repl:
 	$(SCREEN) $(ARDUINO_PORT) 115200
