@@ -6,7 +6,7 @@ CXX = g++
 RSPEC = rspec
 RM_F = rm -f
 
-all: all-recursive gui
+all: all-recursive
 
 check: check-controller check-client
 
