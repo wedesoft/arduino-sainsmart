@@ -1,4 +1,4 @@
-# arduino-sainsmart [![Build Status](https://travis-ci.org/wedesoft/arduino-sainsmart.svg?branch=master)](https://travis-ci.org/wedesoft/arduino-sainsmart)
+# arduino-sainsmart [![Build Status](https://travis-ci.com/wedesoft/arduino-sainsmart.svg?branch=master)](https://travis-ci.com/wedesoft/arduino-sainsmart)
 
 
 [Arduino][1] software to steer the SainSmart [DIY 6-axis palletizing robot arm][2] and [Sunfounder Rollpaw gripper][15].
